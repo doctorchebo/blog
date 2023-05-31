@@ -8,26 +8,27 @@ from .forms import CommentForm
 
 class PostListView(ListView):
     model = Post
-    template_name = 'post_list.html'
+    template_name = 'blog_app/post_list.html'
 
 class PostDetailView(DetailView):
     model = Post
-    template_name = 'post_detail.html'
+    template_name = 'blog_app/post_detail.html'
 
 class PostCreateView(CreateView):
     model = Post
-    template_name = 'post_new.html'
+    template_name = 'blog_app/post_new.html'
     fields = ('title', 'content')
 
 class PostUpdateView(UpdateView):
     model = Post
-    template_name = 'post_edit.html'
+    template_name = 'blog_app/post_edit.html'
     fields = ('title', 'content')
 
 class PostDeleteView(DeleteView):
     model = Post
-    template_name = 'post_delete.html'
+    template_name = 'blog_app/post_delete.html'
     success_url = reverse_lazy('blog_app:post_list')
+
 
 def add_comment_to_post(request, pk):
     post = get_object_or_404(Post, pk=pk)
