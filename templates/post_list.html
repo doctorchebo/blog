@@ -1,0 +1,4 @@
+{% for post in post_list %}
+    <h2><a href="{% url 'blog_app:post_detail' post.id %}">{{ post.title }}</a></h2>
+    <p>{{ post.content }}</p>
+{% endfor %}
