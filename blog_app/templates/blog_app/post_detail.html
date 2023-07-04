@@ -1,2 +1,48 @@
-<h2>{{ post.title }}</h2>
-<p>{{ post.content }}</p>
+{% extends 'base.html' %} {% load markdown_deux_tags %} {% block content %}
+<div class="card-detail">
+  <div class="card-content">
+    <h2 class="card-title">{{ post.title }}</h2>
+    {% if post.image %}
+    <div class="card-image-container">
+      <img class="card-image" src="{{ post.image.url }}" />
+    </div>
+    {% endif %}
+    <p class="card-date">{{ post.date_posted|date:"j \d\e F \d\e Y, P" }}</p>
+    <p class="card-read-time">Tiempo de lectura: {{ reading_time }} minutos</p>
+    <div class="card-content">{{ post.content|markdown }}</div>
+  </div>
+  <div class="comment-section">
+    {% if user.is_authenticated %}
+    <!-- Show the comment form -->
+    <div class="comment-form">
+      <h2>Añade un comentario</h2>
+      <form method="post" action="{% url 'blog_app:add_comment_to_post' post.id %}">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Añadir Comentario</button>
+      </form>
+    </div>
+    {% else %}
+    <!-- Show the banner -->
+    <div class="banner">
+      <p>
+        Inicia sesión o regístrate para comentar
+        <i class="fas fa-exclamation-circle"></i>
+      </p>
+      <div class="auth-buttons">
+        <a class="auth-button" href="{% url 'blog_app:login' %}?next={{ request.path }}#comment-section">
+          Inicia sesión
+        </a>
+        <a class="auth-button" href="{% url 'blog_app:register' %}?next={{ request.path }}#comment-section">
+          Regístrate
+        </a>
+      </div>
+    </div>
+    {% endif %}
+    <div id="comment-section">
+      {% if comments %}
+      <h2>Comentarios</h2>
+      {% for comment in comments %} {% include 'blog_app/comment.html' with comment=comment %} {% endfor %} {% endif %}
+    </div>
+  </div>
+</div>
+{% include 'blog_app/social_media_bar.html' %} {% endblock %}

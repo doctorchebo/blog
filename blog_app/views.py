@@ -1,18 +1,39 @@
 # blog_app/views.py
-
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+import json
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
-from .models import Post, Comment
+from .models import Post, Comment, AboutSection, Subscriber
 from .forms import CommentForm
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from .forms import SignUpForm, LoginForm
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+from django.views.decorators.http import require_http_methods
+from django.utils import dateformat
+from django.shortcuts import render
+from markdown_deux import markdown
+
 
 class PostListView(ListView):
     model = Post
     template_name = 'blog_app/post_list.html'
-
+    paginate_by = 5
 class PostDetailView(DetailView):
     model = Post
     template_name = 'blog_app/post_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)    
+        context['comments'] = Comment.objects.filter(post=self.object, parent=None).order_by('-created_at')  # Only top-level comments
+        context['form'] = CommentForm()
+        content_wordcount = len(self.object.content.split())
+        context['reading_time'] = max(round(content_wordcount / 200), 1)
+        return context
 
 class PostCreateView(CreateView):
     model = Post
@@ -29,15 +50,150 @@ class PostDeleteView(DeleteView):
     template_name = 'blog_app/post_delete.html'
     success_url = reverse_lazy('blog_app:post_list')
 
-
-def add_comment_to_post(request, pk):
+@login_required
+def add_comment_to_post(request, pk, parent_comment_id=None):
     post = get_object_or_404(Post, pk=pk)
-    if request.method == 'POST':
+    parent_comment = None
+    if parent_comment_id:
+        parent_comment = get_object_or_404(Comment, pk=parent_comment_id)
+    if request.method == "POST":
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.post = post
+            comment.author = request.user
+            comment.parent = parent_comment
             comment.save()
+            # If the comment is a reply to another comment, its root is the same as the root of the parent comment.
+            # If it's a top-level comment, its root is itself.
+            comment.root = parent_comment.root if parent_comment else comment
+            comment.save()
+
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':  # Check if AJAX request
+                formatted_date = dateformat.format(comment.created_at, 'F j, Y, P')
+                response = {
+                    'status': 1,
+                    'message': "Comment was posted successfully",
+                    'comment_id': comment.id,
+                    'content': comment.content,
+                    'author': comment.author.username,
+                    'date': formatted_date,
+                }
+                return JsonResponse(response)
+
+            return redirect('blog_app:post_detail', pk=post.pk)
     else:
         form = CommentForm()
-    return render(request, 'add_comment_to_post.html', {'form': form})
+    return render(request, 'blog_app/post_detail.html', {'form': form})
+
+def register(request):
+    next_url = request.GET.get('next') # get the next URL from the GET request
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            email = form.cleaned_data.get('email')
+            user = User.objects.create_user(username=username, password=password, email=email)
+            user.save() 
+            login(request, user)
+            next_url = request.POST.get('next') # get the next URL from the POST request
+            if next_url: # if next URL exists, redirect there
+                return redirect(next_url)
+            return redirect('blog_app:post_list')
+        # Don't create a new form here, as it would discard the errors
+    else:
+        form = SignUpForm()
+    return render(request, 'blog_app/signup.html', {'form': form, 'next': next_url})
+
+def login_view(request):
+    next_url = request.GET.get('next') # get the next URL from the GET request
+    if request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                next_url = request.POST.get('next') # get the next URL from the POST request
+                print(f'next_url = "{next_url}"')
+                if next_url: # if next URL exists, redirect there
+                    return redirect(next_url)
+                return redirect('blog_app:post_list')
+            else:
+                messages.error(request, 'Invalid username or password.')
+    else:
+        form = LoginForm()
+
+    return render(request, 'blog_app/login.html', {'form': form, 'next': next_url})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('blog_app:post_list')
+
+@login_required
+@require_POST
+def ajax_add_reply_to_comment(request):
+    form = CommentForm(data=request.POST)
+    if form.is_valid():
+        reply = form.save(commit=False)
+        reply.author = request.user
+        parent_comment_id = request.POST.get('parent_comment')
+        if parent_comment_id:
+            parent_comment = get_object_or_404(Comment, pk=parent_comment_id)
+            reply.parent= parent_comment
+            reply.post = parent_comment.post
+            # Update root_id based on parent comment
+            if parent_comment.root is None:  # This means parent comment is a root comment
+                reply.root = None  # set root to None for replies to root comments
+            else:  # This means parent comment is a reply itself
+                reply.root = parent_comment.root
+        reply.save()
+        formatted_date = dateformat.format(reply.created_at, 'F j, Y, P')
+        response = {
+            'status': 1,
+            'message': "Reply was posted successfully",
+            'reply_id': reply.id,
+            'content': reply.content,
+            'author': reply.author.username,
+            'date': formatted_date,
+        }
+        return JsonResponse(response)
+    else:
+        return JsonResponse({'status': 0, 'message': "Invalid form"})
+    
+def about(request):
+    sections = AboutSection.objects.exclude(title="Intro").order_by('created_at')
+    intro = AboutSection.objects.get(title="Intro")
+    # Convert markdown to HTML for each section
+    for section in sections:
+        section.text_content = markdown(section.text_content)
+
+    intro.text_content = markdown(intro.text_content)
+
+    context = {
+        'sections': sections,
+        'intro' : intro
+    }
+    return render(request, 'blog_app/about.html', context)
+
+@csrf_exempt
+def subscribe(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('email')
+        if email:
+            subscriber, created = Subscriber.objects.get_or_create(email=email)
+            if created:
+                return JsonResponse({'status': 'ok', 'message': 'Gracias por suscribirte!'})
+            else:
+                return JsonResponse({'status': 'error', 'message': 'Este email ya está suscrito!'}, status=400)
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Email inválido.'}, status=400)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Invalid request.'}, status=405)
+
+def subscribe_page(request):
+    return render(request, 'blog_app/subscribe_page.html')

@@ -1,0 +1,16 @@
+<div class="comment top-level">
+  <p class="author">De {{ comment.author }}</p>
+  <p class="date">el {{ comment.created_at }}</p>
+  <p class="content">{{ comment.content }}</p>
+
+  {% if user.is_authenticated %}
+    <button class="reply-button" data-comment-id="{{ comment.id }}">
+      Responder
+    </button>
+  {% endif %}
+  <div class="reply-placeholder"></div>
+  <!-- New element where reply form will be inserted -->
+  {% for reply in comment.ordered_replies %} 
+    {% include 'blog_app/reply.html' with reply=reply depth=1 %} 
+  {% endfor %}
+</div>

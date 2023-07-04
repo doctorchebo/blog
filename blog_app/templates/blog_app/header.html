@@ -1,0 +1,69 @@
+<header>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="sidenav-trigger" data-target="mobile-nav">
+        <i class="material-icons">menu</i>
+      </a>
+      <ul class="nav-left">
+        <li><a href="/" class="brand-logo">Escapa de la Matrix</a></li>
+      </ul>
+      {% if user.is_authenticated %}
+      <ul class="nav-center"></ul>
+      {% endif %}
+      <ul class="nav-right">
+        <li><a href="/">Blog</a></li>
+        <li><a href="/about">Acerca de</a></li>
+        <li><a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a></li>
+        {% if user.is_authenticated %}
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">
+            Hola, {{ user.username }}!
+            <i class="material-icons">arrow_drop_down</i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" onclick="confirmLogout(event)">Salir</a>
+          </div>
+        </li>
+        {% else %}
+        <li><a href="{% url 'blog_app:login' %}">Iniciar Sesión</a></li>
+        <li><a href="{% url 'blog_app:register' %}">Registrarse</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+  <ul class="sidenav" id="mobile-nav">
+    <li><a href="/about">Acerca de</a></li>
+    <li><a href="/">Blog</a></li>
+    <li><a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a></li>
+    {% if user.is_authenticated %}
+    <li><a href="{% url 'blog_app:logout' %}">Salir</a></li>
+    {% else %}
+    <li><a href="{% url 'blog_app:login' %}">Iniciar sesión</a></li>
+    <li><a href="{% url 'blog_app:register' %}">Registrarse</a></li>
+    {% endif %}
+  </ul>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var elems = document.querySelectorAll(".sidenav");
+      var instances = M.Sidenav.init(elems);
+    });
+
+    function confirmLogout(event) {
+      event.preventDefault();
+
+      Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Estás a punto de salir",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Sí, quiero salir!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "{% url 'blog_app:logout' %}";
+        }
+      });
+    }
+  </script>
+</header>

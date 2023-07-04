@@ -1,0 +1,14 @@
+<form class="reply-form" style="display: none">
+  {% csrf_token %}
+  <input type="hidden" name="parent_comment" value="" />
+  <div>
+    <label for="content">Respuesta:</label>
+    <textarea
+      id="content"
+      name="content"
+      placeholder="Escribe tu respuesta aquí..."
+      required
+    ></textarea>
+  </div>
+  <button type="submit">Publicar respuesta</button>
+</form>

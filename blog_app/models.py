@@ -27,9 +27,14 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    parent = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+    root = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f'Comment by {self.author} on {self.post}'
+    def ordered_replies(self):
+        return self.replies.order_by('-created_at')
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
@@ -38,4 +43,15 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
 
-# Create your models here.
+class AboutSection(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='about_images/')
+    text_content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.title
+      
+class Subscriber(models.Model):
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)

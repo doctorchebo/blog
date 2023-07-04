@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<div id="subscribe-page" class="subscribe-container">
+  <div class="subscribe-content">
+    <h2 class="subscribe-title">Suscríbete</h2>
+    <p class="subscribe-paragraph">
+      Boletines mensuales en tu email para que seas el primero en ser informado sobre la agenda del establishment.
+    </p>
+    <div class="subscribe-content">
+      <input class="subscribe-email" type="email" id="subscriber-email-page" placeholder="Escribe tu email" required />
+      <div class="subscribe-error" id="subscribe-error-page" style="color: white"></div>
+      <button class="subscribe-button" id="subscribe-button-page">Quiero escapar de la Matrix</button>
+    </div>
+  </div>
+</div>
+{% endblock %}

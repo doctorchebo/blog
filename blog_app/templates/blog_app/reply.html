@@ -1,0 +1,17 @@
+<div class="comment-replies">
+  <p class="author">By {{ reply.author }}</p>
+  <p class="date">on {{ reply.created_at }}</p>
+  <p class="content">{{ reply.content }}</p>
+
+  {% if user.is_authenticated %}
+    <button class="reply-button" data-comment-id="{{reply.id}}">Responder</button>
+  {% endif %}
+  <div class="reply-placeholder"></div>
+  {% if depth < 4 %} 
+    {% for subreply in reply.ordered_replies %} 
+      {% with new_depth=depth|add:1 %} 
+        {% include 'blog_app/reply.html' with reply=subreply depth=new_depth %} 
+      {% endwith %} 
+    {% endfor %}
+  {% endif %}
+</div>

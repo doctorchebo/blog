@@ -4,55 +4,46 @@
   <head>
     <meta charset="UTF-8" />
     <title>Escape the Matrix</title>
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link
       type="text/css"
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
       media="screen,projection"
     />
+    <link type="text/css" rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link href="{% static 'css/fonts.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      type="text/css"
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@100;300;400;500;700;800&family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
       rel="stylesheet"
-      href="{% static 'css/styles.css' %}"
     />
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    <header>
-      <nav>
-        <div class="nav-wrapper">
-          <a href="/" class="brand-logo">Escape the Matrix</a>
-          <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a href="/about">About</a></li>
-            <li><a href="/blog">Blog</a></li>
-            <li><a href="/contact">Contact</a></li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-
+    {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %}
     <main>{% block content %}{% endblock %}</main>
+    {% include 'blog_app/footer.html' %}
 
-    <footer class="page-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col l6 s12">
-            <h5 class="white-text">Escape the Matrix</h5>
-            <p class="grey-text text-lighten-4">
-              Thanks for visiting our blog.
-            </p>
-          </div>
-        </div>
-      </div>
-    </footer>
-
+    <!-- Your included reply form -->
+    {% include 'blog_app/reply_form.html' %}
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <!-- Materialize -->
     <script
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"
     ></script>
+    <!-- Scroll Magic -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"></script>
+    <!-- SweetAlert2  -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Your JavaScript code -->
+    <script src="/static/js/scripts.js"></script>
   </body>
 </html>
