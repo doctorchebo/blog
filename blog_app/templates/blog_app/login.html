@@ -1,9 +1,28 @@
-<!-- login.html -->
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 <div class="container auth-form">
   <div class="title">Iniciar Sesión</div>
   <form method="post" autocomplete="off">
-    {% csrf_token %} {{ form.as_p }} 
+    {% csrf_token %} 
+    <p>
+      {{ form.username.label_tag }} {{ form.username }}
+      {% if form.username.errors %}
+        <div class="error">{{ form.username.errors }}</div>
+      {% endif %}
+    </p>
+    <p>
+      {{ form.password.label_tag }} {{ form.password }}
+      {% if form.password.errors %}
+        <div class="error">{{ form.password.errors }}</div>
+      {% endif %}
+    </p>
+    {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+              <li class="error-message" {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          {% endfor %}
+      </ul>
+    {% endif %}
     {% if next %}
       <input type="hidden" name="next" value="{{ next }}" />
     {% endif %}

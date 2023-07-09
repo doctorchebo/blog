@@ -123,7 +123,7 @@ def login_view(request):
                     return redirect(next_url)
                 return redirect('blog_app:post_list')
             else:
-                messages.error(request, 'Invalid username or password.')
+                messages.error(request, 'Usuario o password inválido.')
     else:
         form = LoginForm()
 
