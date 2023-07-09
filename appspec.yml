@@ -7,6 +7,7 @@ hooks:
   ApplicationStop:
     - location: scripts/stop_server.sh
   BeforeInstall:
+    - location: scripts/clean_pycache.sh
     - location: scripts/install_dependencies.sh
     - location: scripts/copy_env_file.sh
   AfterInstall:
