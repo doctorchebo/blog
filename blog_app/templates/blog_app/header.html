@@ -32,6 +32,9 @@
     </div>
   </nav>
   <ul class="sidenav" id="mobile-nav">
+    {% if user.is_authenticated %}
+      <li class="username-mobile">Hola, {{ user.username }}!</li> 
+    {% endif %}
     <li><a href="/about">Acerca de</a></li>
     <li><a href="/">Blog</a></li>
     <li><a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a></li>
