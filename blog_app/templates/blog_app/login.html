@@ -1,4 +1,7 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% load static %}
+{% providers_media_js %} 
 {% block content %}
 <div class="container auth-form">
   <div class="title">Iniciar Sesión</div>
@@ -28,6 +31,15 @@
     {% endif %}
     <button type="submit" class="auth-form button">Ingresar</button>
   </form>
+  <div class="social-login">
+      {% get_providers as socialaccount_providers %}
+      {% for provider in socialaccount_providers %}
+          <a class="btn-social btn-google" href="{% provider_login_url provider.id %}">
+              <img src="{% static 'images/google-logo.png' %}" alt="Google logo" />
+              Continuar con {{ provider.name }}
+          </a>
+      {% endfor %}
+  </div>
 </div>
 <br />
 {% endblock %}

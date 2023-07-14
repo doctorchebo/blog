@@ -40,8 +40,11 @@
     {% endif %}
     <div id="comment-section">
       {% if comments %}
-      <h2>Comentarios</h2>
-      {% for comment in comments %} {% include 'blog_app/comment.html' with comment=comment %} {% endfor %} {% endif %}
+        <h2>Comentarios</h2>
+        {% for comment in comments %}
+          {% include 'blog_app/comment.html' with comment=comment %}
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 </div>

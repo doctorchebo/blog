@@ -9,11 +9,6 @@ a {
   font-weight: 400;
 }
 
-img {
-  float: left; 
-  width: 500px;
-}
-
 .brand-logo {
   font-family: "M PLUS Rounded 1c", sans-serif;
 }
@@ -32,6 +27,35 @@ img {
 
 .page-footer {
   background-color: rgba(0, 143, 17, 0.5);
+}
+
+/* social media auth */
+.btn-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  max-width: 15rem;
+}
+
+.btn-google {
+  background-color: #313131;
+  color: #ffffff !important;
+  transition: background-color 0.2s ease;
+  margin-top: 1rem;
+}
+
+.btn-social img {
+  margin-right: 10px;
+  max-width: 25px !important;
+}
+
+.btn-google:hover {
+  background-color: #242424;
+  cursor: pointer;
 }
 
 .card-row {

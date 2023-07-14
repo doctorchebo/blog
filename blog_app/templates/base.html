@@ -24,8 +24,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
   <body>
-    {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %}
-    <main>{% block content %}{% endblock %}</main>
+    {% include 'blog_app/header.html' %}
+    {% include 'blog_app/subscribe_popup.html' %}
+    <main>
+    {% if messages %}
+        <div class="container">
+            {% for message in messages %}
+                <div class="card-panel white-text #1b5e20 green darken-4 {% if message.tags %}{{ message.tags }}{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% block content %}{% endblock %}</main>
     {% include 'blog_app/footer.html' %}
 
     <!-- Your included reply form -->

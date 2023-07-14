@@ -10,6 +10,7 @@ python-dotenv = "*"
 pillow = "*"
 django-markdown-deux = "*"
 gunicorn = "*"
+django-allauth = "*"
 
 [dev-packages]
 

@@ -1,4 +1,9 @@
 $(document).ready(function () {
+  // Hide alerts after 5 seconds
+    $(".card-panel").delay(3000).slideUp(200, function() {
+      $(this).remove(); 
+  });
+
   // Clone the form once at the beginning
   var cloned_form = $(".reply-form").clone();
 
@@ -131,7 +136,7 @@ $(document).ready(function () {
       success: function (data) {
         if (data.status == 1) {
           // Check if this is the first comment being posted
-          let isFirstComment = $("#comment-section").children().length === 0;
+          let isFirstComment = $("#comment-section").children(".comment").length === 0;
           let commentHTML = `
             <div class="comment top-level">
               <p class="author">De ${data.author}</p>
@@ -142,8 +147,9 @@ $(document).ready(function () {
             </div>
           `;
           if (isFirstComment) {
-            // Add the heading if it's the first comment
-            commentHTML = `<h2>Comentarios</h2>` + commentHTML;
+              // Add the heading if it's the first comment
+              let headingHTML = `<h2>Comentarios</h2>`;
+              $("#comment-section").prepend(headingHTML);
           }
           $("#comment-section h2:first").after(commentHTML);
           $("#id_content").val("");
@@ -166,6 +172,22 @@ $(document).ready(function () {
 
     // Show all the reply buttons again
     $(".reply-button").show();
+  });
+
+  $.ajax({
+      url: '/message_url/',  // Update this with the URL for the new Django view.
+      type: 'get',  // This can be 'get' or 'post'
+      dataType: 'json',
+      success: function(data) {
+          if (data.message) {
+              Swal.fire({
+                  icon: "success",
+                  title: data.message,
+                  showConfirmButton: false,
+                  timer: 3000
+              })
+          }
+      }
   });
 });
 window.onload = function () {
