@@ -1,0 +1,10 @@
+body {
+  background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url("/static/images/matrix-background-2.jpg");
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+
+a {
+  color: #008f11 !important;
+  font-weight: 400;
+}

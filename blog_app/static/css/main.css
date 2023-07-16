@@ -1,0 +1,137 @@
+/* main page */
+
+.brand-logo {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+.welcome-message {
+  color: #008f11;
+  font-weight: 400;
+  font-size: 1.5rem;
+}
+
+/* Floating bar */
+
+#floating-social-media {
+  position: fixed;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5%;
+  padding: 10px 0; /* This will add some space at the top and bottom */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+#floating-social-media a {
+  color: #333; /* Change this to match your theme */
+}
+
+#floating-social-media i {
+  font-size: 24px; /* Change this to suit your design */
+}
+
+@media screen and (max-width: 768px) {
+  #floating-social-media {
+    left: 0.5rem; /* You can adjust the amount of padding as needed */
+  }
+}
+
+/* pagination */
+.pagination {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.pagination a {
+  color: #00ff00;
+  text-decoration: none;
+  margin: 0 10px;
+  transition: color 0.3s ease;
+}
+
+.pagination a:hover {
+  color: #008000;
+}
+
+.page-number {
+  color: #00ff00;
+  margin: 0 10px;
+}
+
+/* Animation for a Matrix-style 'glow' effect */
+@keyframes glow {
+  0% {
+    text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00, 0 0 15px #00ff00, 0 0 20px #00ff00, 0 0 25px #00ff00,
+      0 0 30px #00ff00, 0 0 35px #00ff00;
+  }
+  100% {
+    text-shadow: 0 0 10px #008000, 0 0 20px #008000, 0 0 30px #008000, 0 0 40px #008000, 0 0 50px #008000,
+      0 0 60px #008000, 0 0 70px #008000;
+  }
+}
+
+.pagination a:hover,
+.page-number {
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+/* About page */
+#about-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  color: #ffffff;
+}
+
+.main-title {
+  text-align: center;
+  font-size: 4em;
+  margin-bottom: 2em;
+  color: #008f11;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+.sub-title {
+  margin-top: 0;
+  color: #008f11;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+.intro {
+  margin-bottom: 3em;
+  font-size: 1.2rem;
+  text-align: justify;
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3em;
+}
+
+.image-right {
+  order: 2;
+  max-width: 40%;
+}
+
+.image-left {
+  max-width: 40%;
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.text {
+  flex: 1;
+  text-align: justify;
+  font-size: 1.2rem;
+}

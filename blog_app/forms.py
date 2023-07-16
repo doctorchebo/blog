@@ -1,6 +1,6 @@
 # blog_app/forms.py
 from django import forms
-from .models import Post, Comment
+from .models import Post, Comment, Newsletter
 
 class PostForm(forms.ModelForm):
     class Meta:
@@ -31,4 +31,9 @@ class SignUpForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=100)
     password = forms.CharField(widget=forms.PasswordInput)
+
+class NewsletterForm(forms.ModelForm):
+    class Meta:
+        model = Newsletter
+        fields = ['subject', 'body', 'image']
 

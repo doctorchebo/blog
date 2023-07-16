@@ -11,6 +11,9 @@
       <ul class="nav-center"></ul>
       {% endif %}
       <ul class="nav-right">
+        {% if user.is_authenticated and user.is_superuser %}
+          <li><a href="{% url 'blog_app:create_newsletter' %}">Crear Newsletter</a></li>
+        {% endif %}
         <li><a href="/">Blog</a></li>
         <li><a href="/about">Acerca de</a></li>
         <li><a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a></li>
@@ -34,6 +37,9 @@
   <ul class="sidenav" id="mobile-nav">
     {% if user.is_authenticated %}
       <li class="username-mobile">Hola, {{ user.username }}!</li> 
+    {% endif %}
+    {% if user.is_authenticated and user.is_superuser %}
+      <li><a href="{% url 'blog_app:create_newsletter' %}">Crear Newsletter</a></li>
     {% endif %}
     <li><a href="/about">Acerca de</a></li>
     <li><a href="/">Blog</a></li>

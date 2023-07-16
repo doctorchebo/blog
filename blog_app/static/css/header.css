@@ -1,0 +1,110 @@
+/* Header */
+.username-mobile {
+  color: white;
+  font-weight: 400;
+  padding: 0 32px;
+}
+
+.page-footer {
+  background-color: rgba(0, 143, 17, 0.5);
+}
+
+/* Navigation Menu */
+
+.nav-wrapper {
+  background-color: #000000;
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-wrapper ul {
+  display: flex;
+  justify-content: start;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-wrapper .nav-left {
+  margin-left: 1rem;
+  width: 40%;
+}
+
+.nav-wrapper .nav-center {
+  justify-content: center;
+}
+
+.nav-wrapper .nav-right {
+  justify-content: flex-end;
+  width: 40%;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  background-color: #000000;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  text-align: center;
+}
+
+.dropdown-menu a {
+  color: #008f11;
+  text-decoration: none;
+}
+
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.dropdown-toggle {
+  display: flex;
+}
+
+@media screen and (min-width: 993px) {
+  .nav-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .nav-wrapper .brand-logo {
+    margin: 0 auto;
+  }
+
+  .nav-wrapper .sidenav-trigger {
+    display: none;
+  }
+
+  .nav-wrapper .nav-right,
+  .nav-wrapper .nav-center {
+    display: flex;
+    list-style-type: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .nav-wrapper .brand-logo {
+    margin: 0 auto;
+    font-size: 1.2rem;
+  }
+
+  .nav-wrapper .sidenav-trigger {
+    display: block;
+  }
+
+  .sidenav {
+    background-color: #000000;
+    max-width: 50%;
+  }
+
+  .nav-wrapper .nav-right,
+  .nav-wrapper .nav-center {
+    display: none;
+  }
+}

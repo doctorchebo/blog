@@ -1,0 +1,297 @@
+/* Subscribe section */
+.form-group input,
+.form-group textarea,
+.form-group select {
+  color: white;
+}
+
+/* Post List */
+
+.card-row {
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.card {
+  margin: auto;
+  margin-bottom: 1.5rem;
+  max-width: 40rem;
+}
+
+.card .card-content {
+  height: auto;
+  color: #a3c293;
+}
+
+.card .card-content p {
+  color: #333333;
+}
+
+.card .card-action a {
+  color: #a3c293;
+}
+
+.card .card-content .card-title {
+  font-size: 2em;
+  color: #008f11;
+}
+
+.card .card-content p {
+  color: #ffffff; /* White color for better readability */
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.6; /* Increase the space between lines for better readability */
+}
+
+.card {
+  background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background to make the white text stand out more */
+  padding: 2rem; /* Add some padding inside the card */
+  margin-bottom: 2rem; /* Add some space below the card */
+  border-radius: 0.5rem; /* Add some rounding to the corners of the card */
+}
+
+@media screen and (max-width: 768px) {
+  .card .card-content .card-title {
+    font-size: 1.7rem;
+    line-height: 1.2;
+  }
+  .card {
+    padding: 1rem;
+  }
+  .card .card-content {
+    padding: 0.5rem;
+  }
+  .card .card-content p {
+    font-size: 0.8rem; /* Increase the space between lines for better readability */
+  }
+}
+
+/* Post Detail */
+
+.card-detail {
+  margin: auto;
+  margin-bottom: 1.5rem;
+  width: 50%; /* 80% of the page width */
+}
+
+.card-detail .card-content .card-title {
+  color: #008f11;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-size: 3rem;
+  font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.card-detail .card-content .card-content,
+.card-detail .card-content .card-date,
+.card-detail .card-content .card-read-time {
+  color: #ffffff;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+.card-image-container .card-image {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media screen and (max-width: 996px) {
+  .card-detail {
+    width: 80%;
+  }
+  .card-detail .card-content .card-title {
+    font-size: 2rem;
+  }
+}
+
+/* Comment section */
+
+.comment-section {
+  margin: auto;
+  width: 70%;
+}
+
+.comment-section h2 {
+  color: #ffffff;
+  font-size: 2rem;
+}
+
+.comment {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  border-radius: 5px;
+}
+
+.comment p {
+  margin: 0.2rem;
+}
+
+.comment .author {
+  font-weight: bold;
+}
+
+.comment .date {
+  font-size: 0.8rem;
+}
+
+.comment .replies {
+  margin-left: 2rem;
+  border-left: 1px solid #ffffff;
+  padding-left: 1rem;
+}
+
+.comment .content {
+  margin-top: 0.5rem;
+}
+
+.comment-form {
+  margin-top: 2rem;
+}
+
+.comment-form button {
+  background-color: #008f11;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.comment-form button:hover {
+  background-color: #006f0d;
+  cursor: pointer;
+}
+
+.comment-form input,
+.comment-form textarea {
+  color: #ffffff;
+}
+
+.comment-form textarea::placeholder {
+  color: #ffffff;
+}
+
+.comment a {
+  /* Styles for the reply button */
+  display: inline-block;
+  background-color: #ffffff;
+  color: #ffffff;
+  padding: 5px 10px;
+  margin-top: 10px;
+  text-decoration: none;
+  font-size: 0.8em;
+}
+
+@media screen and (max-width: 996px) {
+  .comment-section {
+    width: 100%;
+  }
+}
+
+/* Reply section */
+
+.reply-form {
+  margin-top: 1rem;
+}
+
+.reply-form button {
+  background-color: #008f11;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.reply-form button:hover {
+  background-color: #006f0d;
+  cursor: pointer;
+}
+
+.reply-form input,
+.reply-form textarea {
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.reply-form textarea::placeholder {
+  color: #ffffff;
+}
+
+.reply-button {
+  background-color: #008f11;
+  color: #ffffff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.reply-button:hover {
+  cursor: pointer;
+}
+
+.comment-replies {
+  margin-left: 10%;
+}
+
+/* Auth section */
+.auth-form {
+  margin-top: 2rem;
+}
+
+.auth-form button {
+  background-color: #008f11;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.auth-form button:hover {
+  background-color: #006f0d;
+  cursor: pointer;
+}
+
+.auth-form input,
+.auth-form textarea {
+  color: #ffffff;
+}
+
+.auth-form textarea::placeholder,
+.auth-form input::placeholder {
+  color: #ffffff;
+}
+
+.auth-form .title {
+  color: #008f11;
+  font-size: 3rem;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+}
+
+@media screen and (min-width: 900px) {
+  .container {
+    width: 60%;
+  }
+}
+
+.error-message {
+  color: #f7ca00;
+}

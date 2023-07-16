@@ -18,4 +18,7 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('subscribe/', views.subscribe, name='subscribe'),
     path('subscribe_page/', views.subscribe_page, name='subscribe_page'),
+    path('newsletter/create/', views.create_newsletter, name='create_newsletter'),
+    path('sns/', views.sns_notification, name='sns-notification'),
+
 ]

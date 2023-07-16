@@ -1,0 +1,29 @@
+.newsletter-form input[type="file"] {
+  color: white;
+  margin-bottom: 15px;
+}
+
+.newsletter-form .auth-button {
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 600px) {
+  .section {
+    flex-direction: column;
+  }
+  .text-content {
+    order: -1;
+  }
+  .image-right,
+  .image-left {
+    max-width: 80%;
+    order: 1;
+  }
+  .main-title {
+    font-size: 2rem;
+  }
+  .intro {
+    margin-right: 5%;
+    margin-left: 5%;
+  }
+}

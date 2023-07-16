@@ -4,19 +4,21 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from .models import Post, Comment, AboutSection, Subscriber
-from .forms import CommentForm
+from .forms import CommentForm, NewsletterForm
+from .tasks import send_newsletter
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .forms import SignUpForm, LoginForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
 from django.utils import dateformat
 from django.shortcuts import render
 from markdown_deux import markdown
+import requests
 
 
 class PostListView(ListView):
@@ -198,3 +200,48 @@ def subscribe(request):
 
 def subscribe_page(request):
     return render(request, 'blog_app/subscribe_page.html')
+
+def admin_check(user):
+    return user.is_superuser
+
+@login_required
+@user_passes_test(admin_check)
+def create_newsletter(request):
+    if request.method == 'POST':
+        form = NewsletterForm(request.POST, request.FILES)
+        if form.is_valid():
+            newsletter = form.save()
+            # Get the path of the image
+            img_path = None
+            if newsletter.image:
+                img_path = newsletter.image.path
+            send_newsletter(newsletter.subject, newsletter.body, img_path)  # Pass additional arguments
+            messages.success(request, 'Newsletter has been sent!')
+            return redirect('blog_app:create_newsletter')
+    else:
+        form = NewsletterForm()
+
+    return render(request, 'blog_app/create_newsletter.html', {'form': form})
+
+@csrf_exempt
+@require_POST
+def sns_notification(request):
+    # AWS sends JSON with text/plain mimetype
+    message = json.loads(request.body)
+    if message['Type'] == 'SubscriptionConfirmation':
+        message_dict = json.loads(message['Message'])
+        subscribe_url = message_dict['SubscribeURL']
+        requests.get(subscribe_url)
+        return HttpResponse(status=200)
+    elif message['Type'] == 'Notification':
+        notification_type = message['Message']['notificationType']
+        if notification_type in ['Bounce', 'Complaint']:
+            # Handle bounce or complaint notification
+            message_dict = json.loads(message['Message'])
+            email = message_dict['bounce']['bouncedRecipients'][0]['emailAddress']
+            # Unsubscribe this email address
+            Subscriber.objects.filter(email=email).delete()
+        return HttpResponse(status=200)
+    else:
+        # Not a valid SNS message
+        return HttpResponse(status=400)

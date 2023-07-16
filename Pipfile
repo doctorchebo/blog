@@ -11,6 +11,10 @@ pillow = "*"
 django-markdown-deux = "*"
 gunicorn = "*"
 django-allauth = "*"
+django-q = "*"
+boto3 = "*"
+django-crispy-forms = "*"
+crispy-bootstrap4 = "*"
 
 [dev-packages]
 

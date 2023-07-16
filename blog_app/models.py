@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.utils import timezone
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -55,3 +56,12 @@ class AboutSection(models.Model):
 class Subscriber(models.Model):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
+
+class Newsletter(models.Model):
+    subject = models.CharField(max_length=200)
+    body = models.TextField()
+    image = models.ImageField(upload_to='newsletter_images/', blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.subject

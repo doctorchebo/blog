@@ -1,0 +1,145 @@
+/* Subscribe Popup */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.popup-content {
+  background-color: #292a2d;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 50%;
+  text-align: center;
+  color: #008f11;
+  font-family: "Courier New", Courier, monospace;
+  border-radius: 10px;
+}
+
+.close-button {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.subscribe-title {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  font-size: 2rem;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: #008f11;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.subscribe-button {
+  background-color: #008f11;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.subscribe-button:hover {
+  background-color: #006f0d;
+}
+
+.subscribe-email {
+  padding: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #008f11;
+  border: 1px solid #008f11;
+  background: transparent;
+}
+
+@media screen and (max-width: 768px) {
+  .popup-content {
+    width: 80%;
+  }
+}
+
+/* Subscribe page */
+.subscribe-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  max-width: 40rem;
+  margin: auto;
+}
+
+.subscribe-content {
+  color: #a3c293;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.subscribe-title {
+  font-size: 2em;
+  color: #008f11;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.subscribe-paragraph {
+  color: #ffffff;
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.6;
+  font-size: 1.2rem;
+  text-align: justify;
+}
+
+.subscribe-input {
+  width: 100%;
+  color: #ffffff;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.subscribe-error {
+  color: red;
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+}
+
+.subscribe-button {
+  background-color: #008f11;
+  color: #ffffff;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.subscribe-button:hover {
+  background-color: #006f0d;
+}

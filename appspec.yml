@@ -17,3 +17,4 @@ hooks:
     - location: scripts/collect_static.sh
   ApplicationStart:
     - location: scripts/start_server.sh
+    - location: scripts/restart_django_q.sh
