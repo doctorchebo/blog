@@ -233,6 +233,7 @@ def sns_notification(request):
     logger.info(f'Received message: {message}')  # Log the received message
 
     if message['Type'] == 'SubscriptionConfirmation':
+        print(f"Message content: {message['Message']}")
         message_dict = json.loads(message['Message'])
         subscribe_url = message_dict['SubscribeURL']
         logger.info(f'SubscriptionConfirmation message received. Redirecting to: {subscribe_url}')  # Log the SubscribeURL
