@@ -233,17 +233,14 @@ def sns_notification(request):
     logger.info(f'Received message: {message}')  # Log the received message
 
     if message['Type'] == 'SubscriptionConfirmation':
-        logger.info(f"Message content: {message['Message']}")
-        message_dict = json.loads(message['Message'])
-        subscribe_url = message_dict['SubscribeURL']
+        subscribe_url = message['SubscribeURL']
         logger.info(f'SubscriptionConfirmation message received. Redirecting to: {subscribe_url}')  # Log the SubscribeURL
-
         response = requests.get(subscribe_url)
 
         logger.info(f'Response from subscription confirmation: {response.status_code}, {response.text}')  # Log the response from the GET request
         return HttpResponse(status=200)
     elif message['Type'] == 'Notification':
-        message_dict = json.loads(message['Message'])
+        message_dict = json.loads(message['Message'])  # Deserialize the Message field into a JSON object
         notification_type = message_dict['notificationType']
         if notification_type in ['Bounce', 'Complaint']:
             # Handle bounce or complaint notification
