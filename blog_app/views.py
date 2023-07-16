@@ -19,7 +19,9 @@ from django.utils import dateformat
 from django.shortcuts import render
 from markdown_deux import markdown
 import requests
+import logging
 
+logger = logging.getLogger(__name__)
 
 class PostListView(ListView):
     model = Post
@@ -228,20 +230,29 @@ def create_newsletter(request):
 def sns_notification(request):
     # AWS sends JSON with text/plain mimetype
     message = json.loads(request.body)
+    logger.info(f'Received message: {message}')  # Log the received message
+
     if message['Type'] == 'SubscriptionConfirmation':
         message_dict = json.loads(message['Message'])
         subscribe_url = message_dict['SubscribeURL']
-        requests.get(subscribe_url)
+        logger.info(f'SubscriptionConfirmation message received. Redirecting to: {subscribe_url}')  # Log the SubscribeURL
+
+        response = requests.get(subscribe_url)
+
+        logger.info(f'Response from subscription confirmation: {response.status_code}, {response.text}')  # Log the response from the GET request
         return HttpResponse(status=200)
     elif message['Type'] == 'Notification':
-        notification_type = message['Message']['notificationType']
+        message_dict = json.loads(message['Message'])
+        notification_type = message_dict['notificationType']
         if notification_type in ['Bounce', 'Complaint']:
             # Handle bounce or complaint notification
-            message_dict = json.loads(message['Message'])
             email = message_dict['bounce']['bouncedRecipients'][0]['emailAddress']
             # Unsubscribe this email address
             Subscriber.objects.filter(email=email).delete()
+
+            logger.info(f'{notification_type} Notification received for email: {email}. Unsubscribed the email.')  # Log the email that was unsubscribed
         return HttpResponse(status=200)
     else:
         # Not a valid SNS message
+        logger.warning('Invalid SNS message received.')  # Log invalid messages as warnings
         return HttpResponse(status=400)
