@@ -190,47 +190,52 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# Define common formatters
+formatters = {
+    'verbose': {
+        'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+        'style': '{',
+    },
+    'simple': {
+        'format': '{levelname} {message}',
+        'style': '{',
+    },
+}
+
+# Define handlers
+handlers = {
+    'console': {
+        'class': 'logging.StreamHandler',
+        'formatter': 'simple',
+    },
+}
+
+if not DEBUG:  # Only add file handler if DEBUG is False
+    handlers['file'] = {
+        'level': 'INFO',
+        'class': 'logging.FileHandler',
+        'filename': '/var/log/django.log',  # or other location
+        'formatter': 'verbose',
+    }
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-        'file': {
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': '/var/log/django.log',  # or other location
-            'formatter': 'verbose',
-        },
-    },
+    'formatters': formatters,
+    'handlers': handlers,
     'root': {
-        'handlers': ['console', 'file'],
+        'handlers': list(handlers.keys()),  # Use all handlers
         'level': 'INFO',
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': list(handlers.keys()),  # Use all handlers
             'level': 'INFO',
         },
         'django_q': {
-            'handlers': ['console', 'file'],
+            'handlers': list(handlers.keys()),  # Use all handlers
             'level': 'DEBUG',
         },
     },
 }
-
-
-
 
