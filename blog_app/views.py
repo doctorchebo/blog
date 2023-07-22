@@ -271,7 +271,6 @@ def sns_notification(request):
         logger.error(f'An error occurred while processing SNS message: {str(e)}')  # Log the error
         return HttpResponse(status=500)
 
-
 def unsubscribe(request, email):
     if request.method == "POST":
         Subscriber.objects.filter(email=email).delete()
