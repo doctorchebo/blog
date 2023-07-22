@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        background-color: #000;
+        color: #0f0;
+        font-family: "Open Sans";
+        line-height: 1.6;
+      } 
+
+      h1 {
+        font-size: 2em;
+        border-bottom: 1px solid #0f0;
+        padding-bottom: 0.5em;
+        text-align: center;
+      }
+
+      p {
+        font-size: 1.2em;
+        margin-bottom: 1em;
+        text-align: justify;
+        white-space: pre-line; /* This will respect newlines in your text. */
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      a {
+        color: #0f0;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: #080;
+      }
+
+      .footer {
+        margin-top: 2em;
+        border-top: 1px solid #0f0;
+        padding-top: 1em;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="width: 80%; margin: 0 auto;">
+      <h1>{{ title }}</h1>
+      <p>{{ body|safe }}</p>
+      {% if image_url %}
+        <img src="{{ image_url }}" alt="{{ title }}" />
+      {% endif %}
+      <div class="footer">
+        <p>
+          Si no deseas seguir recibiendo el newsletter, haz <a href="{{ unsubscribe_url }}">click aquí</a> para desuscribirte.
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

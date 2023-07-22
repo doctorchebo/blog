@@ -37,3 +37,5 @@ class NewsletterForm(forms.ModelForm):
         model = Newsletter
         fields = ['subject', 'body', 'image']
 
+class UnsubscribeForm(forms.Form):
+    email = forms.EmailField()

@@ -1,5 +1,7 @@
 # blog_app/urls.py
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 app_name = 'blog_app'
@@ -20,5 +22,10 @@ urlpatterns = [
     path('subscribe_page/', views.subscribe_page, name='subscribe_page'),
     path('newsletter/create/', views.create_newsletter, name='create_newsletter'),
     path('sns/', views.sns_notification, name='sns-notification'),
-
+    path('unsubscribe/<str:email>/', views.unsubscribe, name='unsubscribe'),
+    path('unsubscribe_success/', views.unsubscribe_success, name='unsubscribe_success'),
+    path('unsubscribe_fail/', views.unsubscribe_fail, name='unsubscribe_fail'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -5,7 +5,7 @@
 <div class="card">
     <h2 class="card-title">Create Newsletter</h2>
     <div class="card-content">
-        <form method="POST" class="newsletter-form">
+        <form method="POST" class="newsletter-form" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form|crispy }}
             <button class="auth-button" type="submit">Create</button>

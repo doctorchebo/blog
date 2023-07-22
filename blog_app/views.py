@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
 from .models import Post, Comment, AboutSection, Subscriber
-from .forms import CommentForm, NewsletterForm
+from .forms import CommentForm, NewsletterForm, UnsubscribeForm
 from .tasks import send_newsletter
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -212,14 +212,17 @@ def create_newsletter(request):
     if request.method == 'POST':
         form = NewsletterForm(request.POST, request.FILES)
         if form.is_valid():
-            newsletter = form.save()
+            newsletter = form.save()  # Save newsletter as it is without converting to HTML
             # Get the path of the image
             img_path = None
             if newsletter.image:
-                img_path = newsletter.image.path
+                img_path = newsletter.image.url  # use .url instead of .path
             send_newsletter(newsletter.subject, newsletter.body, img_path)  # Pass additional arguments
-            messages.success(request, 'Newsletter has been sent!')
+            messages.success(request, 'El newsletter fue enviado con éxito!')
             return redirect('blog_app:create_newsletter')
+        else:
+            print(form.errors)
+            messages.error(request, 'There was an error with your form. Please check and try again.')
     else:
         form = NewsletterForm()
 
@@ -254,3 +257,18 @@ def sns_notification(request):
         # Not a valid SNS message
         logger.warning('Invalid SNS message received.')  # Log invalid messages as warnings
         return HttpResponse(status=400)
+
+def unsubscribe(request, email):
+    if request.method == "POST":
+        Subscriber.objects.filter(email=email).delete()
+        return redirect('blog_app:unsubscribe_success')
+    else:
+        if not Subscriber.objects.filter(email=email).exists():
+            return redirect('blog_app:unsubscribe_fail')
+    return render(request, 'blog_app/unsubscribe.html', {'email': email})
+
+def unsubscribe_success(request):
+    return render(request, 'blog_app/unsubscribe_success.html')
+
+def unsubscribe_fail(request):
+    return render(request, 'blog_app/unsubscribe_fail.html')
