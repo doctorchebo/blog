@@ -236,53 +236,41 @@ def sns_notification(request):
         message = json.loads(request.body)
         logger.info(f'Received message: {message}')  # Log the received message
 
-        if message['Type'] == 'SubscriptionConfirmation':
-            subscribe_url = message['SubscribeURL']
-            logger.info(f'SubscriptionConfirmation message received. Redirecting to: {subscribe_url}')  # Log the SubscribeURL
-            response = requests.get(subscribe_url)
+        notification_type = message.get('notificationType')
 
-            logger.info(f'Response from subscription confirmation: {response.status_code}, {response.text}')  # Log the response from the GET request
-            return HttpResponse(status=200)
-        elif message['Type'] == 'Notification':
-            message_dict = json.loads(message['Message'])  # Deserialize the Message field into a JSON object
-            notification_type = message_dict.get('notificationType')
+        if notification_type == 'Bounce':
+            bounce = message.get('bounce')
+            if bounce:
+                bouncedRecipients = bounce.get('bouncedRecipients', [])
+                if bouncedRecipients:
+                    email = bouncedRecipients[0].get('emailAddress')
+                    if email:
+                        # Unsubscribe this email address
+                        Subscriber.objects.filter(email=email).delete()
+                        logger.info(f'Bounce Notification received for email: {email}. Unsubscribed the email.')  # Log the email that was unsubscribed
 
-            if notification_type == 'Bounce':
-                bounce = message_dict.get('bounce')
-                if bounce:
-                    bouncedRecipients = bounce.get('bouncedRecipients', [])
-                    if bouncedRecipients:
-                        email = bouncedRecipients[0].get('emailAddress')
-                        if email:
-                            # Unsubscribe this email address
-                            Subscriber.objects.filter(email=email).delete()
-                            logger.info(f'Bounce Notification received for email: {email}. Unsubscribed the email.')  # Log the email that was unsubscribed
+        elif notification_type == 'Complaint':
+            complaint = message.get('complaint')
+            if complaint:
+                complainedRecipients = complaint.get('complainedRecipients', [])
+                if complainedRecipients:
+                    email = complainedRecipients[0].get('emailAddress')
+                    if email:
+                        # Unsubscribe this email address
+                        Subscriber.objects.filter(email=email).delete()
+                        logger.info(f'Complaint Notification received for email: {email}. Unsubscribed the email.')  # Log the email that was unsubscribed
 
-            elif notification_type == 'Complaint':
-                complaint = message_dict.get('complaint')
-                if complaint:
-                    complainedRecipients = complaint.get('complainedRecipients', [])
-                    if complainedRecipients:
-                        email = complainedRecipients[0].get('emailAddress')
-                        if email:
-                            # Unsubscribe this email address
-                            Subscriber.objects.filter(email=email).delete()
-                            logger.info(f'Complaint Notification received for email: {email}. Unsubscribed the email.')  # Log the email that was unsubscribed
-
-            elif notification_type:
-                logger.warning(f'Unhandled notification type received: {notification_type}')  # Log unhandled notification types as warnings
-            else:
-                logger.warning('Invalid notification message received.')  # Log invalid notification messages as warnings
-
-            return HttpResponse(status=200)
+        elif notification_type:
+            logger.warning(f'Unhandled notification type received: {notification_type}')  # Log unhandled notification types as warnings
         else:
-            # Not a valid SNS message
-            logger.warning('Invalid SNS message received.')  # Log invalid messages as warnings
-            return HttpResponse(status=400)
+            logger.warning('Invalid notification message received.')  # Log invalid notification messages as warnings
+
+        return HttpResponse(status=200)
 
     except Exception as e:
         logger.error(f'An error occurred while processing SNS message: {str(e)}')  # Log the error
         return HttpResponse(status=500)
+
 
 def unsubscribe(request, email):
     if request.method == "POST":
