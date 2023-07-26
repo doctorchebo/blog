@@ -228,54 +228,6 @@ def create_newsletter(request):
 
     return render(request, 'blog_app/create_newsletter.html', {'form': form})
 
-@csrf_exempt
-@require_POST
-def sns_notification(request):
-    try:
-        # AWS sends JSON with text/plain mimetype
-        sns_message = json.loads(request.body)
-        logger.info(f'Received message: {sns_message}')  # Log the received message
-
-        # Parse the inner Message JSON
-        message = json.loads(sns_message.get('Message', '{}'))
-        
-        notification_type = message.get('notificationType')
-
-        if notification_type == 'Bounce':
-            bounce = message.get('bounce')
-            if bounce:
-                bouncedRecipients = bounce.get('bouncedRecipients', [])
-                if bouncedRecipients:
-                    email = bouncedRecipients[0].get('emailAddress')
-                    if email:
-                        # Unsubscribe this email address
-                        Subscriber.objects.filter(email=email).delete()
-                        logger.info(f'Bounce Notification received for email: {email}. Unsubscribed the email.')  # Log the email that was unsubscribed
-
-        elif notification_type == 'Complaint':
-            complaint = message.get('complaint')
-            if complaint:
-                complainedRecipients = complaint.get('complainedRecipients', [])
-                if complainedRecipients:
-                    email = complainedRecipients[0].get('emailAddress')
-                    if email:
-                        # Unsubscribe this email address
-                        Subscriber.objects.filter(email=email).delete()
-                        logger.info(f'Complaint Notification received for email: {email}. Unsubscribed the email.')  # Log the email that was unsubscribed
-
-        elif notification_type:
-            logger.warning(f'Unhandled notification type received: {notification_type}')  # Log unhandled notification types as warnings
-        else:
-            logger.warning('Invalid notification message received.')  # Log invalid notification messages as warnings
-
-        return HttpResponse(status=200)
-
-    except Exception as e:
-        logger.error(f'An error occurred while processing SNS message: {str(e)}')  # Log the error
-        return HttpResponse(status=500)
-
-
-
 def unsubscribe(request, email):
     if request.method == "POST":
         Subscriber.objects.filter(email=email).delete()

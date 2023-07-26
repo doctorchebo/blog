@@ -21,7 +21,6 @@ urlpatterns = [
     path('subscribe/', views.subscribe, name='subscribe'),
     path('subscribe_page/', views.subscribe_page, name='subscribe_page'),
     path('newsletter/create/', views.create_newsletter, name='create_newsletter'),
-    path('sns/', views.sns_notification, name='sns-notification'),
     path('unsubscribe/<str:email>/', views.unsubscribe, name='unsubscribe'),
     path('unsubscribe_success/', views.unsubscribe_success, name='unsubscribe_success'),
     path('unsubscribe_fail/', views.unsubscribe_fail, name='unsubscribe_fail'),
