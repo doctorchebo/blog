@@ -1,8 +1,35 @@
 $(document).ready(function () {
-  // Hide alerts after 5 seconds
-    $(".card-panel").delay(3000).slideUp(200, function() {
-      $(this).remove(); 
+  // JavaScript to toggle password visibility
+  const passwordEye = document.getElementById("password-eye");
+  const confirmPasswordEye = document.getElementById("confirm-password-eye");
+
+  const passwordInput = document.getElementById("id_password"); // default id Django generates
+  const confirmPasswordInput = document.getElementById("id_confirm_password"); // default id Django generates for confirm_password field
+
+  // Event listener for password field
+  passwordEye.addEventListener("click", function (e) {
+    // toggle the type attribute
+    const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+    passwordInput.setAttribute("type", type);
+    // toggle the eye icon
+    this.classList.toggle("fa-eye-slash");
   });
+
+  // Event listener for confirm password field
+  confirmPasswordEye.addEventListener("click", function (e) {
+    // toggle the type attribute
+    const type = confirmPasswordInput.getAttribute("type") === "password" ? "text" : "password";
+    confirmPasswordInput.setAttribute("type", type);
+    // toggle the eye icon
+    this.classList.toggle("fa-eye-slash");
+  });
+
+  // Hide alerts after 5 seconds
+  $(".card-panel")
+    .delay(3000)
+    .slideUp(200, function () {
+      $(this).remove();
+    });
 
   // Clone the form once at the beginning
   var cloned_form = $(".reply-form").clone();
@@ -147,9 +174,9 @@ $(document).ready(function () {
             </div>
           `;
           if (isFirstComment) {
-              // Add the heading if it's the first comment
-              let headingHTML = `<h2>Comentarios</h2>`;
-              $("#comment-section").prepend(headingHTML);
+            // Add the heading if it's the first comment
+            let headingHTML = `<h2>Comentarios</h2>`;
+            $("#comment-section").prepend(headingHTML);
           }
           $("#comment-section h2:first").after(commentHTML);
           $("#id_content").val("");
@@ -175,19 +202,19 @@ $(document).ready(function () {
   });
 
   $.ajax({
-      url: '/message_url/',  // Update this with the URL for the new Django view.
-      type: 'get',  // This can be 'get' or 'post'
-      dataType: 'json',
-      success: function(data) {
-          if (data.message) {
-              Swal.fire({
-                  icon: "success",
-                  title: data.message,
-                  showConfirmButton: false,
-                  timer: 3000
-              })
-          }
+    url: "/message_url/", // Update this with the URL for the new Django view.
+    type: "get", // This can be 'get' or 'post'
+    dataType: "json",
+    success: function (data) {
+      if (data.message) {
+        Swal.fire({
+          icon: "success",
+          title: data.message,
+          showConfirmButton: false,
+          timer: 3000,
+        });
       }
+    },
   });
 });
 window.onload = function () {
@@ -202,7 +229,7 @@ window.onload = function () {
     var subscribeButton = document.getElementById(buttonId);
     var emailInput = document.getElementById(emailId);
     var errorElement = document.getElementById(errorId);
-  
+
     if (isPopup) {
       var closeButton = document.getElementById(closeId);
       closeButton.onclick = function () {
@@ -210,7 +237,12 @@ window.onload = function () {
       };
     }
 
-    if (!localStorage.getItem("popupShown") && !document.cookie.includes("subscribed=true") && isPopup && !localStorage.getItem("popupShown")) {
+    if (
+      !localStorage.getItem("popupShown") &&
+      !document.cookie.includes("subscribed=true") &&
+      isPopup &&
+      !localStorage.getItem("popupShown")
+    ) {
       setTimeout(function () {
         popup.style.display = "block";
       }, 5000);
@@ -231,16 +263,15 @@ window.onload = function () {
             return response.json();
           })
           .then(function (data) {
-
             errorElement.textContent = data.message;
             if (data.status === "ok" && isPopup) {
               document.cookie = "subscribed=true; max-age=31536000";
               popup.style.display = "none";
               Swal.fire({
-                title: 'Success!',
+                title: "Success!",
                 text: data.message,
-                icon: 'success',
-                confirmButtonText: 'Ok'
+                icon: "success",
+                confirmButtonText: "Ok",
               });
             }
           });

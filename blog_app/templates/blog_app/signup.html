@@ -6,18 +6,44 @@
     <div class="title">Registro</div>
     {% csrf_token %} 
 
-    <!-- Render the form fields manually to show the errors -->
-    {% for field in form %}
-        <p>
-            {{ field.label_tag }}  <!-- Render the label -->
-            {{ field }}  <!-- Render the field -->
-            {% if field.errors %}  <!-- If the field has errors -->
-                <div class="error-message">
-                    {{ field.errors }}  <!-- Render the errors -->
-                </div>
-            {% endif %}
-        </p>
-    {% endfor %}
+    <p>
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {% if form.username.errors %}
+            <div class="error-message">
+                {{ form.username.errors }}
+            </div>
+        {% endif %}
+    </p>
+    <p>
+        {{ form.email.label_tag }}
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="error-message">
+                {{ form.email.errors }}
+            </div>
+        {% endif %}
+    </p>
+    <p>
+        {{ form.password.label_tag }}
+        <div class="password-field">
+            {{ form.password }}
+            <i id="password-eye" class="fa fa-eye"></i>
+        </div>
+        {% if form.password.errors %}
+            <div class="error-message">{{ form.password.errors }}</div>
+        {% endif %}
+    </p>
+    <p>
+        {{ form.confirm_password.label_tag }}
+        <div class="password-field">
+            {{ form.confirm_password }}
+            <i id="confirm-password-eye" class="fa fa-eye"></i>
+        </div>
+        {% if form.confirm_password.errors %}
+            <div class="error-message">{{ form.confirm_password.errors }}</div>
+        {% endif %}
+    </p>
 
     {% if next %}
       <input type="hidden" name="next" value="{{ next }}" />

@@ -14,7 +14,11 @@
       {% endif %}
     </p>
     <p>
-      {{ form.password.label_tag }} {{ form.password }}
+      {{ form.password.label_tag }} 
+      <div class="password-field">
+        {{ form.password }}
+        <i id="password-eye" class="fa fa-eye"></i> <!-- Add this -->
+      </div>
       {% if form.password.errors %}
         <div class="error">{{ form.password.errors }}</div>
       {% endif %}
