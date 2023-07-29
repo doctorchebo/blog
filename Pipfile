@@ -17,6 +17,7 @@ django-crispy-forms = "*"
 crispy-bootstrap4 = "*"
 requests = "*"
 django-anymail = {extras = ["mailgun"], version = "*"}
+pytz = "*"
 
 [dev-packages]
 

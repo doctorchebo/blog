@@ -1,3 +1,4 @@
+{% load static %}
 <header>
   <nav>
     <div class="nav-wrapper">
@@ -5,6 +6,7 @@
         <i class="material-icons">menu</i>
       </a>
       <ul class="nav-left">
+        <img class="main-logo" src="{% static 'images/eye.jpg' %}" alt="eye image">
         <li><a href="/" class="brand-logo">Escapa de la Matrix</a></li>
       </ul>
       {% if user.is_authenticated %}

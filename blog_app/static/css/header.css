@@ -67,6 +67,10 @@
   display: flex;
 }
 
+.main-logo {
+  padding: 1rem;
+}
+
 @media screen and (min-width: 993px) {
   .nav-wrapper {
     display: flex;
@@ -105,6 +109,10 @@
 
   .nav-wrapper .nav-right,
   .nav-wrapper .nav-center {
+    display: none;
+  }
+
+  .main-logo {
     display: none;
   }
 }

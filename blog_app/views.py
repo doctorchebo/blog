@@ -20,15 +20,27 @@ from django.shortcuts import render
 from markdown_deux import markdown
 import requests
 import logging
+from django.utils import timezone
+import pytz
 
 logger = logging.getLogger(__name__)
 
-class PostListView(ListView):
+class TimeZoneMixin:
+    def dispatch(self, request, *args, **kwargs):
+        tzname = request.COOKIES.get('timezone')
+        if tzname:
+            timezone.activate(pytz.timezone(tzname))
+        else:
+            timezone.deactivate()
+        return super().dispatch(request, *args, **kwargs)
+
+class PostListView(TimeZoneMixin, ListView):
     model = Post
     template_name = 'blog_app/post_list.html'
     paginate_by = 5
     ordering = ['-date_posted']
-class PostDetailView(DetailView):
+
+class PostDetailView(TimeZoneMixin, DetailView):
     model = Post
     template_name = 'blog_app/post_detail.html'
 
@@ -39,7 +51,6 @@ class PostDetailView(DetailView):
         content_wordcount = len(self.object.content.split())
         context['reading_time'] = max(round(content_wordcount / 200), 1)
         return context
-
 class PostCreateView(CreateView):
     model = Post
     template_name = 'blog_app/post_new.html'

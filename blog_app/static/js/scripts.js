@@ -268,10 +268,23 @@ window.onload = function () {
               document.cookie = "subscribed=true; max-age=31536000";
               popup.style.display = "none";
               Swal.fire({
-                title: "Success!",
+                title: "Éxito!",
                 text: data.message,
                 icon: "success",
                 confirmButtonText: "Ok",
+              });
+            } else if (data.status === "ok" && !isPopup) {
+              // This is the new part for the subscribe page.
+              Swal.fire({
+                title: "Éxito!",
+                text: data.message,
+                icon: "success",
+                confirmButtonText: "Ok",
+              }).then((result) => {
+                // Redirect to /about page after user clicks Ok on the alert.
+                if (result.isConfirmed) {
+                  window.location.href = "/about/";
+                }
               });
             }
           });
