@@ -189,6 +189,8 @@ DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+LOG_TO_FILE = os.getenv('LOG_TO_FILE') == 'True'  # ensure this is a boolean
+
 # Define common formatters
 formatters = {
     'verbose': {
@@ -209,7 +211,7 @@ handlers = {
     },
 }
 
-if not DEBUG:  # Only add file handler if DEBUG is False
+if LOG_TO_FILE:  
     handlers['file'] = {
         'level': 'INFO',
         'class': 'logging.FileHandler',
@@ -237,4 +239,3 @@ LOGGING = {
         },
     },
 }
-
