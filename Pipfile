@@ -18,6 +18,7 @@ crispy-bootstrap4 = "*"
 requests = "*"
 django-anymail = {extras = ["mailgun"], version = "*"}
 pytz = "*"
+langdetect = "*"
 
 [dev-packages]
 

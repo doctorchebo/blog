@@ -22,6 +22,7 @@ import requests
 import logging
 from django.utils import timezone
 import pytz
+from langdetect import detect
 
 logger = logging.getLogger(__name__)
 
@@ -45,11 +46,13 @@ class PostDetailView(TimeZoneMixin, DetailView):
     template_name = 'blog_app/post_detail.html'
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)    
+        context = super().get_context_data(**kwargs)
         context['comments'] = Comment.objects.filter(post=self.object, parent=None).order_by('-created_at')  # Only top-level comments
         context['form'] = CommentForm()
         content_wordcount = len(self.object.content.split())
         context['reading_time'] = max(round(content_wordcount / 200), 1)
+        # Detect language of post content and add it to context
+        context['language'] = detect(self.object.content)
         return context
 class PostCreateView(CreateView):
     model = Post

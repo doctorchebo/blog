@@ -7,6 +7,13 @@
       <img class="card-image" src="{{ post.image.url }}" />
     </div>
     {% endif %}
+    <button id="playPauseButton" class="play">
+      <i class="fas fa-play"></i>
+    </button>
+    <button id="stopButton" class="hidden">
+      <i class="fas fa-stop"></i>
+    </button>
+
     <p class="card-date">{{ post.date_posted|date:"j \d\e F \d\e Y, P" }}</p>
     <p class="card-read-time">Tiempo de lectura: {{ reading_time }} minutos</p>
     <div class="card-content">{{ post.content|markdown }}</div>
@@ -40,12 +47,76 @@
     {% endif %}
     <div id="comment-section">
       {% if comments %}
-        <h2>Comentarios</h2>
-        {% for comment in comments %}
-          {% include 'blog_app/comment.html' with comment=comment %}
-        {% endfor %}
-      {% endif %}
+      <h2>Comentarios</h2>
+      {% for comment in comments %} {% include 'blog_app/comment.html' with comment=comment %} {% endfor %} {% endif %}
     </div>
   </div>
 </div>
-{% include 'blog_app/social_media_bar.html' %} {% endblock %}
+{% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
+<script>
+  document.getElementById("playPauseButton").addEventListener("click", function () {
+    var button = document.getElementById("playPauseButton");
+    var stopButton = document.getElementById("stopButton");
+    if (button.classList.contains("play")) {
+      button.classList.remove("play");
+      button.classList.add("pause");
+      stopButton.classList.remove("hidden");
+      // check if speech is paused
+      if (window.speechSynthesis.paused) {
+        // resume speech
+        window.speechSynthesis.resume();
+      } else {
+        // start speech
+        speakText();
+      }
+    } else {
+      button.classList.remove("pause");
+      button.classList.add("play");
+      // pause speech
+      window.speechSynthesis.pause();
+    }
+  });
+
+  document.getElementById("stopButton").addEventListener("click", function () {
+    var playPauseButton = document.getElementById("playPauseButton");
+    var stopButton = document.getElementById("stopButton");
+    playPauseButton.classList.remove("pause");
+    playPauseButton.classList.add("play");
+    stopButton.classList.add("hidden");
+    // stop speech
+    window.speechSynthesis.cancel();
+  });
+
+  function speakText() {
+    EasySpeech.init({ maxTimeout: 5000, interval: 250 })
+      .then(() => {
+        let text = "{{ post.content|escapejs }}";
+        let lang = "{{ language }}";
+
+        let selectedVoice = null; // initialize with null, i.e., default voice
+
+        if (lang.startsWith("es")) {
+          // if the language is Spanish
+          let voices = EasySpeech.voices();
+          let spanishVoices = voices.filter((voice) => voice.lang.includes("es-"));
+          selectedVoice = spanishVoices[0]; // you can have your logic here to select a voice from the filtered Spanish voices
+        }
+
+        EasySpeech.speak({
+          text: text,
+          lang: lang,
+          voice: selectedVoice, // null for English, specific for Spanish
+          pitch: 1,
+          rate: 1.1,
+          volume: 1,
+          onend: () => console.log("Speech ended"),
+          onerror: (e) => console.error("Speech error", e),
+        });
+      })
+      .catch((e) => console.error("Speech init error", e));
+  }
+  window.onbeforeunload = function () {
+    window.speechSynthesis.cancel();
+  };
+</script>
+{% endblock %}

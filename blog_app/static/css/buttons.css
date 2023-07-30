@@ -82,3 +82,40 @@
   font-size: 1.2em;
   margin-left: 10px;
 }
+
+/* Set default button styles */
+button {
+  background-color: #008f11;
+  color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+button:hover {
+  background-color: #006f0d;
+  cursor: pointer;
+}
+
+button i {
+  padding: 0.5rem;
+}
+/* Set the content for the play, pause, and stop icons */
+.play i::before {
+  content: "\f04b";
+}
+
+.pause i::before {
+  content: "\f04c";
+}
+
+.stop i::before {
+  content: "\f04d";
+}
+
+.hidden i::before {
+  content: "\f04d";
+}
+
+.hidden {
+  display: none;
+}

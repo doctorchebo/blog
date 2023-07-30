@@ -66,6 +66,8 @@
       var tz = jstz.determine(); // Determines the time zone of the browser client
       document.cookie = "timezone=" + tz.name() + ";path=/;domain=" + window.location.hostname; // Creates a cookie with the timezone value
     </script>
+    <!-- Esay Speech  -->
+    <script src="https://cdn.jsdelivr.net/npm/easy-speech/dist/EasySpeech.iife.js"></script>
     <!-- Your JavaScript code -->
     <script src="/static/js/scripts.js"></script>
     {% block scripts %}{% endblock %}
