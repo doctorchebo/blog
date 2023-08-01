@@ -54,69 +54,78 @@
 </div>
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
 <script>
-  document.getElementById("playPauseButton").addEventListener("click", function () {
-    var button = document.getElementById("playPauseButton");
-    var stopButton = document.getElementById("stopButton");
-    if (button.classList.contains("play")) {
-      button.classList.remove("play");
-      button.classList.add("pause");
-      stopButton.classList.remove("hidden");
-      // check if speech is paused
+  var playPauseButton = document.getElementById("playPauseButton");
+  var stopButton = document.getElementById("stopButton");
+
+  function play() {
+    playPauseButton.classList.remove("pause");
+    playPauseButton.classList.add("play");
+    stopButton.classList.add("hidden");
+  }
+
+  function pause() {
+    playPauseButton.classList.remove("play");
+    playPauseButton.classList.add("pause");
+    stopButton.classList.remove("hidden");
+  }
+
+  playPauseButton.addEventListener("click", function () {
+    if (playPauseButton.classList.contains("play")) {
+      pause();
       if (window.speechSynthesis.paused) {
-        // resume speech
         window.speechSynthesis.resume();
       } else {
-        // start speech
         speakText();
       }
     } else {
-      button.classList.remove("pause");
-      button.classList.add("play");
-      // pause speech
+      play();
       window.speechSynthesis.pause();
     }
   });
 
-  document.getElementById("stopButton").addEventListener("click", function () {
-    var playPauseButton = document.getElementById("playPauseButton");
-    var stopButton = document.getElementById("stopButton");
-    playPauseButton.classList.remove("pause");
-    playPauseButton.classList.add("play");
-    stopButton.classList.add("hidden");
-    // stop speech
+  stopButton.addEventListener("click", function () {
+    play();
     window.speechSynthesis.cancel();
   });
 
   function speakText() {
     EasySpeech.init({ maxTimeout: 5000, interval: 250 })
       .then(() => {
-        let text = "{{ post.content|escapejs }}";
+        let text = "{{ plain_content|escapejs }}";
         let lang = "{{ language }}";
-
-        let selectedVoice = null; // initialize with null, i.e., default voice
+        let selectedVoice = null;
 
         if (lang.startsWith("es")) {
-          // if the language is Spanish
           let voices = EasySpeech.voices();
           let spanishVoices = voices.filter((voice) => voice.lang.includes("es-"));
-          selectedVoice = spanishVoices[0]; // you can have your logic here to select a voice from the filtered Spanish voices
+          selectedVoice = spanishVoices[0];
         }
 
         EasySpeech.speak({
           text: text,
           lang: lang,
-          voice: selectedVoice, // null for English, specific for Spanish
+          voice: selectedVoice,
           pitch: 1,
           rate: 1.1,
           volume: 1,
-          onend: () => console.log("Speech ended"),
+          onend: function () {
+            play();
+            console.log("Speech ended");
+          },
           onerror: (e) => console.error("Speech error", e),
         });
       })
       .catch((e) => console.error("Speech init error", e));
   }
+
   window.onbeforeunload = function () {
     window.speechSynthesis.cancel();
   };
+
+  setInterval(function () {
+    if (!window.speechSynthesis.speaking && playPauseButton.classList.contains("pause")) {
+      play();
+    }
+  }, 1000);
 </script>
 {% endblock %}

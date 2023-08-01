@@ -22,6 +22,7 @@ import requests
 import logging
 from django.utils import timezone
 import pytz
+import re
 from langdetect import detect
 
 logger = logging.getLogger(__name__)
@@ -41,6 +42,8 @@ class PostListView(TimeZoneMixin, ListView):
     paginate_by = 5
     ordering = ['-date_posted']
 
+import re
+
 class PostDetailView(TimeZoneMixin, DetailView):
     model = Post
     template_name = 'blog_app/post_detail.html'
@@ -51,8 +54,16 @@ class PostDetailView(TimeZoneMixin, DetailView):
         context['form'] = CommentForm()
         content_wordcount = len(self.object.content.split())
         context['reading_time'] = max(round(content_wordcount / 200), 1)
+        
+        # Remove markdown links
+        plain_content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1', self.object.content)
+        
         # Detect language of post content and add it to context
-        context['language'] = detect(self.object.content)
+        context['language'] = detect(plain_content)
+        
+        # Store the plain content for future use
+        context['plain_content'] = plain_content
+
         return context
 class PostCreateView(CreateView):
     model = Post
