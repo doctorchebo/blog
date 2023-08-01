@@ -58,6 +58,21 @@ class PostDetailView(TimeZoneMixin, DetailView):
         # Remove markdown links
         plain_content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', r'\1', self.object.content)
         
+        # Remove markdown italics
+        plain_content = re.sub(r'\*([^*]+)\*', r'\1', plain_content)
+        plain_content = re.sub(r'_([^_]+)_', r'\1', plain_content)
+
+        # Remove markdown bold
+        plain_content = re.sub(r'\*\*([^*]+)\*\*', r'\1', plain_content)
+        plain_content = re.sub(r'__([^_]+)__', r'\1', plain_content)
+
+        # Remove markdown headers
+        plain_content = re.sub(r'# ([^\n]+)', r'\1', plain_content)
+        
+        # Remove markdown lists
+        plain_content = re.sub(r'\* ([^\n]+)', r'\1', plain_content)
+        plain_content = re.sub(r'- ([^\n]+)', r'\1', plain_content)
+        
         # Detect language of post content and add it to context
         context['language'] = detect(plain_content)
         
@@ -65,6 +80,7 @@ class PostDetailView(TimeZoneMixin, DetailView):
         context['plain_content'] = plain_content
 
         return context
+
 class PostCreateView(CreateView):
     model = Post
     template_name = 'blog_app/post_new.html'

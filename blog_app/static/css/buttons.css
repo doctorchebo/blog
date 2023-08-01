@@ -84,6 +84,11 @@
 }
 
 /* Set default button styles */
+
+.btn-container{
+  margin-top:1rem;
+}
+
 button {
   background-color: #008f11;
   color: white;

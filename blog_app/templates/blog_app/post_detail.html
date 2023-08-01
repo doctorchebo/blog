@@ -7,13 +7,14 @@
       <img class="card-image" src="{{ post.image.url }}" />
     </div>
     {% endif %}
-    <button id="playPauseButton" class="play">
-      <i class="fas fa-play"></i>
-    </button>
-    <button id="stopButton" class="hidden">
-      <i class="fas fa-stop"></i>
-    </button>
-
+    <div class="btn-container">
+      <button id="playPauseButton" class="play">
+        <i class="fas fa-play"></i>
+      </button>
+      <button id="stopButton" class="hidden">
+        <i class="fas fa-stop"></i>
+      </button>
+    </div>
     <p class="card-date">{{ post.date_posted|date:"j \d\e F \d\e Y, P" }}</p>
     <p class="card-read-time">Tiempo de lectura: {{ reading_time }} minutos</p>
     <div class="card-content">{{ post.content|markdown }}</div>
@@ -54,6 +55,18 @@
 </div>
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
 <script>
+  function chunkText(text, chunkSize) {
+    let chunks = [];
+    while (text.length > chunkSize) {
+      let index = text.lastIndexOf(" ", chunkSize); // Find the last space within the limit
+      let chunk = text.slice(0, index); // Get the chunk up to this point
+      chunks.push(chunk); // Add it to the array
+      text = text.slice(index + 1); // Update the remaining text
+    }
+    chunks.push(text); // Add the remaining text as the last chunk
+    return chunks;
+  }
+
   var playPauseButton = document.getElementById("playPauseButton");
   var stopButton = document.getElementById("stopButton");
 
@@ -89,33 +102,41 @@
   });
 
   function speakText() {
-    EasySpeech.init({ maxTimeout: 5000, interval: 250 })
-      .then(() => {
-        let text = "{{ plain_content|escapejs }}";
-        let lang = "{{ language }}";
-        let selectedVoice = null;
+    let text = "{{ plain_content|escapejs }}";
+    let chunks = chunkText(text, 200); // Split the text into chunks
+    let lang = "{{ language }}";
+    let selectedVoice = null;
 
-        if (lang.startsWith("es")) {
-          let voices = EasySpeech.voices();
-          let spanishVoices = voices.filter((voice) => voice.lang.includes("es-"));
-          selectedVoice = spanishVoices[0];
-        }
+    if (lang.startsWith("es")) {
+      let voices = window.speechSynthesis.getVoices();
+      let spanishVoices = voices.filter((voice) => voice.lang.startsWith("es"));
+      selectedVoice = spanishVoices[0];
+    }
 
-        EasySpeech.speak({
-          text: text,
-          lang: lang,
-          voice: selectedVoice,
-          pitch: 1,
-          rate: 1.1,
-          volume: 1,
-          onend: function () {
-            play();
-            console.log("Speech ended");
-          },
-          onerror: (e) => console.error("Speech error", e),
-        });
-      })
-      .catch((e) => console.error("Speech init error", e));
+    let speakChunk = function (index) {
+      if (index >= chunks.length) {
+        play(); // Stop playing once all chunks have been spoken
+        console.log("Speech ended");
+        return;
+      }
+
+      let utterance = new SpeechSynthesisUtterance(chunks[index]);
+      utterance.lang = lang;
+      if (selectedVoice) {
+        utterance.voice = selectedVoice;
+      }
+      utterance.pitch = 1;
+      utterance.rate = 1.1;
+      utterance.volume = 1;
+      utterance.onend = function () {
+        speakChunk(index + 1); // Speak the next chunk when this one ends
+      };
+      utterance.onerror = (e) => console.error("Speech error", e);
+
+      window.speechSynthesis.speak(utterance);
+    };
+
+    speakChunk(0); // Start speaking the first chunk
   }
 
   window.onbeforeunload = function () {
@@ -128,4 +149,5 @@
     }
   }, 1000);
 </script>
+
 {% endblock %}
