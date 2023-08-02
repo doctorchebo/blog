@@ -54,19 +54,9 @@
   </div>
 </div>
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
+<script src="https://code.responsivevoice.org/responsivevoice.js?key={{ api_key }}"></script>
 <script>
-  function chunkText(text, chunkSize) {
-    let chunks = [];
-    while (text.length > chunkSize) {
-      let index = text.lastIndexOf(" ", chunkSize); // Find the last space within the limit
-      let chunk = text.slice(0, index); // Get the chunk up to this point
-      chunks.push(chunk); // Add it to the array
-      text = text.slice(index + 1); // Update the remaining text
-    }
-    chunks.push(text); // Add the remaining text as the last chunk
-    return chunks;
-  }
-
+  var isPlaying = false;
   var playPauseButton = document.getElementById("playPauseButton");
   var stopButton = document.getElementById("stopButton");
 
@@ -85,69 +75,41 @@
   playPauseButton.addEventListener("click", function () {
     if (playPauseButton.classList.contains("play")) {
       pause();
-      if (window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
+      if (isPlaying) {
+        responsiveVoice.resume();
       } else {
-        speakText();
+        let lang;
+        if("{{ language }}" == "es"){
+          lang = "Spanish Female";
+        } else {
+          lang = "UK English Female";
+        }
+        responsiveVoice.speak("{{ plain_content|escapejs }}", lang, {
+          onstart: function () {
+            isPlaying = true;
+          },
+          onend: function () {
+            isPlaying = false;
+            play();
+          }
+        });
       }
     } else {
       play();
-      window.speechSynthesis.pause();
+      responsiveVoice.pause();
     }
   });
 
   stopButton.addEventListener("click", function () {
     play();
-    window.speechSynthesis.cancel();
+    responsiveVoice.cancel();
+    isPlaying = false;
   });
 
-  function speakText() {
-    let text = "{{ plain_content|escapejs }}";
-    let chunks = chunkText(text, 200); // Split the text into chunks
-    let lang = "{{ language }}";
-    let selectedVoice = null;
-
-    if (lang.startsWith("es")) {
-      let voices = window.speechSynthesis.getVoices();
-      let spanishVoices = voices.filter((voice) => voice.lang.startsWith("es"));
-      selectedVoice = spanishVoices[0];
-    }
-
-    let speakChunk = function (index) {
-      if (index >= chunks.length) {
-        play(); // Stop playing once all chunks have been spoken
-        console.log("Speech ended");
-        return;
-      }
-
-      let utterance = new SpeechSynthesisUtterance(chunks[index]);
-      utterance.lang = lang;
-      if (selectedVoice) {
-        utterance.voice = selectedVoice;
-      }
-      utterance.pitch = 1;
-      utterance.rate = 1.1;
-      utterance.volume = 1;
-      utterance.onend = function () {
-        speakChunk(index + 1); // Speak the next chunk when this one ends
-      };
-      utterance.onerror = (e) => console.error("Speech error", e);
-
-      window.speechSynthesis.speak(utterance);
-    };
-
-    speakChunk(0); // Start speaking the first chunk
-  }
-
   window.onbeforeunload = function () {
-    window.speechSynthesis.cancel();
+    responsiveVoice.cancel();
   };
-
-  setInterval(function () {
-    if (!window.speechSynthesis.speaking && playPauseButton.classList.contains("pause")) {
-      play();
-    }
-  }, 1000);
 </script>
+
 
 {% endblock %}

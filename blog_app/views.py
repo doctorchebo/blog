@@ -24,6 +24,7 @@ from django.utils import timezone
 import pytz
 import re
 from langdetect import detect
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -78,6 +79,7 @@ class PostDetailView(TimeZoneMixin, DetailView):
         
         # Store the plain content for future use
         context['plain_content'] = plain_content
+        context['api_key'] = os.getenv('RESPONSIVE_VOICE_API_KEY')  # Adjust the variable name as needed
 
         return context
 
