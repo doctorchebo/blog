@@ -3,21 +3,23 @@
   {% for post in object_list %}
   <div class="card-row">
     <div class="col">
-      <div class="card">
-        <div class="card-image">
-          <img src="{{ post.image.url }}" />
+      <a href="{{ post.get_absolute_url }}" class="card-link">
+        <div class="card">
+          <div class="card-image">
+            <img src="{{ post.image.url }}" />
+          </div>
+          <div class="card-content">
+            <span class="card-title">{{ post.title }}</span>
+            <p>{{ post.subtitle }}</p>
+            <p>
+              {{ post.date_posted|date:"j \d\e F \d\e Y, P" }} • {{ post.reading_time }} minutos de lectura
+            </p>
+            <!-- Add the post preview here -->
+            <br/>
+            <p>{{ post.preview }}</p>
+          </div>
         </div>
-        <div class="card-content">
-          <span class="card-title">{{ post.title }}</span>
-          <p>{{ post.subtitle }}</p>
-          <p>
-            {{ post.date_posted|date:"j \d\e F \d\e Y, P" }} • {{ post.reading_time }} minutos de lectura
-          </p>
-        </div>
-        <div class="card-action">
-          <a href="{{ post.get_absolute_url }}">Leer Post</a>
-        </div>
-      </div>
+      </a>
     </div>
   </div>
   {% endfor %}

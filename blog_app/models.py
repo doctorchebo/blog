@@ -3,6 +3,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from bs4 import BeautifulSoup
+import markdown
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
@@ -21,6 +23,18 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog_app:post_detail', args=[self.id])
+
+    def preview(self):
+        # Convert markdown to HTML
+        html = markdown.markdown(self.content)
+        # Strip out HTML tags to get the plain text
+        plain_text = BeautifulSoup(html, "html.parser").get_text()
+        # Split the plain text into words
+        words = plain_text.split()
+        # Take the first 50 words
+        preview_words = words[:50]
+        # Join them back into a string and add an ellipsis at the end
+        return " ".join(preview_words) + "..."
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, related_name='comments', on_delete=models.CASCADE)

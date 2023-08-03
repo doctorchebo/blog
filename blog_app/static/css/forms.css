@@ -49,6 +49,12 @@
   border-radius: 0.5rem; /* Add some rounding to the corners of the card */
 }
 
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 @media screen and (max-width: 768px) {
   .card .card-content .card-title {
     font-size: 1.7rem;

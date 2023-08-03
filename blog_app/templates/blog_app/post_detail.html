@@ -14,6 +14,9 @@
       <button id="stopButton" class="hidden">
         <i class="fas fa-stop"></i>
       </button>
+      <button id="shareButton" class="share">
+        <i class="fas fa-share-alt"></i>
+      </button>
     </div>
     <p class="card-date">{{ post.date_posted|date:"j \d\e F \d\e Y, P" }}</p>
     <p class="card-read-time">Tiempo de lectura: {{ reading_time }} minutos</p>
@@ -56,6 +59,30 @@
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
 <script src="https://code.responsivevoice.org/responsivevoice.js?key={{ api_key }}"></script>
 <script>
+  var shareButton = document.getElementById("shareButton");
+
+  shareButton.addEventListener("click", function () {
+    navigator.clipboard
+      .writeText(window.location.href)
+      .then(function () {
+        // The copy operation was successful, notify the user with a sweet alert
+        Swal.fire({
+          icon: "success",
+          title: "¡Perfecto!",
+          text: "Link copiado!",
+        });
+      })
+      .catch(function (err) {
+        // An error occurred, notify the user
+        Swal.fire({
+          icon: "error",
+          title: "¡Error!",
+          text: "No se pudo copiar el enlace.",
+        });
+      });
+  });
+</script>
+<script>
   var isPlaying = false;
   var playPauseButton = document.getElementById("playPauseButton");
   var stopButton = document.getElementById("stopButton");
@@ -79,7 +106,7 @@
         responsiveVoice.resume();
       } else {
         let lang;
-        if("{{ language }}" == "es"){
+        if ("{{ language }}" == "es") {
           lang = "Spanish Female";
         } else {
           lang = "UK English Female";
@@ -91,7 +118,7 @@
           onend: function () {
             isPlaying = false;
             play();
-          }
+          },
         });
       }
     } else {
@@ -110,6 +137,5 @@
     responsiveVoice.cancel();
   };
 </script>
-
 
 {% endblock %}

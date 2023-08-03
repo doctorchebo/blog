@@ -19,6 +19,8 @@ requests = "*"
 django-anymail = {extras = ["mailgun"], version = "*"}
 pytz = "*"
 langdetect = "*"
+beautifulsoup4 = "*"
+markdown = "*"
 
 [dev-packages]
 
