@@ -124,3 +124,7 @@ button i {
 .hidden {
   display: none;
 }
+
+.reply-button {
+  padding: 1px;
+}

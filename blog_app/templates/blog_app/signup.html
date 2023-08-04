@@ -1,5 +1,6 @@
 <!-- signup.html -->
 {% extends 'base.html' %} 
+{% load static %}
 {% block content %}
 <div class="container auth-form">
   <form method="post" autocomplete="off">
@@ -53,3 +54,7 @@
 </div>  
 <br>
 {% endblock %}
+{% block scripts %}
+<script src="{% static 'js/login.js' %}"></script>
+{% endblock %} 
+

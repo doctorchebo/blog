@@ -1,4 +1,4 @@
-{% extends 'base.html' %} {% load markdown_deux_tags %} {% block content %}
+{% extends 'base.html' %} {% load static %}{% load markdown_deux_tags %} {% block content %}
 <div class="card-detail">
   <div class="card-content">
     <h2 class="card-title">{{ post.title }}</h2>
@@ -57,6 +57,7 @@
   </div>
 </div>
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
+<script src="{% static 'js/post_detail.js' %}"></script>
 <script src="https://code.responsivevoice.org/responsivevoice.js?key={{ api_key }}"></script>
 <script>
   document.addEventListener("DOMContentLoaded", function () {

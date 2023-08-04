@@ -4,7 +4,9 @@
   <p class="content">{{ reply.content }}</p>
 
   {% if user.is_authenticated %}
-    <button class="reply-button" data-comment-id="{{reply.id}}">Responder</button>
+    <button class="reply-button" data-comment-id="{{reply.id}}">
+      <i class="fas fa-reply"></i>
+    </button>
   {% endif %}
   <div class="reply-placeholder"></div>
   {% if depth < 4 %} 
