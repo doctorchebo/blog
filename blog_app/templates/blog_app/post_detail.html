@@ -59,6 +59,33 @@
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
 <script src="https://code.responsivevoice.org/responsivevoice.js?key={{ api_key }}"></script>
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select all links inside the post content
+    var links = document.querySelectorAll(".card-content a");
+    // Add the target="_blank" attribute to each link
+    links.forEach(function (link) {
+      link.setAttribute("target", "_blank");
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Select all links inside the post content
+    var links = document.querySelectorAll(".card-content a");
+    // Add the target="_blank" attribute to each link
+    links.forEach(function (link) {
+      link.setAttribute("target", "_blank");
+      // Add a click event listener to each link
+      link.addEventListener("click", function () {
+        // If the speech is playing, pause it
+        if (isPlaying) {
+          play();
+          responsiveVoice.pause();
+        }
+      });
+    });
+  });
+</script>
+<script>
   var shareButton = document.getElementById("shareButton");
 
   shareButton.addEventListener("click", function () {
@@ -112,6 +139,7 @@
           lang = "UK English Female";
         }
         responsiveVoice.speak("{{ plain_content|escapejs }}", lang, {
+          rate: 1.2,
           onstart: function () {
             isPlaying = true;
           },
