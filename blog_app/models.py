@@ -16,6 +16,9 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+    def likes_count(self):
+        return Like.objects.filter(post=self).count()
+
     @property
     def reading_time(self):
         words_per_minute = 180 # The average reading speed is between 180 and 200 words per minute
@@ -79,3 +82,10 @@ class Newsletter(models.Model):
 
     def __str__(self):
         return self.subject
+    
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    class Meta:
+        unique_together = ('user', 'post')

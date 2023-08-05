@@ -1,43 +1,46 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %}{% block content %}
 <div class="container">
   {% for post in object_list %}
   <div class="card-row">
     <div class="col">
-      <a href="{{ post.get_absolute_url }}" class="card-link">
-        <div class="card">
+      <div class="card">
+        <a href="{{ post.get_absolute_url }}" class="card-link">
           <div class="card-image">
             <img src="{{ post.image.url }}" />
           </div>
           <div class="card-content">
             <span class="card-title">{{ post.title }}</span>
             <p>{{ post.subtitle }}</p>
-            <p>
-              {{ post.date_posted|date:"j \d\e F \d\e Y, P" }} • {{ post.reading_time }} minutos de lectura
-            </p>
+            <p>{{ post.date_posted|date:"j \d\e F \d\e Y, P" }} • {{ post.reading_time }} minutos de lectura</p>
             <!-- Add the post preview here -->
-            <br/>
+            <br />
             <p>{{ post.preview }}</p>
           </div>
-        </div>
-      </a>
+        </a>
+        {% if user.is_authenticated %}
+        <button class="like-button" data-post-id="{{ post.id }}">
+          <i class="fas fa-thumbs-up"></i>
+        </button>
+        <span class="like-count">{{ post.likes_count }}</span>
+        {% endif %}
+      </div>
     </div>
   </div>
-  {% endfor %}
-  {% if is_paginated %}
-    <div class="pagination">
-        {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
-        {% endif %}
-        
-        <span class="page-number">
-            Página {{ page_obj.number }} de {{ paginator.num_pages }}
-        </span>
-        
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
-        {% endif %}
-    </div>
-{% endif %}
+  {% endfor %} {% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+    <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+    {% endif %}
+
+    <span class="page-number">Página {{ page_obj.number }} de {{ paginator.num_pages }}</span>
+
+    {% if page_obj.has_next %}
+    <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+    {% endif %}
+  </div>
+  {% endif %}
 </div>
 
-{% include 'blog_app/social_media_bar.html' %} {% endblock %}
+{% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
+<script src="{% static 'js/like.js' %}"></script>
+{% endblock %}

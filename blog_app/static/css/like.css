@@ -1,0 +1,28 @@
+.like-button {
+    /* existing styles */
+    transition: background-color 0.3s ease, color 0.3s ease; /* adding transition effect */
+}
+
+.like-button.liked {
+    background-color: #12641d;  /* a reddish color when liked */
+    color: white;
+}
+
+/* Adding a little animation to give feedback on like action */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.like-button.liked {
+    animation: pulse 0.2s;
+}
+
+.like-count {
+    margin-left: 10px;
+    vertical-align: middle;
+    font-size: 16px; 
+    color: white;
+    font-weight: bold;
+}

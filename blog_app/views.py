@@ -3,7 +3,7 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
-from .models import Post, Comment, AboutSection, Subscriber
+from .models import Post, Comment, AboutSection, Subscriber, Like
 from .forms import CommentForm, NewsletterForm, UnsubscribeForm
 from .tasks import send_newsletter
 from django.contrib.auth import authenticate, login, logout
@@ -285,3 +285,16 @@ def unsubscribe_success(request):
 
 def unsubscribe_fail(request):
     return render(request, 'blog_app/unsubscribe_fail.html')
+
+def like_post(request, post_id):
+    if not request.user.is_authenticated:
+        return JsonResponse({"error": "Not authenticated"}, status=401)
+
+    post = get_object_or_404(Post, id=post_id)
+    like, created = Like.objects.get_or_create(user=request.user, post=post)
+
+    if not created:
+        like.delete()
+        return JsonResponse({"likes_count": post.likes_count(), "liked": False})
+
+    return JsonResponse({"likes_count": post.likes_count(), "liked": True})

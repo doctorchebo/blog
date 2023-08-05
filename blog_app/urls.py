@@ -24,6 +24,7 @@ urlpatterns = [
     path('unsubscribe/<str:email>/', views.unsubscribe, name='unsubscribe'),
     path('unsubscribe_success/', views.unsubscribe_success, name='unsubscribe_success'),
     path('unsubscribe_fail/', views.unsubscribe_fail, name='unsubscribe_fail'),
+    path('like_post/<int:post_id>/', views.like_post, name='like_post'),
 ]
 
 if settings.DEBUG:
