@@ -5,11 +5,15 @@ from .models import Subscriber
 import os
 from django.urls import reverse
 import logging
+from markdown import markdown
 
 logger = logging.getLogger(__name__)
 
 def send_newsletter(subject, body, img_path=None):
     domain = os.getenv('MY_WEBSITE_DOMAIN', 'http://127.0.0.1:8000')
+
+    # Convert body from Markdown to HTML
+    body = markdown(body)
 
     # Construct image_url with the obtained domain
     if img_path is not None:

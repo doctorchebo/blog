@@ -2,12 +2,16 @@
 <html>
   <head>
     <style>
-      body {
+      body,
+      html {
         background-color: #000;
-        color: #0f0;
+        color: rgb(255, 255, 255) !important;
         font-family: "Open Sans";
         line-height: 1.6;
-      } 
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
 
       h1 {
         font-size: 2em;
@@ -17,10 +21,11 @@
       }
 
       p {
+        color: white !important;
         font-size: 1.2em;
         margin-bottom: 1em;
         text-align: justify;
-        white-space: pre-line; /* This will respect newlines in your text. */
+        white-space: pre-line;
       }
 
       img {
@@ -28,12 +33,8 @@
       }
 
       a {
-        color: #0f0;
-        text-decoration: none;
-      }
-
-      a:hover {
-        color: #080;
+        color: yellow !important;
+        text-decoration: none !important;
       }
 
       .footer {
@@ -41,14 +42,18 @@
         border-top: 1px solid #0f0;
         padding-top: 1em;
       }
+
+      div {
+        border: none !important;
+      }
     </style>
   </head>
   <body>
-    <div style="width: 80%; margin: 0 auto;">
+    <div style="width: 80%; margin: 0 auto">
       <h1>{{ title }}</h1>
       <p>{{ body|safe }}</p>
       {% if image_url %}
-        <img src="{{ image_url }}" alt="{{ title }}" />
+      <img src="{{ image_url }}" alt="{{ title }}" />
       {% endif %}
       <div class="footer">
         <p>
