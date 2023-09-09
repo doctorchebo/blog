@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-import paypalrestsdk
 
 
 load_dotenv()
@@ -51,7 +50,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'markdown_deux',
-    'paypal.standard.ipn',
     'blog_app',
     'store',
 ]
@@ -242,9 +240,3 @@ LOGGING = {
         },
     },
 }
-
-paypalrestsdk.configure({
-    "mode": os.getenv('PAYPAL_MODE'),  # sandbox or live
-    "client_id": os.getenv('PAYPAL_CLIENT_ID'),
-    "client_secret": os.getenv('PAYPAL_CLIENT_SECRET')
-})

@@ -13,7 +13,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.shortcuts import render, get_object_or_404
 from copy import copy
-import paypalrestsdk
 from dotenv import load_dotenv
 import os
 import json
@@ -154,17 +153,6 @@ def remove_from_cart(request):
 
 def checkout(request):
     return render(request, 'store/checkout.html')
-
-def payment_successful(request):
-    payment_id = request.GET.get('paymentId')
-    payer_id = request.GET.get('PayerID')
-    
-    payment = paypalrestsdk.Payment.find(payment_id)
-    if payment.execute({"payer_id": payer_id}):
-        # Payment was successful. Save the details, finalize order, etc.
-        return render(request, 'store/success.html')
-    else:
-        return render(request, 'store/error.html', {'error': payment.error})
 
 def purchased_products(request):
     user = request.user
