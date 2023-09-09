@@ -18,4 +18,10 @@ class ProductMediaInlineForm(forms.ModelForm):
     related_models = [ImageMedia, VideoMedia, DocumentMedia]
     object_names_and_ids = []
 
+    for model in related_models:
+        object_names_and_ids.extend(list(model.objects.values_list('id', 'name')))
+
+    OBJECT_ID_CHOICES = object_names_and_ids
+
+    object_id = forms.ChoiceField(choices=OBJECT_ID_CHOICES, required=False)
 
