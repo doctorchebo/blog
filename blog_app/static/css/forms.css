@@ -23,8 +23,8 @@
   color: #a3c293;
 }
 
-.card .card-content p {
-  color: #333333;
+.card .card-action {
+  min-height: 9rem;
 }
 
 .card .card-action a {
@@ -317,4 +317,25 @@
 
 .error-message {
   color: #f7ca00;
+}
+
+/*Products*/
+
+.title {
+  color: #008f11;
+  font-size: 3rem;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  text-align: center;
+}
+
+.title-md {
+  color: #008f11;
+  font-size: 2.2rem;
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  text-align: center;
+}
+
+.discounted {
+  text-decoration: line-through;
+  color: red;
 }

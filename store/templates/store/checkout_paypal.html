@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container auth-form">
+  <h2 class="title">Checkout</h2>
+  <form action="{% url 'store:checkout' %}" method="post">
+    {% csrf_token %} {{ form.as_p }}
+
+    <!-- PayPal payment button -->
+    <button type="submit" class="auth-button">Proceed to PayPal Payment</button>
+  </form>
+</div>
+<br/>
+{% endblock %}

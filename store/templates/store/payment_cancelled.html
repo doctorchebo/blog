@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2 class="center-align red-text text-accent-3">Payment Cancelled</h2>
+    <p class="center-align">
+        It seems you've cancelled the payment process. If this was a mistake, you can return to your cart and try again.
+    </p>
+    <div class="center-align">
+        <a href="{% url 'store:cart_view' %}" class="btn waves-effect waves-light red">Return to Cart</a>
+    </div>
+</div>
+{% endblock %}

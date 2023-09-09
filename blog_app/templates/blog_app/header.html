@@ -14,10 +14,14 @@
       {% endif %}
       <ul class="nav-right">
         {% if user.is_authenticated and user.is_superuser %}
-          <li><a href="{% url 'blog_app:create_newsletter' %}">Crear Newsletter</a></li>
+          <li><a href="{% url 'blog_app:create_newsletter' %}">Newsletter</a></li>
         {% endif %}
         <li><a href="/about">Acerca de</a></li>
-        <li><a href="https://patreon.com/EscapalaMatrix" target="_blank">Dona en Patreon</a></li>
+        {% if user.is_authenticated and user.is_superuser %}
+        <li><a href="{% url 'store:purchased_products' %}">Mis compras</a></li>
+        <li><a href="{% url 'store:product_list' %}">Tienda</a></li>
+        {% endif %}
+        <li><a href="https://patreon.com/EscapalaMatrix" target="_blank">Dona</a></li>
         <li><a href="/">Blog</a></li>
         <li><a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a></li>
         {% if user.is_authenticated %}
@@ -42,10 +46,14 @@
       <li class="username-mobile">Hola, {{ user.username }}!</li> 
     {% endif %}
     {% if user.is_authenticated and user.is_superuser %}
-      <li><a href="{% url 'blog_app:create_newsletter' %}">Crear Newsletter</a></li>
+      <li><a href="{% url 'blog_app:create_newsletter' %}">Newsletter</a></li>
+    {% endif %}
+    {% if user.is_authenticated and user.is_superuser%}
+    <li><a href="{% url 'store:purchased_products' %}">Mis compras</a></li>
+    <li><a href="{% url 'store:product_list' %}">Tienda</a></li>
     {% endif %}
     <li><a href="/about">Acerca de</a></li>
-    <li><a href="https://patreon.com/EscapalaMatrix" target="_blank">Dona en Patreon</a></li>
+    <li><a href="https://patreon.com/EscapalaMatrix" target="_blank">Dona</a></li>
     <li><a href="/">Blog</a></li>
     <li><a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a></li>
     {% if user.is_authenticated %}

@@ -36,7 +36,7 @@
 
 .nav-wrapper .nav-right {
   justify-content: flex-end;
-  width: 40%;
+  width: 70%;
 }
 
 .dropdown {
@@ -92,7 +92,7 @@
   }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: 993px) {
   .nav-wrapper .brand-logo {
     margin: 0 auto;
     font-size: 1.2rem;

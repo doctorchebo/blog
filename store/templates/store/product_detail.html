@@ -1,0 +1,46 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container">
+  <button onclick="window.location='{% url 'store:product_list' %}'" class="auth-button">Volver</button>
+  <div class="title">{{ product.name }}</div>
+  <div class="product-detail-container">
+    <div class="product-image-container">
+      <img class="product-image magnify" src="{{ product.image.url }}" alt="{{ product.name }}" />
+      {% if not product.is_digital %}
+      <div class="quantity-selector">
+        <button
+          class="btn-floating btn-small waves-effect waves-light green"
+          id="decrease-{{ product.id }}"
+          onclick="decreaseQuantity('{{ product.id }}')"
+        >
+          <i class="material-icons center">remove</i>
+        </button>
+        <span id="quantity-{{ product.id }}">1</span>
+        <button
+          class="btn-floating btn-small waves-effect waves-light green"
+          id="increase-{{ product.id }}"
+          onclick="increaseQuantity('{{ product.id }}')"
+        >
+          <i class="material-icons center">add</i>
+        </button>
+      </div>
+      {% endif %}
+    </div>
+    <div class="product-detail-content">
+      <p>{{ product.description }}</p>
+      {% if product.discount_percentage > 0 %}
+      <p class="discounted">Precio: ${{ product.price }}</p>
+      <p class="green-text">Precio con descuento: ${{ product.discounted_price|floatformat:2 }}</p>
+      {% else %}
+      <p>Price: ${{ product.price }}</p>
+      {% endif %}
+      <button onclick="addToCart('{{ product.id }}')" class="auth-button">Añadir al carrito</button>
+    </div>
+  </div>
+</div>
+{% include 'store/cart.html' %} {% endblock %} {% block scripts %}
+<script>
+  const addToCartUrl = `{% url 'store:add_to_cart' %}`;
+</script>
+<script src="{% static 'js/product_detail.js' %}"></script>
+<script src="{% static 'js/notifications.js' %}"></script>
+{% endblock %}

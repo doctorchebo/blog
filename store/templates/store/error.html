@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="center-align red-text text-accent-3">Payment Error</h2>
+        <p class="center-align">
+            There was a problem processing your payment. Please try again later.
+            {% if error %}
+            <br/><br/>
+            Error details: {{ error }}
+            {% endif %}
+        </p>
+    </div>
+{% endblock %}

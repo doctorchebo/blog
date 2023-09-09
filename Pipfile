@@ -21,6 +21,9 @@ pytz = "*"
 langdetect = "*"
 beautifulsoup4 = "*"
 markdown = "*"
+paypalrestsdk = "*"
+django-paypal = "*"
+django-polymorphic = "*"
 
 [dev-packages]
 

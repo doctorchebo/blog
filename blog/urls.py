@@ -25,6 +25,8 @@ urlpatterns = [
     path('', include('blog_app.urls')),
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
     path('accounts/', include('allauth.urls')),
+    path('store/', include('store.urls')),
+    path('paypal/', include('paypal.standard.ipn.urls')),
 ]
 
 if settings.DEBUG:

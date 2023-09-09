@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="/static/css/newsletter.css" />
     <link rel="stylesheet" href="/static/css/subscribe.css" />
     <link rel="stylesheet" href="/static/css/like.css" />
+    <link rel="stylesheet" href="/static/css/cart.css" />
+    <link rel="stylesheet" href="/static/css/purchased_product.css" />
     <link href="{% static 'css/fonts.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -29,20 +31,26 @@
     />
     <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script type="text/javascript">
+      var csrfToken = "{{ csrf_token }}";
+    </script>
   </head>
   <body>
-    {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %}
-    <main>
-      {% if messages %}
-      <div class="container">
-        {% for message in messages %}
-        <div class="card-panel white-text #1b5e20 green darken-4 {% if message.tags %}{{ message.tags }}{% endif %}">
-          {{ message }}
+    <div class="content-wrapper">
+      {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %} 
+      <main>
+        {% if messages %}
+        <div class="container">
+          {% for message in messages %}
+          <div class="card-panel white-text #1b5e20 green darken-4 {% if message.tags %}{{ message.tags }}{% endif %}">
+            {{ message }}
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </div>
-      {% endif %} {% block content %}{% endblock %}
-    </main>
+        {% endif %} {% block content %}{% endblock %}
+      </main>
+    </div>
+
     {% include 'blog_app/footer.html' %}
 
     <!-- Your included reply form -->

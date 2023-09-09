@@ -17,6 +17,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
 from django.utils import dateformat
 from django.shortcuts import render
+from store.views import merge_carts
 from markdown_deux import markdown
 import requests
 import logging
@@ -25,6 +26,7 @@ import pytz
 import re
 from langdetect import detect
 import os
+import re
 
 logger = logging.getLogger(__name__)
 
@@ -42,8 +44,6 @@ class PostListView(TimeZoneMixin, ListView):
     template_name = 'blog_app/post_list.html'
     paginate_by = 5
     ordering = ['-date_posted']
-
-import re
 
 class PostDetailView(TimeZoneMixin, DetailView):
     model = Post
@@ -143,8 +143,11 @@ def register(request):
             password = form.cleaned_data.get('password')
             email = form.cleaned_data.get('email')
             user = User.objects.create_user(username=username, password=password, email=email)
-            user.save() 
+            user.save()
             login(request, user)
+            # Merge session cart with user cart after user logs in
+            merge_carts(request)
+            
             next_url = request.POST.get('next') # get the next URL from the POST request
             if next_url: # if next URL exists, redirect there
                 return redirect(next_url)
@@ -164,6 +167,9 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
+                # Merge session cart with user cart after user logs in
+                merge_carts(request)
+                
                 next_url = request.POST.get('next') # get the next URL from the POST request
                 print(f'next_url = "{next_url}"')
                 if next_url: # if next URL exists, redirect there

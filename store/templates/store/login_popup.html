@@ -1,0 +1,9 @@
+<!-- Login Modal -->
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <h5>Please sign in or register to proceed</h5>
+        <a href="{% url 'blog_app:login' %}?next={{ request.path }}" class="auth-button">Iniciar sesion</a>
+        <a href="{% url 'blog_app:register' %}?next={{ request.path }}" class="auth-button">Registrarse</a>
+    </div>
+</div>

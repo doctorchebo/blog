@@ -1,0 +1,130 @@
+#cart-icon-container.hidden {
+  display: none;
+}
+
+#cart-icon-container {
+  position: fixed;
+  top: 12%;
+  right: 2%;
+  z-index: 1000;
+}
+
+.fixed-notification-container {
+  position: fixed;
+  top: 2%;
+  right: 20px;
+  z-index: 9999;
+  width: 80%;
+  max-width: 400px;
+}
+
+/* cart container */
+.empty-cart-container {
+  display: none;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center items vertically */
+  height: 100vh; /* Take the full viewport height */
+  background-color: rgba(0, 0, 0, 0.7); /* Add a background color if you want */
+}
+
+/* Styling the message */
+.message {
+  color: white; /* Make the message color white */
+  font-size: 1.5em; /* Increase font size (adjust as needed) */
+  margin-bottom: 1em; /* Add space below the message */
+}
+
+/* product detail */
+
+.product-detail-container {
+  margin-top: 3%;
+  display: flex;
+}
+
+.product-image-container {
+  width: 50%;
+  position: relative;
+}
+
+.product-image {
+  width: 100%;
+  transition: transform 0.2s;
+}
+
+.product-image:hover {
+  transform: scale(1.2);
+}
+
+.product-detail-content {
+  padding-left: 20px;
+  width: 50%;
+  color: white;
+  font-size: 20px;
+}
+
+.quantity-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(10, 145, 28);
+  font-weight: 700;
+  gap: 10px;
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Styles for larger screens */
+@media (min-width: 768px) {
+  .product-detail-container {
+    display: flex;
+  }
+
+  .product-image-container,
+  .product-detail-content {
+    width: 50%;
+  }
+
+  .product-detail-content {
+    padding-left: 20px;
+  }
+}
+
+/* Styles for mobile screens */
+/* Styles for mobile screens */
+@media (max-width: 767px) {
+  .product-image-container,
+  .product-detail-content {
+    width: 100%;
+  }
+
+  .product-detail-content {
+    padding: 20px 0; /* Padding to the top and bottom */
+  }
+
+  .product-detail-container {
+    flex-direction: column; /* Stack items vertically */
+  }
+
+  .product-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+  }
+
+  .quantity-selector {
+    position: static;
+    margin-top: 15px;
+    transform: none;
+  }
+
+  .quantity-selector span {
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.5);
+  }
+}
+
+.remove-from-cart-btn {
+  padding: 0px;  /* Adjust to your desired padding */
+}

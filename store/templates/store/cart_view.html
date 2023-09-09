@@ -1,0 +1,85 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %}
+
+<div class="cart-container">
+    <div class="container">
+        <h2 class="title">Carrito de Compras</h2>
+        <ul class="collection">
+            {% for item in cart_items %}
+            <li class="collection-item avatar">
+                <div class="row">
+                    <div class="col s6">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="circle" />
+                        <span class="title">{{ item.product.name }}</span>
+                        <p>
+                            Quantity: {{ item.quantity }}
+                            <br />
+                            Price: ${{ item.product.price }}
+                            <br />
+                            {% if item.product.discount_price %} Discounted Price: ${{ item.product.discount_price }} {% endif %}
+                        </p>
+                    </div>
+                    <div class="col s4">
+                        <p>Subtotal: ${{ item.total }}</p>
+                    </div>
+                    <div class="col s2 right-align">
+                        <button data-product-id="{{ item.product.pk }}" class="remove-from-cart-btn">
+                            <i class="material-icons tiny">delete</i>
+                        </button>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+            <li class="collection-item">
+                <div class="row">
+                    <div class="col s6 offset-s6 right-align">
+                        <strong>Total: ${{ total_price }}</strong>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        {# Start creating the WhatsApp link dynamically #} 
+        {% with "" as empty %}
+        <br />
+        {% if user.is_authenticated %}
+        <a href="https://wa.me/+59167131914?text=Estoy%20interesado%20en%20comprar%20los%20siguientes%20productos:%0A{% for item in cart_items %}{{ item.product.name }} (Cantidad: {{ item.quantity }})%0A{% endfor %}Con%20un%20monto%20total%20de%20${{ total_price }}.%0APor%20favor,%20envíame%20los%20detalles%20de%20pago."
+           class="auth-button"
+           target="_blank"
+           role="button">
+            Pagar por WhatsApp
+        </a>
+        {% else %}
+        <div class="banner">
+            <p>
+              Por favor Inicia sesión o regístrate para finalizar la compra
+              <i class="fas fa-exclamation-circle"></i>
+            </p>
+            <div class="auth-buttons">
+              <a class="auth-button" href="{% url 'blog_app:login' %}?next={{ request.path }}#comment-section">
+                Inicia sesión
+              </a>
+              <a class="auth-button" href="{% url 'blog_app:register' %}?next={{ request.path }}#comment-section">
+                Regístrate
+              </a>
+            </div>
+          </div>
+        {% endif %}
+        {% endwith %}
+    </div>
+</div>
+
+<div class="empty-cart-container">
+    <p class="message">Agrega productos al carrito</p>
+    <a href="{% url 'store:product_list' %}" class="auth-button">Ir a la tienda</a>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const removeFromCartUrl = `{% url 'store:remove_from_cart' %}`;
+</script>
+<script src="{% static 'js/cart_view.js' %}"></script>
+<script src="{% static 'js/notifications.js' %}"></script>
+{% endblock %}

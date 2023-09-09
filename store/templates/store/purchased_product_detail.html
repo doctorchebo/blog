@@ -1,0 +1,77 @@
+{% extends 'base.html' %} {% block content %}
+<!-- Product Name -->
+<div class="title">{{ product.name }}</div>
+
+<div class="container">
+  <button onclick="window.location='{% url 'store:purchased_products' %}'" class="auth-button back-button">Volver</button>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <a id="toggle-sidebar" href="#"><i class="material-icons">arrow_back</i></a>
+
+    <div id="media-sidebar" class="collection">
+      <!-- Loop through media content to generate unique types -->
+      {% for content_type in unique_content_types %}
+      <a href="#!" class="collection-item" data-media-type="{{ content_type.model }}">
+        {{ content_type.verbose_name }}
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    {% for content_type in unique_content_types %}
+    <div id="media-{{ content_type.model }}" class="media-section hidden">
+      {% for media_content in media_contents %} {% if media_content.content_type == content_type %}
+      <div class="title-md">{{ media_content.content_object.name }}</div>
+
+      {% if media_content.content_type.model == "imagemedia" %}
+      <img src="{{ media_content.content_object.file.url }}" alt="{{ media_content.name }}" />
+      <a href="{{ media_content.content_object.file.url }}" download>Download Image</a>
+
+      {% elif media_content.content_type.model == "videomedia" %}
+      <a href="{{ media_content.content_object.video_url }}" target="_blank">View Video</a>
+
+      {% elif media_content.content_type.model == "documentmedia" %}
+      <a href="{{ media_content.content_object.file.url }}" download>Download Document</a>
+      {% endif %} {% endif %} {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const sidebarLinks = document.querySelectorAll("#media-sidebar .collection-item");
+      const mediaSections = document.querySelectorAll(".main-content .media-section");
+      const toggleSidebar = document.querySelector("#toggle-sidebar");
+
+      sidebarLinks.forEach((link) => {
+        link.addEventListener("click", function () {
+          // Hide all sections
+          mediaSections.forEach((section) => {
+            section.classList.add("hidden");
+          });
+
+          // Show the clicked section
+          const mediaType = this.getAttribute("data-media-type");
+          const targetSection = document.querySelector(`#media-${mediaType}`);
+          targetSection.classList.remove("hidden");
+        });
+      });
+
+      // Toggle sidebar
+      toggleSidebar.addEventListener("click", function () {
+        const mediaSidebar = document.querySelector("#media-sidebar");
+        mediaSidebar.classList.toggle("hide");
+        this.children[0].textContent = mediaSidebar.classList.contains("hide") ? "arrow_forward" : "arrow_back";
+      });
+    });
+  </script>
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.querySelector(".sidebar");
+      sidebar.classList.toggle("hidden");
+    }
+  </script>
+  {% endblock %}
+</div>

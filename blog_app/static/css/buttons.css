@@ -128,3 +128,25 @@ button i {
 .reply-button {
   padding: 1px;
 }
+
+/* product quantity buttons */
+.btn-floating i.material-icons {
+  line-height: 50px; /* Adjust based on the size of your button if necessary */
+}
+
+.btn-floating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-buttons {
+  display: flex;
+}
+
+.back-button {
+  right: 20%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+}

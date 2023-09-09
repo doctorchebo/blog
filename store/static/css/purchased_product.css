@@ -1,0 +1,54 @@
+#media-sidebar {
+    background-color: black;
+    border: none;
+}
+
+#media-sidebar .collection-item {
+    background-color: black;
+    border: none;
+    color: green !important;
+}
+
+#media-sidebar .collection-item:hover {
+    background-color: rgba(42, 44, 42, 0.8);
+}
+
+.main-content img {
+    max-width: 50rem; /* Maximum width */
+    width: 100%; /* This makes it responsive */
+    height: auto; /* Keep the original aspect ratio */
+    display: block; /* To remove any unwanted spacing */
+    margin: 0 auto; /* To center the image */
+}
+
+/* Smaller devices (phones, up to 480px) */
+@media only screen and (max-width: 480px) {
+    .main-content img {
+        max-width: 90%; /* Take up to 90% of small screen's width */
+    }
+}
+
+/* Medium devices (tablets, 481px and up) */
+@media only screen and (min-width: 481px) and (max-width: 768px) {
+    .main-content img {
+        max-width: 70%; /* Take up to 70% of medium screen's width */
+    }
+}
+
+/* Large devices (computers, 769px and up) */
+@media only screen and (min-width: 769px) {
+    .main-content img {
+        max-width: 50rem; /* Restrict to 50rem for large screens */
+    }
+}
+
+.media-section {
+    flex: 2; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+}
+
+.hidden {
+    display: none;
+}
