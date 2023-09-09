@@ -73,6 +73,7 @@ class UserPurchases(models.Model):
     def __str__(self):
         return f'{self.user.username} - {self.product}'
 
+
 class MediaContent(PolymorphicModel):
     name = models.CharField(max_length=200)
     description = models.TextField()
