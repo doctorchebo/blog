@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Product, Order, Cart, CartItem, UserPurchases, ProductMedia
+from .models import Product, Order, Cart, CartItem, UserPurchases, ProductMedia, Resource
 from .forms import BillingAddressForm
 from django.contrib.auth.signals import user_logged_out
 from django.db.models import Sum
@@ -236,3 +236,8 @@ def purchased_product_detail(request, product_id):
     return render(request, 'store/purchased_product_detail.html', context)
 
 
+class ResourcesListView(ListView):
+    model = Resource
+    template_name = 'store/resources.html'
+    context_object_name = 'resources'
+    paginate_by = 6

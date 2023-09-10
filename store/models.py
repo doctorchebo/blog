@@ -132,3 +132,21 @@ class ProductMedia(models.Model):
     class Meta:
         ordering = ['order', 'id']  # default ordering
 
+class Resource(models.Model):
+    TYPES = (
+        ('book', 'Book'),
+        ('video', 'Video'),
+        ('website', 'Website'),
+        # Add more types as needed
+    )
+    title = models.CharField(max_length=200)
+    description = models.TextField(null=True, blank=True)
+    image = models.ImageField(upload_to='resources/images/', null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
+    resource_type = models.CharField(max_length=50, choices=TYPES)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+
+

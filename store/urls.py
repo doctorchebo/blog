@@ -13,4 +13,5 @@ urlpatterns = [
     path('my_purchases/', views.purchased_products, name='purchased_products'),
     path('get_content_objects/<int:content_type_id>/', views.get_content_objects, name='get_content_objects'),
     path('purchased_product/<int:product_id>/', views.purchased_product_detail, name='purchased_product_detail'),
+    path('resources/', views.ResourcesListView.as_view(), name='resources'),
 ]

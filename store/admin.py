@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Product, Order, UserPurchases, Lesson, ProductMedia, ImageMedia, VideoMedia, DocumentMedia, MediaContent
+from .models import Product, Order, UserPurchases, Lesson, ProductMedia, ImageMedia, VideoMedia, DocumentMedia, Resource, MediaContent
 from .forms import ProductMediaInlineForm
 from django.contrib import admin
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
@@ -57,5 +57,10 @@ class LessonAdmin(admin.ModelAdmin):
     list_filter = ('product',)
     search_fields = ['title']
 
+@admin.register(Resource)
+class ResourceAdmin(admin.ModelAdmin):
+    list_display = ['title', 'resource_type', 'date_added']
+    list_filter = ['resource_type']
+    search_fields = ['title', 'description']
 
 

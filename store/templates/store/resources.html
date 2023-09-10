@@ -1,0 +1,36 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="title">Recursos</div>
+
+<div class="resource-container">
+  {% for resource in resources %}
+  <div class="card">
+    <div class="title-md">{{ resource.title }}</div>
+    <div class="card-image">
+      {% if resource.image %}
+      <img src="{{ resource.image.url }}" alt="{{ resource.title }}" />
+      {% endif %}
+    </div>
+    <p class="white-text">{{ resource.description }}</p>
+    {% if resource.link %}
+    <a href="{{ resource.link }}" target="_blank">Link de descarga</a>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
+{% if is_paginated %}
+<div class="pagination">
+  {% if page_obj.has_previous %}
+  <a href="?page={{ page_obj.previous_page_number }}">anterior</a>
+  {% endif %}
+
+  <span class="page-number">Página {{ page_obj.number }} de {{ paginator.num_pages }}</span>
+
+  {% if page_obj.has_next %}
+  <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
+  {% endif %}
+</div>
+{% endif %}
+{% endblock %}
