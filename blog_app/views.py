@@ -249,6 +249,11 @@ def subscribe(request):
     else:
         return JsonResponse({'status': 'error', 'message': 'Invalid request.'}, status=405)
 
+@login_required
+def check_subscription_status(request):
+    is_subscribed = Subscriber.objects.filter(user=request.user).exists()
+    return JsonResponse({'is_subscribed': is_subscribed})
+
 def subscribe_page(request):
     return render(request, 'blog_app/subscribe_page.html')
 

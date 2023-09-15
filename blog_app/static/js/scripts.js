@@ -1,14 +1,28 @@
 $(document).ready(function () {
-  // Hide alerts after 5 seconds
-  $(".card-panel")
-    .delay(3000)
-    .slideUp(200, function () {
-      $(this).remove();
-    });
+  var popupIntervalMinutes = 5;
+  var popupIntervalMilliseconds = popupIntervalMinutes * 60 * 1000;
 
+  // Check if user is subscribed
   $.ajax({
-    url: "/message_url/", // Update this with the URL for the new Django view.
-    type: "get", // This can be 'get' or 'post'
+    url: "/is_subscribed/",
+    type: "get",
+    dataType: "json",
+    success: function (data) {
+      // If the user is not subscribed, then show the popup logic
+      if (!data.is_subscribed) {
+        setupPopups();
+      }
+    },
+    error: function () {
+      // In case of an error (like user not logged in), setup popups
+      setupPopups();
+    },
+  });
+
+  // Message AJAX call
+  $.ajax({
+    url: "/message_url/",
+    type: "get",
     dataType: "json",
     success: function (data) {
       if (data.message) {
@@ -21,8 +35,7 @@ $(document).ready(function () {
       }
     },
   });
-});
-window.onload = function () {
+
   // Email validation function
   var validateEmail = function (email) {
     var regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
@@ -39,20 +52,23 @@ window.onload = function () {
       var closeButton = document.getElementById(closeId);
       closeButton.onclick = function () {
         popup.style.display = "none";
+        sessionStorage.setItem("popupLastShown", new Date().getTime().toString());
       };
     }
 
-    if (
-      !localStorage.getItem("popupShown") &&
-      !document.cookie.includes("subscribed=true") &&
-      isPopup &&
-      !localStorage.getItem("popupShown")
-    ) {
-      setTimeout(function () {
+    setInterval(function () {
+      let lastShown = parseInt(sessionStorage.getItem("popupLastShown")) || 0;
+      let currentTime = new Date().getTime();
+      if (
+        !document.cookie.includes("subscribed=true") &&
+        (currentTime - lastShown > popupIntervalMilliseconds || !sessionStorage.getItem("popupShownThisSession"))
+      ) {
+        console.log("triggered popup");
+        var popup = document.getElementById("subscribe-popup");
         popup.style.display = "block";
-      }, 5000);
-      localStorage.setItem("popupShown", "yes");
-    }
+        sessionStorage.setItem("popupShownThisSession", "yes");
+      }
+    }, popupIntervalMilliseconds);
 
     subscribeButton.onclick = function () {
       var email = emailInput.value;
@@ -99,26 +115,29 @@ window.onload = function () {
     };
   };
 
-  setupSubscriptionForm(
-    "subscribe-popup",
-    "subscriber-email-popup",
-    "subscribe-error-popup",
-    "subscribe-button-popup",
-    "close-popup",
-    true
-  );
-  setupSubscriptionForm(
-    "subscribe-page",
-    "subscriber-email-page",
-    "subscribe-error-page",
-    "subscribe-button-page",
-    "",
-    false
-  );
+  function setupPopups() {
+    setupSubscriptionForm(
+      "subscribe-popup",
+      "subscriber-email-popup",
+      "subscribe-error-popup",
+      "subscribe-button-popup",
+      "close-popup",
+      true
+    );
+    setupSubscriptionForm(
+      "subscribe-page",
+      "subscriber-email-page",
+      "subscribe-error-page",
+      "subscribe-button-page",
+      "",
+      false
+    );
+  }
 
-  var closeButton = document.getElementById("close-popup");
-  closeButton.onclick = function () {
-    var popup = document.getElementById("subscribe-popup");
-    popup.style.display = "none";
-  };
-};
+  // Hide alerts after 5 seconds
+  $(".card-panel")
+    .delay(3000)
+    .slideUp(200, function () {
+      $(this).remove();
+    });
+});
