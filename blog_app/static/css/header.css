@@ -71,6 +71,17 @@
   padding: 1rem;
 }
 
+/* Header links glow effect */
+.nav-wrapper a, .sidenav a {
+  color: #00ff00 !important; /* Matrix green color */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.nav-wrapper a:hover {
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
 @media screen and (min-width: 993px) {
   .nav-wrapper {
     display: flex;

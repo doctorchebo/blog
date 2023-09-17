@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  var initialPopupIntervalSeconds = 10; // 10 seconds
+  var initialPopupIntervalMilliseconds = initialPopupIntervalSeconds * 1000;
+
   var popupIntervalMinutes = 5;
   var popupIntervalMilliseconds = popupIntervalMinutes * 60 * 1000;
 
@@ -56,17 +59,25 @@ $(document).ready(function () {
       };
     }
 
+    // Check if popup has been shown this session
+    if (!sessionStorage.getItem("popupShownThisSession")) {
+      setTimeout(function () {
+        if (!document.cookie.includes("subscribed=true")) {
+          var popup = document.getElementById("subscribe-popup");
+          popup.style.display = "block";
+          sessionStorage.setItem("popupShownThisSession", "yes");
+          sessionStorage.setItem("popupLastShown", new Date().getTime().toString());
+        }
+      }, initialPopupIntervalMilliseconds);
+    }
+
     setInterval(function () {
       let lastShown = parseInt(sessionStorage.getItem("popupLastShown")) || 0;
       let currentTime = new Date().getTime();
-      if (
-        !document.cookie.includes("subscribed=true") &&
-        (currentTime - lastShown > popupIntervalMilliseconds || !sessionStorage.getItem("popupShownThisSession"))
-      ) {
-        console.log("triggered popup");
+      if (!document.cookie.includes("subscribed=true") && currentTime - lastShown > popupIntervalMilliseconds) {
         var popup = document.getElementById("subscribe-popup");
         popup.style.display = "block";
-        sessionStorage.setItem("popupShownThisSession", "yes");
+        sessionStorage.setItem("popupLastShown", new Date().getTime().toString());
       }
     }, popupIntervalMilliseconds);
 

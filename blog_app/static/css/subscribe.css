@@ -18,8 +18,7 @@
   border: 1px solid #888;
   width: 50%;
   text-align: center;
-  color: #008f11;
-  font-family: "Courier New", Courier, monospace;
+  color: #00ff00;
   border-radius: 10px;
 }
 
@@ -30,14 +29,9 @@
   font-weight: bold;
 }
 
-.subscribe-title {
-  font-family: "M PLUS Rounded 1c", sans-serif;
-  font-size: 2rem;
-}
-
 .close-button:hover,
 .close-button:focus {
-  color: #008f11;
+  color: #00ff00;
   text-decoration: none;
   cursor: pointer;
 }
@@ -60,7 +54,7 @@
   padding: 0.5rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  color: #008f11;
+  color: #00ff00;
   border: 1px solid #008f11;
   background: transparent;
 }
@@ -126,18 +120,6 @@
   font-size: 0.9rem;
   font-weight: 400;
   margin-bottom: 1rem;
-}
-
-.subscribe-button {
-  background-color: #008f11;
-  color: #ffffff;
-  font-weight: bold;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  text-align: center;
 }
 
 .subscribe-button:hover {
