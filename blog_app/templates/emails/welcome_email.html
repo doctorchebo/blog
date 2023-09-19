@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body,
+      html {
+        color: rgb(255, 255, 255) !important;
+        font-family: "Open Sans";
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+      }
+
+      h1 {
+        font-size: 2em;
+        border-bottom: 1px solid #0f0;
+        padding-bottom: 0.5em;
+        text-align: center;
+      }
+
+      p {
+        color: black !important;
+        font-size: 1.2em;
+        margin-bottom: 1em;
+        text-align: justify;
+        white-space: pre-line;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      a {
+        color: blue !important;
+        text-decoration: none !important;
+      }
+
+      .footer {
+        margin-top: 2em;
+        border-top: 1px solid #0f0;
+        padding-top: 1em;
+      }
+
+      div {
+        border: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <p>¡Hola {{ user.username }}!</p>
+    <p>Gracias por suscribirte a nuestro boletín. Aquí tienes el enlace para descargar nuestro documento especial:</p>
+    <p><a href="{{ document_url }}">Descargar el documento</a></p>
+    <p>¡Esperamos que disfrutes de su contenido!</p>
+    <p>Un abrazo,</p>
+    <p>Morpheus</p>
+    <div class="footer">
+      <p>
+        Si no deseas seguir recibiendo el newsletter, haz <a href="{{ unsubscribe_url }}">click aquí</a> para desuscribirte.
+      </p>
+    </div>
+  </body>
+</html>

@@ -18,8 +18,13 @@ from django.views.decorators.http import require_http_methods
 from django.utils import dateformat
 from django.shortcuts import render
 from store.views import merge_carts
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.urls import reverse
 from markdown_deux import markdown
 import requests
+from django.conf import settings
 import logging
 from django.utils import timezone
 import pytz
@@ -241,6 +246,17 @@ def subscribe(request):
         if email:
             subscriber, created = Subscriber.objects.get_or_create(email=email)
             if created:
+                domain = os.getenv('MY_WEBSITE_DOMAIN', 'http://127.0.0.1:8000')
+                unsubscribe_url = f'{domain}{reverse("blog_app:unsubscribe", kwargs={"email": email})}'
+                document_url = f'{domain}{settings.MEDIA_URL}free_document.pdf'
+                # Send the welcome email
+                subject = '¡Bienvenido a nuestro boletín!'
+                message = strip_tags(render_to_string('emails/welcome_email.html', {'user': subscriber.user, 'document_url': document_url}))
+                from_email = os.getenv('DEFAULT_FROM_EMAIL')  # Replace with your email address
+                recipient_list = [email]  # Email address of the subscriber
+                
+                send_mail(subject, message, from_email, recipient_list, html_message=render_to_string('emails/welcome_email.html', {'user': subscriber.user, 'document_url': document_url, 'unsubscribe_url': unsubscribe_url}))
+
                 return JsonResponse({'status': 'ok', 'message': 'Gracias por suscribirte!'})
             else:
                 return JsonResponse({'status': 'error', 'message': 'Este email ya está suscrito!'}, status=400)
