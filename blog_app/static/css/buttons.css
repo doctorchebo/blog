@@ -44,6 +44,13 @@
   cursor: pointer;
 }
 
+/* sweet alert button */
+.matrix-green-button {
+  background-color: #008f11 !important;
+  border: #006f0d !important;
+  color: #ffffff !important;
+}
+
 @media screen and (max-width: 700px) {
   .auth-buttons {
     padding: 0;

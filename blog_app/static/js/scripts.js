@@ -104,6 +104,9 @@ $(document).ready(function () {
                 text: data.message,
                 icon: "success",
                 confirmButtonText: "Ok",
+                customClass: {
+                  confirmButton: "matrix-green-button", // Apply the custom CSS class
+                },
               });
             } else if (data.status === "ok" && !isPopup) {
               // This is the new part for the subscribe page.
@@ -112,6 +115,9 @@ $(document).ready(function () {
                 text: data.message,
                 icon: "success",
                 confirmButtonText: "Ok",
+                customClass: {
+                  confirmButton: "matrix-green-button", // Apply the custom CSS class
+                },
               }).then((result) => {
                 // Redirect to /about page after user clicks Ok on the alert.
                 if (result.isConfirmed) {
