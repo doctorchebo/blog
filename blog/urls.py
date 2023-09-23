@@ -26,6 +26,7 @@ urlpatterns = [
     path('favicon.ico', RedirectView.as_view(url='/static/images/favicon.ico')),
     path('accounts/', include('allauth.urls')),
     path('store/', include('store.urls')),
+    path('quiz/', include('quiz.urls')),
 ]
 
 if settings.DEBUG:

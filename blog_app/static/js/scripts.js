@@ -105,8 +105,13 @@ $(document).ready(function () {
                 icon: "success",
                 confirmButtonText: "Ok",
                 customClass: {
-                  confirmButton: "matrix-green-button", // Apply the custom CSS class
+                  confirmButton: "matrix-green-button",
                 },
+              }).then((result) => {
+                // Redirect to /about page after user clicks Ok on the alert.
+                if (result.isConfirmed) {
+                  window.location.href = "/about/";
+                }
               });
             } else if (data.status === "ok" && !isPopup) {
               // This is the new part for the subscribe page.
@@ -116,7 +121,7 @@ $(document).ready(function () {
                 icon: "success",
                 confirmButtonText: "Ok",
                 customClass: {
-                  confirmButton: "matrix-green-button", // Apply the custom CSS class
+                  confirmButton: "matrix-green-button",
                 },
               }).then((result) => {
                 // Redirect to /about page after user clicks Ok on the alert.
