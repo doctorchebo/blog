@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="result-container">
+    <div class="title">Tus resultados</div>
+    <p>Respuestas correctas: {{ user_result.correct_answers }} / {{ user_result.total_questions }}</p>
+    <div class="tier">
+        <div class="title-md">{{ user_result.tier.title }}<div>
+        <div class="tier-content">
+            <img src="{{ user_result.tier.image.url }}" alt="{{ user_result.tier.title }}" />
+            <p>{{ user_result.tier.content }}</p>
+        </div>
+    </div>
+</div>
+{% include 'blog_app/social_media_bar.html' %}
+{% endblock %}

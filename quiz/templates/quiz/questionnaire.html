@@ -1,0 +1,53 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="questionnaire-container">
+  <div class="title">Cuestionario</div>
+  <form action="{% url 'quiz:submit_answers' %}" method="post">
+    {% csrf_token %} {% for question in questions %}
+    <div class="question">
+      <p>{{ question.text }}</p>
+      <div class="answer-options">
+        {% for answer in question.shuffled_answers %}
+        <label class="answer-button">
+          <input type="radio" name="question_{{ question.id }}" value="{{ answer.id }}" />
+          {{ answer.text }}
+        </label>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+    <button type="submit" class="submit-button" id="submit-button">Ver resultados</button>
+  </form>
+</div>
+{% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
+<script>
+  // Get all radio inputs and their associated labels
+  const radioInputs = document.querySelectorAll('input[type="radio"]');
+  const submitButton = document.getElementById("submit-button");
+  submitButton.setAttribute("disabled", "true");
+  submitButton.classList.add("disabled-button");
+  // Add event listeners to radio inputs
+  radioInputs.forEach((input) => {
+    input.addEventListener("change", () => {
+      // Remove the "selected" class from all answer labels within the same question
+      const questionId = input.getAttribute("name").split("_")[1];
+      const answerLabels = document.querySelectorAll(`input[name="question_${questionId}"]`);
+      answerLabels.forEach((label) => {
+        label.closest(".answer-button").classList.remove("selected");
+      });
+
+      // Add the "selected" class to the label of the selected answer
+      input.closest(".answer-button").classList.add("selected");
+
+      // Check if all questions have been answered
+      const questionsAnswered = Array.from(radioInputs).filter((radio) => radio.checked);
+
+      // Enable/disable the submit button based on whether all questions have been answered
+      if (questionsAnswered.length == 10) {
+        submitButton.removeAttribute("disabled");
+        submitButton.classList.remove("disabled-button");
+      }
+    });
+  });
+</script>
+
+{% endblock %}
