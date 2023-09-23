@@ -19,7 +19,7 @@ def questionnaire(request):
 
 def submit_answers(request):
     if request.method == 'POST':
-        user = request.user  # Assuming you have user authentication
+        user = request.user if request.user.is_authenticated else None
         total_questions = 0
         correct_answers = 0
 
@@ -42,7 +42,7 @@ def submit_answers(request):
         # Save the user's result
         UserResult.objects.create(user=user, correct_answers=correct_answers, total_questions=total_questions, tier=tier)
 
-        return redirect('result')
+        return redirect('quiz:result')
 
 
 def calculate_tier(correct_answers):
@@ -54,5 +54,6 @@ def calculate_tier(correct_answers):
         return Tier.objects.get(title='La Verdad Desvelada')
 
 def result(request):
-    user_result = UserResult.objects.filter(user=request.user).last()
+    user = request.user if request.user.is_authenticated else None
+    user_result = UserResult.objects.filter(user=user).last()
     return render(request, 'quiz/result.html', {'user_result': user_result})

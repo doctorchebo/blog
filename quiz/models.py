@@ -24,7 +24,7 @@ class Tier(models.Model):
         return self.title
 
 class UserResult(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     correct_answers = models.IntegerField()
     total_questions = models.IntegerField()
     tier = models.ForeignKey(Tier, on_delete=models.SET_NULL, null=True)
