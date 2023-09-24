@@ -37,10 +37,16 @@
     <script type="text/javascript">
       var csrfToken = "{{ csrf_token }}";
     </script>
+    <!-- Share This -->
+    <script
+      type="text/javascript"
+      src="https://platform-api.sharethis.com/js/sharethis.js#property=651097570e7b8300197c7c7f&product=sop"
+      async="async"
+    ></script>
   </head>
   <body>
     <div class="content-wrapper">
-      {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %} 
+      {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %}
       <main>
         {% if messages %}
         <div class="container">
