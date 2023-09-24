@@ -57,23 +57,19 @@ def submit_answers(request):
         # Calculate the user's tier based on correct_answers
         tier = calculate_tier(correct_answers)
 
-        # Find the existing user result or create a new one
-        user_result = None
-        if user:
-            # If the user is authenticated, find their existing result if it exists
-            try:
-                user_result = UserResult.objects.get(user=user)
-            except UserResult.DoesNotExist:
-                pass
+        # Find the existing user result(s) for the user
+        user_results = UserResult.objects.filter(user=user)
 
-        # If a user result is found, update it; otherwise, create a new one
-        if user_result:
+        # If there are multiple results, you can choose one, for example, the most recent one
+        if user_results.exists():
+            user_result = user_results.last()
             user_result.tier = tier
             user_result.total_questions = total_questions
             user_result.user_answers = user_answers
             user_result.correct_answers = correct_answers  # Update correct answers count
             user_result.save()
         else:
+            # If no result exists, create a new one
             user_result = UserResult.objects.create(
                 user=user,
                 tier=tier,
@@ -95,10 +91,5 @@ def calculate_tier(correct_answers):
 
 def result(request):
     user = request.user if request.user.is_authenticated else None
-    user_results = UserResult.objects.filter(user=user)
-    
-    # Check if there are any results and get the last one
-    user_result = user_results.last()
-    
+    user_result = UserResult.objects.filter(user=user).last()
     return render(request, 'quiz/result.html', {'user_result': user_result})
-
