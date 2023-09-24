@@ -95,5 +95,10 @@ def calculate_tier(correct_answers):
 
 def result(request):
     user = request.user if request.user.is_authenticated else None
-    user_result = UserResult.objects.filter(user=user).last()
+    user_results = UserResult.objects.filter(user=user)
+    
+    # Check if there are any results and get the last one
+    user_result = user_results.last()
+    
     return render(request, 'quiz/result.html', {'user_result': user_result})
+
