@@ -29,6 +29,29 @@
   text-align: justify;
 }
 
+/* Share Button */
+/* Style the Share Button */
+.result-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.share-button button {
+  background-color: #008f11;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+/* Hover styles for buttons */
+.share-button button:hover {
+  background-color: #006e0e;
+}
+
 /* Media query for desktop view */
 @media screen and (min-width: 997px) {
   .tier-content {

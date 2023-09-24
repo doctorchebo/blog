@@ -51,6 +51,23 @@
   color: #ffffff !important;
 }
 
+/* Style the Restart Button */
+.link-button a {
+  background-color: #008f11;
+  color: #ffffff !important;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  margin-right: 5px;
+}
+
+.link-button a:hover {
+  background-color: #006f0d;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 700px) {
   .auth-buttons {
     padding: 0;

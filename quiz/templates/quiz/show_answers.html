@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+{% block content %}
+<div class="questionnaire-container">
+  <div class="title">Respuestas Correctas e Incorrectas</div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Pregunta</th>
+        <th>Tu Respuesta</th>
+        <th>Respuesta Correcta</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% if user_result %}
+        {% for question_id, user_answer_id in user_result.user_answers.items %}
+            {% with question=user_result.questions|get_item:question_id|safe %}
+            <tr>
+                <td>{{ question.text }}</td>
+                <td>
+                    {% with user_answer_id|safe as answer_id %}
+                    {% with user_answer=correct_answers|get_item:question_id %}
+                        {% if user_answer %}
+                        {{ user_answer }}
+                        {% else %}
+                        No contestaste
+                        {% endif %}
+                    {% endwith %}
+                    {% endwith %}
+                </td>
+                <td>{{ correct_answers|default:question_id }}</td>
+            </tr>
+            {% endwith %}
+        {% endfor %}
+        {% else %}
+        <tr>
+            <td colspan="3">No hay intentos disponibles.</td>
+        </tr>
+        {% endif %}
+
+    </tbody>
+  </table>
+</div>
+{% include 'blog_app/social_media_bar.html' %}
+{% endblock %}

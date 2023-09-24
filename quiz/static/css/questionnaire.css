@@ -40,6 +40,18 @@
   background-color: #00ff00; /* Change background color when selected */
 }
 
+/* Style correct answers */
+.answer-button.correct {
+  background-color: #00ff00; /* Green background for correct answers */
+  color: #ffffff; /* White text color */
+}
+
+/* Style incorrect answers */
+.answer-button.incorrect {
+  background-color: #ff0000; /* Red background for incorrect answers */
+  color: #ffffff; /* White text color */
+}
+
 /* Style the submit button */
 .submit-button {
   display: block;
