@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="questionnaire-container">
-  <div class="title">Cuestionario</div>
+  <div class="title">Cuestionario: ¿Estás en la Matrix?</div>
   <form action="{% url 'quiz:submit_answers' %}" method="post">
     {% csrf_token %} {% for question in questions %}
     <div class="question">

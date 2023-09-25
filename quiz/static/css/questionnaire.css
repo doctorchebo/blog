@@ -1,7 +1,8 @@
 .questionnaire-container {
   text-align: center;
-  margin: 2rem;
-  color: white; /* Set text color for questions */
+  color: white;
+  width: 80%;
+  margin: auto;
 }
 
 .question {

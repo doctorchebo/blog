@@ -38,6 +38,11 @@
   margin-top: 20px;
 }
 
+.share-container {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .share-button button {
   background-color: #008f11;
   color: white;
@@ -71,6 +76,7 @@
 
   .tier {
     display: flex;
+    flex-direction: column;
     align-items: center;
   }
 
