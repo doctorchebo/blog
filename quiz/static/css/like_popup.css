@@ -1,0 +1,48 @@
+/* Styles for the like popup */
+.like-popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.like-popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+/* Styles for the popup text and buttons */
+.like-popup p {
+    font-size: 18px;
+}
+
+.like-popup .auth-buttons {
+    margin-top: 20px;
+}
+
+.like-popup .auth-button {
+    display: inline-block;
+    margin: 0 10px;
+    padding: 10px 20px;
+    background-color: #008f11;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+/* Hover styles for buttons */
+.like-popup .auth-button:hover {
+    background-color: #006e0e;
+}

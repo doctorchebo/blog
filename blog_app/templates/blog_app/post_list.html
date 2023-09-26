@@ -17,12 +17,12 @@
             <p>{{ post.preview }}</p>
           </div>
         </a>
-        {% if user.is_authenticated %}
+
         <button class="like-button" data-post-id="{{ post.id }}">
           <i class="fas fa-thumbs-up"></i>
         </button>
         <span class="like-count">{{ post.likes_count }}</span>
-        {% endif %}
+
       </div>
     </div>
   </div>
@@ -40,7 +40,6 @@
   </div>
   {% endif %}
 </div>
-
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
 <script src="{% static 'js/like.js' %}"></script>
 {% endblock %}

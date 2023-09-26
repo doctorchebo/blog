@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="/static/css/resource.css" />
     <link rel="stylesheet" href="/static/css/questionnaire.css" />
     <link rel="stylesheet" href="/static/css/results.css" />
+    <link rel="stylesheet" href="/static/css/like_popup.css" />
     <link href="{% static 'css/fonts.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,7 +47,8 @@
   </head>
   <body>
     <div class="content-wrapper">
-      {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %}
+      {% include 'blog_app/header.html' %} {% include 'blog_app/subscribe_popup.html' %} 
+      {% include 'blog_app/like_popup.html' %}
       <main>
         {% if messages %}
         <div class="container">
@@ -64,6 +66,7 @@
 
     <!-- Your included reply form -->
     {% include 'blog_app/reply_form.html' %}
+    <script>var userIsAuthenticated = {{ request.user.is_authenticated|yesno:"true,false" }};</script>
     <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- GSAP -->
