@@ -18,13 +18,15 @@
         <i class="fas fa-share-alt"></i>
       </button>
     </div>
-    <p class="card-date">{{ post.date_posted|date:"j \d\e F \d\e Y, P" }}</p>
-    <p class="card-read-time">Tiempo de lectura: {{ reading_time }} minutos</p>
-
-      <button class="like-button" data-post-id="{{ post.id }}">
-        <i class="fas fa-thumbs-up"></i>
-      </button>
-      <span class="like-count">{{ post.likes_count }}</span>
+    <p class="card-date">{{ post.date_posted|date:"j \d\e F \d\e Y, P" }} • {{ post.reading_time }} minutos de lectura</p>
+      {% for category in post.categories.all %}
+      <span class="post-badge">{{ category.name }}</span>
+      {% endfor %}
+    </p>
+    <button class="like-button" data-post-id="{{ post.id }}">
+      <i class="fas fa-thumbs-up"></i>
+    </button>
+    <span class="like-count">{{ post.likes_count }}</span>
 
     <div class="card-content">{{ post.content|markdown }}</div>
   </div>
@@ -57,11 +59,8 @@
     {% endif %}
     <div id="comment-section">
       {% if comments %}
-        <h2>Comentarios</h2>
-        {% for comment in comments %} 
-          {% include 'blog_app/comment.html' with comment=comment %} 
-        {% endfor %} 
-      {% endif %}
+      <h2>Comentarios</h2>
+      {% for comment in comments %} {% include 'blog_app/comment.html' with comment=comment %} {% endfor %} {% endif %}
     </div>
   </div>
 </div>

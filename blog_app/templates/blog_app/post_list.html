@@ -12,6 +12,12 @@
             <span class="card-title">{{ post.title }}</span>
             <p>{{ post.subtitle }}</p>
             <p>{{ post.date_posted|date:"j \d\e F \d\e Y, P" }} • {{ post.reading_time }} minutos de lectura</p>
+            <br/>
+            <p>
+              {% for category in post.categories.all %}
+              <span class="post-badge">{{ category.name }}</span>
+              {% endfor %}
+            </p>
             <!-- Add the post preview here -->
             <br />
             <p>{{ post.preview }}</p>
@@ -22,7 +28,6 @@
           <i class="fas fa-thumbs-up"></i>
         </button>
         <span class="like-count">{{ post.likes_count }}</span>
-
       </div>
     </div>
   </div>

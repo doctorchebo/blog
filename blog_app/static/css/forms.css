@@ -55,6 +55,16 @@
   color: inherit;
 }
 
+.post-badge {
+  text-align: center;
+  color: white !important;
+  font-weight: bold;
+  background-color: rgb(59, 59, 59);
+  border-radius: 1rem;
+  max-width: 7rem;
+  padding: 0.5rem;
+}
+
 @media screen and (max-width: 768px) {
   .card .card-content .card-title {
     font-size: 1.7rem;
@@ -91,8 +101,7 @@
 }
 
 .card-detail .card-content .card-content,
-.card-detail .card-content .card-date,
-.card-detail .card-content .card-read-time {
+.card-detail .card-content .card-date {
   color: #ffffff;
   font-family: "Open Sans", sans-serif;
   font-weight: 300;
