@@ -7,9 +7,9 @@
   {% for resource in resources %}
   <div class="card">
     <div class="title-md">{{ resource.title }}</div>
-    <div class="card-image">
+    <div class="resource-card-image-container">
       {% if resource.image %}
-      <img src="{{ resource.image.url }}" alt="{{ resource.title }}" />
+      <img class="resource-card-image" src="{{ resource.image.url }}" alt="{{ resource.title }}" />
       {% endif %}
     </div>
     <p class="white-text">{{ resource.description }}</p>
