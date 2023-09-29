@@ -1,6 +1,4 @@
-{% extends "base.html" %} 
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div class="title">Recursos</div>
 
 <div class="resource-container">
@@ -12,10 +10,12 @@
       <img class="resource-card-image" src="{{ resource.image.url }}" alt="{{ resource.title }}" />
       {% endif %}
     </div>
-    <p class="white-text">{{ resource.description }}</p>
-    {% if resource.link %}
-    <a href="{{ resource.link }}" target="_blank">Link de descarga</a>
-    {% endif %}
+    <div class="resource-text-container">
+      <p class="white-text">{{ resource.description }}</p>
+      {% if resource.link %}
+      <a href="{{ resource.link }}" target="_blank">Link de descarga</a>
+      {% endif %}
+    </div>
   </div>
   {% endfor %}
 </div>
@@ -32,5 +32,37 @@
   <a href="?page={{ page_obj.next_page_number }}">siguiente</a>
   {% endif %}
 </div>
-{% endif %}
+{% endif %} {% endblock %} {% block scripts %}
+<script>
+  $(document).ready(function () {
+    // Get all the card elements
+    var $cards = $(".card");
+
+    // Initialize variables for maximum card height and maximum text container height
+    var maxHeight = 0;
+    var maxTextContainerHeight = 0;
+
+    $cards.each(function () {
+      var $card = $(this);
+      var cardHeight = $card.height();
+
+      // Find the maximum height among all cards
+      maxHeight = Math.max(maxHeight, cardHeight);
+
+      // Find the height of the text container in this card
+      var $textContainer = $card.find(".resource-text-container");
+      var textContainerHeight = $textContainer.height();
+
+      // Find the maximum height among all text containers
+      maxTextContainerHeight = Math.max(maxTextContainerHeight, textContainerHeight);
+    });
+
+    // Set the maximum height to all cards
+    $cards.height(maxHeight);
+
+    // Set the maximum text container height to all text containers
+    $(".resource-text-container").height(maxTextContainerHeight);
+  });
+</script>
+
 {% endblock %}
