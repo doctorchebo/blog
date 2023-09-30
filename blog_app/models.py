@@ -13,8 +13,8 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='blog_images/', blank=True, null=True)
     categories = models.ManyToManyField('Category', related_name='posts')
-
-
+    class Meta:
+            ordering = ['-date_posted']
     def __str__(self):
         return self.title
 

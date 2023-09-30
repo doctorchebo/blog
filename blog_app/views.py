@@ -48,7 +48,6 @@ class PostListView(TimeZoneMixin, ListView):
     model = Post
     template_name = 'blog_app/post_list.html'
     paginate_by = 5
-    ordering = ['-date_posted']
 
     def get_queryset(self):
         return Post.objects.prefetch_related('categories')
