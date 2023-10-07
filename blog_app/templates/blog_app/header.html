@@ -33,6 +33,7 @@
             <i class="material-icons">arrow_drop_down</i>
           </a>
           <div class="dropdown-menu">
+            <a href="{% url 'myconfigurations:configuration' %}">Configuraciones</a>
             <a href="#" onclick="confirmLogout(event)">Salir</a>
           </div>
         </li>
@@ -62,6 +63,7 @@
     <li><a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a></li>
     {% if user.is_authenticated %}
     <li><a href="{% url 'store:resources' %}">Recursos</a></li>
+    <li><a href="{% url 'myconfigurations:configuration' %}">Configuraciones</a></li>
     <li><a href="{% url 'blog_app:logout' %}">Salir</a></li>
     {% else %}
     <li><a href="{% url 'blog_app:login' %}">Iniciar sesión</a></li>
@@ -84,6 +86,7 @@
         showCancelButton: true,
         confirmButtonColor: "#008f11",
         cancelButtonColor: "#d33",
+        cancelButtonText: "Cancelar",
         confirmButtonText: "Sí, quiero salir!",
       }).then((result) => {
         if (result.isConfirmed) {

@@ -1,0 +1,74 @@
+/* Sidebar styles */
+
+.configuration-container {
+  display: flex;
+  flex-direction: row;
+}
+.sidebar {
+  width: 25%;
+  padding: 1rem;
+  background-color: transparent;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin-bottom: 0.5rem;
+}
+
+/* Main content styles */
+.main-content {
+  width: 75%;
+  padding: 1rem;
+}
+
+/* Category options styles */
+.category-options {
+  display: none;
+  margin-top: 1rem;
+}
+
+.category-options h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.configuration-option {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Configuration option button styles */
+.config-option-button {
+  background-color: #008f11;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  cursor: pointer;
+}
+
+/* Style for active category link */
+.category-link.active {
+  font-weight: bold;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+  .configuration-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .main-content {
+    width: 100%;
+  }
+}

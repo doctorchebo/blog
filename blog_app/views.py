@@ -22,6 +22,7 @@ from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.urls import reverse
+from myconfigurations.models import UserConfiguration, ConfigurationCategory
 from markdown_deux import markdown
 import requests
 from django.conf import settings
@@ -144,22 +145,33 @@ def add_comment_to_post(request, pk, parent_comment_id=None):
 def register(request):
     next_url = request.GET.get('next') # get the next URL from the GET request
     if request.method == "POST":
+        # Validate that the username doesn't already exist
         form = SignUpForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             email = form.cleaned_data.get('email')
-            user = User.objects.create_user(username=username, password=password, email=email)
-            user.save()
-            login(request, user)
-            # Merge session cart with user cart after user logs in
-            merge_carts(request)
             
-            next_url = request.POST.get('next') # get the next URL from the POST request
-            if next_url: # if next URL exists, redirect there
-                return redirect(next_url)
-            return redirect('blog_app:post_list')
-        # Don't create a new form here, as it would discard the errors
+            # Check if the username already exists
+            if User.objects.filter(username=username).exists():
+                messages.error(request, 'Este nombre de usuario ya existe. Por favor elige otro nombre de usuario')
+            else:
+                user = User.objects.create_user(username=username, password=password, email=email)
+                user.save()
+                
+                # Save user configurations
+                category, created = ConfigurationCategory.objects.get_or_create(name="Mi Cuenta")
+                user_config = UserConfiguration(user=user, category=category)
+                user_config.save()
+
+                login(request, user)
+                # Merge session cart with user cart after user logs in
+                merge_carts(request)
+                
+                next_url = request.POST.get('next') # get the next URL from the POST request
+                if next_url: # if next URL exists, redirect there
+                    return redirect(next_url)
+                return redirect('blog_app:post_list')
     else:
         form = SignUpForm()
     return render(request, 'blog_app/signup.html', {'form': form, 'next': next_url})
