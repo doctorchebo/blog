@@ -3,15 +3,15 @@ import json
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
-from .models import Post, Comment, AboutSection, Subscriber, Like
-from .forms import CommentForm, NewsletterForm, UnsubscribeForm
+from .models import Post, Comment, AboutSection, Subscriber, Like, Category
+from .forms import CommentForm, NewsletterForm, UnsubscribeForm, SignUpForm, LoginForm
 from .tasks import send_newsletter
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
-from .forms import SignUpForm, LoginForm
-from django.http import JsonResponse, HttpResponse
+from django.db.models import Q
+from django.http import JsonResponse, HttpResponse  
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.views.decorators.http import require_http_methods
@@ -51,7 +51,28 @@ class PostListView(TimeZoneMixin, ListView):
     paginate_by = 5
 
     def get_queryset(self):
-        return Post.objects.prefetch_related('categories')
+        queryset = Post.objects.prefetch_related('categories')
+
+        # Get search parameters from the request
+        search_query = self.request.GET.get('q', '')
+        category_filter = self.request.GET.get('category', '')
+
+        # Apply search filter based on title and category
+        if search_query:
+            queryset = queryset.filter(Q(title__icontains=search_query) | Q(categories__name__icontains=search_query))
+
+        if category_filter:
+            queryset = queryset.filter(categories__id=category_filter)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
+        # Pass all categories to the template for the category dropdown
+        context['all_categories'] = Category.objects.all()
+        
+        return context
 
 class PostDetailView(TimeZoneMixin, DetailView):
     model = Post

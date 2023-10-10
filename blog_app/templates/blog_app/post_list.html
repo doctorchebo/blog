@@ -1,5 +1,21 @@
 {% extends 'base.html' %} {% load static %}{% block content %}
 <div class="container">
+  <form method="GET" action="{% url 'blog_app:post_list' %}">
+    <div class="search-container">
+      <input type="text" class="search-input" id="searchInput" name="q" placeholder="Buscar por título">
+      <div class="filter-and-button-container">
+        <select id="categoryFilter" name="category" class="dropdown">
+          <option value="">Todas las Categorias</option>
+          {% for category in all_categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+          {% endfor %}
+        </select>
+        <button id="searchButton" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </form>
   {% for post in object_list %}
   <div class="card-row">
     <div class="col">
@@ -47,4 +63,5 @@
 </div>
 {% include 'blog_app/social_media_bar.html' %} {% endblock %} {% block scripts %}
 <script src="{% static 'js/like.js' %}"></script>
+<script src="{% static 'js/search.js' %}"></script>
 {% endblock %}
