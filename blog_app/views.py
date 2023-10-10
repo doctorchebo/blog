@@ -64,6 +64,9 @@ class PostListView(TimeZoneMixin, ListView):
         if category_filter:
             queryset = queryset.filter(categories__id=category_filter)
 
+        # Use distinct() to eliminate duplicate results
+        queryset = queryset.distinct()
+
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -73,7 +76,6 @@ class PostListView(TimeZoneMixin, ListView):
         context['all_categories'] = Category.objects.all()
         
         return context
-
 class PostDetailView(TimeZoneMixin, DetailView):
     model = Post
     template_name = 'blog_app/post_detail.html'
