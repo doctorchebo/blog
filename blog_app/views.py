@@ -73,7 +73,7 @@ class PostListView(TimeZoneMixin, ListView):
         context = super().get_context_data(**kwargs)
         
         # Pass all categories to the template for the category dropdown
-        context['all_categories'] = Category.objects.all()
+        context['all_categories'] = Category.objects.all().order_by('name')
         
         return context
 class PostDetailView(TimeZoneMixin, DetailView):
