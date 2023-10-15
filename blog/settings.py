@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'markdown_deux',
+    'storages',
     'blog_app',
     'store',
     'quiz',
@@ -66,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'blog.urls'
@@ -154,7 +156,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/'
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+
+MEDIA_URL = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LANGUAGE_CODE = 'es'
@@ -242,3 +246,14 @@ LOGGING = {
         },
     },
 }
+
+# S3 bucket configuration
+AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
+# Remove the first character (e.g., 'e') from the variable
+AWS_S3_CUSTOM_DOMAIN = AWS_S3_CUSTOM_DOMAIN[1:]
+AWS_QUERYSTRING_AUTH = os.getenv('AWS_QUERYSTRING_AUTH')
+
+DEFAULT_FILE_STORAGE = os.getenv('DEFAULT_FILE_STORAGE')
