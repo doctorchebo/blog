@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'markdown_deux',
-    'storages',
     'blog_app',
     'store',
     'quiz',
