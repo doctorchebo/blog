@@ -1,6 +1,4 @@
-{% extends 'base.html' %} 
-
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 <div class="container">
   <div class="title">Mis compras</div>
   <div class="row">
@@ -17,7 +15,7 @@
           </div>
         </a>
         <div class="card-action">
-          <a href="{% url 'store:purchased_product_detail' product.pk %}" class="auth-button">Ver</a>
+          <a href="{% url 'store:purchased_product_detail' product.pk %}" class="main-button">Ver</a>
         </div>
       </div>
     </div>

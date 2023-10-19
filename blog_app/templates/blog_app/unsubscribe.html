@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Unsubscribe</title>
     <style>
-        /* Add basic styles for the page. Modify as needed. */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
+      /* Add basic styles for the page. Modify as needed. */
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
 
-        .card {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin-top: 20px;
-            text-align: center;
-        }
+      .card {
+        border: 1px solid #ccc;
+        padding: 20px;
+        margin-top: 20px;
+        text-align: center;
+      }
 
-        .auth-button {
-            background-color: #008f11;
-            color: white;
-            border: none;
-            padding: 15px 32px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
-        }
+      .main-button {
+        background-color: #008f11;
+        color: white;
+        border: none;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
 
-        .auth-button:hover {
-            background-color: #006f0d;
-        }
+      .main-button:hover {
+        background-color: #006f0d;
+      }
     </style>
-</head>
-<body>
-<div class="card">
-    <h2 class="card-title">Darse de Baja</h2>
-    <div class="card-content">
+  </head>
+  <body>
+    <div class="card">
+      <h2 class="card-title">Darse de Baja</h2>
+      <div class="card-content">
         <form method="POST" class="unsubscribe-form">
-            {% csrf_token %}
-            <p>Estás seguro que deseas dar de baja a <b>{{ email }}</b>?</p>
-            <input type="hidden" name="email" value="{{ email }}" />
-            <button class="auth-button" type="submit">Dar de baja</button>
+          {% csrf_token %}
+          <p>
+            Estás seguro que deseas dar de baja a
+            <b>{{ email }}</b>
+            ?
+          </p>
+          <input type="hidden" name="email" value="{{ email }}" />
+          <button class="main-button" type="submit">Dar de baja</button>
         </form>
+      </div>
     </div>
-</div>
-</body>
+  </body>
 </html>

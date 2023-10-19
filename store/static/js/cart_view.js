@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-  const payBtn = document.querySelector(".auth-button");
+  const payBtn = document.querySelector(".main-button");
   const modal = document.getElementById("loginModal");
   const closeBtn = document.querySelector(".close-btn");
 

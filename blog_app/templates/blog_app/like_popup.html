@@ -1,13 +1,16 @@
 <div id="like-popup" class="popup">
-    <div class="popup-content">
-      <span id="close-like-popup" class="close-button">&times;</span>
-      <div class="subscribe-title">Inicia sesión o regístrate para dar like</div>
-      <div class="subscribe-content">
-        <div class="auth-buttons">
-            <a class="auth-button" href="{% url 'blog_app:login' %}?next={{ request.path }}#comment-section">Inicia sesión</a>
-            <a class="auth-button" href="{% url 'blog_app:register' %}?next={{ request.path }}#comment-section">Regístrate</a>
-          </div>
+  <div class="popup-content">
+    <span id="close-like-popup" class="close-button">&times;</span>
+    <div class="subscribe-title">Inicia sesión o regístrate para dar like</div>
+    <div class="subscribe-content">
+      <div class="auth-buttons">
+        <a class="main-button" href="{% url 'blog_app:login' %}?next={{ request.path }}#comment-section">
+          Inicia sesión
+        </a>
+        <a class="main-button" href="{% url 'blog_app:register' %}?next={{ request.path }}#comment-section">
+          Regístrate
+        </a>
       </div>
     </div>
   </div>
-  
+</div>

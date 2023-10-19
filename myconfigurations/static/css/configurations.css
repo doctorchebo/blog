@@ -2,12 +2,16 @@
 
 .configuration-container {
   display: flex;
-  flex-direction: row;
+  width: 80%;
+  margin: auto;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
 }
 .sidebar {
-  width: 25%;
+  width: 50%;
   padding: 1rem;
-  background-color: transparent;
+  background-color: white;
 }
 
 .sidebar ul {
@@ -60,7 +64,6 @@
 /* Responsive layout for smaller screens */
 @media (max-width: 768px) {
   .configuration-container {
-    display: flex;
     flex-direction: column;
   }
 

@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="container">
-  <button onclick="window.location='{% url 'store:product_list' %}'" class="auth-button">Volver</button>
+  <br />
+  <div><a href="{% url 'store:product_list' %}" class="main-button">Volver</a></div>
   <div class="title">{{ product.name }}</div>
   <div class="product-detail-container">
     <div class="product-image-container">
@@ -33,7 +34,7 @@
       {% else %}
       <p>Price: ${{ product.price }}</p>
       {% endif %}
-      <button onclick="addToCart('{{ product.id }}')" class="auth-button">Añadir al carrito</button>
+      <button onclick="addToCart('{{ product.id }}')" class="main-button">Añadir al carrito</button>
     </div>
   </div>
 </div>

@@ -228,10 +228,13 @@ def purchased_product_detail(request, product_id):
             content_type_clone.verbose_name = content_type_clone.model_class()._meta.verbose_name
             unique_content_types.append(content_type_clone)
 
+    AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
+    cloudfront_domain = f'https://{AWS_S3_CUSTOM_DOMAIN}'
     context = {
         'product': product,
         'media_contents': media_contents,
-        'unique_content_types': unique_content_types
+        'unique_content_types': unique_content_types,
+        'cloudfront_domain': cloudfront_domain,  # Add this variable
     }
     return render(request, 'store/purchased_product_detail.html', context)
 

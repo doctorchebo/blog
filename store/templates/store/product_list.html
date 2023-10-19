@@ -41,13 +41,11 @@
           </div>
           <br />
           {% endif %}
-          <button onclick="addToCart('{{ product.id }}')" class="auth-button">Añadir al carrito</button>
+          <button onclick="addToCart('{{ product.id }}')" class="main-button">Añadir al carrito</button>
         </div>
       </div>
     </div>
-    {% endfor %}
-    
-    {% if is_paginated %}
+    {% endfor %} {% if is_paginated %}
     <div class="pagination">
       {% if page_obj.has_previous %}
       <a href="?page={{ page_obj.previous_page_number }}">anterior</a>

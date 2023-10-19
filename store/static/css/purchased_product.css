@@ -1,54 +1,117 @@
 #media-sidebar {
-    background-color: black;
-    border: none;
+  background-color: black;
+  border: none;
 }
 
 #media-sidebar .collection-item {
-    background-color: black;
-    border: none;
-    color: green !important;
+  background-color: black;
+  border: none;
+  color: #00ff00 !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 #media-sidebar .collection-item:hover {
-    background-color: rgba(42, 44, 42, 0.8);
+  background-color: rgba(42, 44, 42, 0.8);
+}
+
+.collection-item:hover {
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+.puchased-product-detail-container {
+  width: 80%;
+  margin: auto;
+  display: flex;
+}
+
+.puchased-product-detail-sidebar {
+  width: 20%;
+}
+
+.purchased-products-main-content {
+  margin: auto;
+  align-items: center;
+  justify-content: center;
 }
 
 .main-content img {
-    max-width: 50rem; /* Maximum width */
-    width: 100%; /* This makes it responsive */
-    height: auto; /* Keep the original aspect ratio */
-    display: block; /* To remove any unwanted spacing */
-    margin: 0 auto; /* To center the image */
+  max-width: 50rem;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* purchased product detail*/
+.video-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 56.25%;
+  box-sizing: content-box !important;
+}
+
+video {
+  width: 100% !important;
 }
 
 /* Smaller devices (phones, up to 480px) */
-@media only screen and (max-width: 480px) {
-    .main-content img {
-        max-width: 90%; /* Take up to 90% of small screen's width */
-    }
+@media screen and (max-width: 480px) {
+  .main-content img {
+    max-width: 90%; /* Take up to 90% of small screen's width */
+  }
+
+  .puchased-product-detail-container {
+    width: 80%;
+    margin: auto;
+    flex-direction: column !important;
+  }
+
+  .puchased-product-detail-sidebar {
+    width: 100%;
+  }
+
+  .purchased-products-main-content {
+    width: 100%;
+  }
 }
 
 /* Medium devices (tablets, 481px and up) */
-@media only screen and (min-width: 481px) and (max-width: 768px) {
-    .main-content img {
-        max-width: 70%; /* Take up to 70% of medium screen's width */
-    }
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  .main-content img {
+    max-width: 70%; /* Take up to 70% of medium screen's width */
+  }
+
+  .puchased-product-detail-container {
+    width: 80%;
+    margin: auto;
+    flex-direction: column !important;
+  }
+
+  .puchased-product-detail-sidebar {
+    width: 100%;
+  }
+
+  .purchased-products-main-content {
+    width: 100%;
+  }
 }
 
 /* Large devices (computers, 769px and up) */
-@media only screen and (min-width: 769px) {
-    .main-content img {
-        max-width: 50rem; /* Restrict to 50rem for large screens */
-    }
+@media screen and (min-width: 769px) {
+  .main-content img {
+    max-width: 50rem; /* Restrict to 50rem for large screens */
+  }
 }
 
 .media-section {
-    flex: 2; 
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hidden {
-    display: none;
+  display: none;
 }

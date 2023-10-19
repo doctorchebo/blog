@@ -1,22 +1,22 @@
 {% extends 'base.html' %} {% block content %}
 <div class="configuration-container">
   <!-- Sidebar with configuration categories -->
-  <div class="sidebar">
-    <ul>
-      <!-- Loop through categories and create links -->
+  <div class="puchased-product-detail-sidebar">
+    <div id="media-sidebar" class="collection">
+      <!-- Loop through media content to generate unique types -->
       {% for category in categories %}
-      <li><a href="#" class="category-link" data-category="{{ category.id }}">{{ category.name }}</a></li>
+      <li><a href="#" class="collection-item" data-category="{{ category.id }}">{{ category.name }}</a></li>
       {% endfor %}
-    </ul>
+    </div>
   </div>
 
-  <div class="main-content">
+  <div class="purchased-products-main-content">
     <!-- Configuration options section -->
     <form method="POST" action="{% url 'myconfigurations:configuration' %}">
       {% csrf_token %}
       {% for category in categories %}
       <div class="category-options" id="category-{{ category.id }}">
-        <div class="title-md">Configuración de {{ category.name }}</div>
+        <div class="title-sm">Configuración de {{ category.name }}</div>
         <ul>
           {% for option in category.options.all %}
           <li class="configuration-option">
@@ -42,13 +42,13 @@
     $(".category-options").hide();
 
     // Show category options when a category link is clicked
-    $(".category-link").click(function () {
+    $(".collection-item").click(function () {
       var categoryId = $(this).data("category");
       $(".category-options").hide();
       $("#category-" + categoryId).show();
 
       // Highlight the active category link
-      $(".category-link").removeClass("active");
+      $(".collection-item").removeClass("active");
       $(this).addClass("active");
     });
 

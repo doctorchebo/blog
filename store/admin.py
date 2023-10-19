@@ -23,7 +23,7 @@ class ImageMediaAdmin(PolymorphicChildModelAdmin):
 @admin.register(VideoMedia)
 class VideoMediaAdmin(PolymorphicChildModelAdmin):
     base_model = VideoMedia
-    list_display = ('name', 'description', 'video_url')
+    list_display = ('name', 'description', 'video_url', 'video_file')
 
 @admin.register(DocumentMedia)
 class DocumentMediaAdmin(PolymorphicChildModelAdmin):

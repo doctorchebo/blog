@@ -81,6 +81,9 @@ class MediaContent(PolymorphicModel):
     class Meta:
         verbose_name = "Media Content" # Default, won't be used
 
+    def __str__(self):
+        return f'{self.name}'
+
 class ImageMedia(MediaContent):
     file = models.ImageField(upload_to='media/images/')
 
@@ -91,8 +94,8 @@ class ImageMedia(MediaContent):
         return self.name or str(self.id)
 
 class VideoMedia(MediaContent):
-    video_url = models.URLField()
-
+    video_url = models.URLField(null=True, blank=True)
+    video_file = models.FileField(upload_to='media/videos/', null=True, blank=True)
     class Meta:
         verbose_name = "Videos"
 

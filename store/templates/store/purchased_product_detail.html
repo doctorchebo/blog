@@ -2,12 +2,11 @@
 <!-- Product Name -->
 <div class="title">{{ product.name }}</div>
 
-<div class="container">
-  <button onclick="window.location='{% url 'store:purchased_products' %}'" class="auth-button back-button">Volver</button>
+<div class="puchased-product-detail-container">
   <!-- Sidebar -->
-  <div class="sidebar">
-    <a id="toggle-sidebar" href="#"><i class="material-icons">arrow_back</i></a>
-
+  <div class="puchased-product-detail-sidebar">
+    <div><a href="{% url 'store:purchased_products' %}" class="main-button">Volver</a></div>
+    <br />
     <div id="media-sidebar" class="collection">
       <!-- Loop through media content to generate unique types -->
       {% for content_type in unique_content_types %}
@@ -19,7 +18,7 @@
   </div>
 
   <!-- Main Content -->
-  <div class="main-content">
+  <div class="purchased-products-main-content">
     {% for content_type in unique_content_types %}
     <div id="media-{{ content_type.model }}" class="media-section hidden">
       {% for media_content in media_contents %} {% if media_content.content_type == content_type %}
@@ -30,8 +29,12 @@
       <a href="{{ media_content.content_object.file.url }}" download>Download Image</a>
 
       {% elif media_content.content_type.model == "videomedia" %}
-      <a href="{{ media_content.content_object.video_url }}" target="_blank">View Video</a>
-
+      <div class="video-container">
+        <video controls>
+          <source src="{{ cloudfront_domain }}/{{ media_content.content_object.video_file }}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      </div>
       {% elif media_content.content_type.model == "documentmedia" %}
       <a href="{{ media_content.content_object.file.url }}" download>Download Document</a>
       {% endif %} {% endif %} {% endfor %}
@@ -42,9 +45,7 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const sidebarLinks = document.querySelectorAll("#media-sidebar .collection-item");
-      const mediaSections = document.querySelectorAll(".main-content .media-section");
-      const toggleSidebar = document.querySelector("#toggle-sidebar");
-
+      const mediaSections = document.querySelectorAll(".purchased-products-main-content .media-section");
       sidebarLinks.forEach((link) => {
         link.addEventListener("click", function () {
           // Hide all sections
@@ -58,20 +59,7 @@
           targetSection.classList.remove("hidden");
         });
       });
-
-      // Toggle sidebar
-      toggleSidebar.addEventListener("click", function () {
-        const mediaSidebar = document.querySelector("#media-sidebar");
-        mediaSidebar.classList.toggle("hide");
-        this.children[0].textContent = mediaSidebar.classList.contains("hide") ? "arrow_forward" : "arrow_back";
-      });
     });
-  </script>
-  <script>
-    function toggleSidebar() {
-      const sidebar = document.querySelector(".sidebar");
-      sidebar.classList.toggle("hidden");
-    }
   </script>
   {% endblock %}
 </div>
