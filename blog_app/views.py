@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from .models import Post, Comment, AboutSection, Subscriber, Like, Category
 from .forms import CommentForm, NewsletterForm, UnsubscribeForm, SignUpForm, LoginForm
 from .tasks import send_newsletter
+from store.models import VideoMedia
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -261,6 +262,7 @@ def ajax_add_reply_to_comment(request):
         return JsonResponse({'status': 0, 'message': "Invalid form"})
     
 def about(request):
+    video_intro = VideoMedia.objects.get(name="Intro")
     sections = AboutSection.objects.exclude(title="Intro").order_by('created_at')
     intro = AboutSection.objects.get(title="Intro")
     # Convert markdown to HTML for each section
@@ -268,10 +270,14 @@ def about(request):
         section.text_content = markdown(section.text_content)
 
     intro.text_content = markdown(intro.text_content)
+    AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
+    cloudfront_domain = f'https://{AWS_S3_CUSTOM_DOMAIN}'
 
     context = {
         'sections': sections,
-        'intro' : intro
+        'intro' : intro,
+        'video_intro': video_intro,
+        'cloudfront_domain': cloudfront_domain
     }
     return render(request, 'blog_app/about.html', context)
 

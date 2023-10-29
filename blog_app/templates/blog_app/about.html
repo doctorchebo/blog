@@ -2,6 +2,12 @@
 <div id="about-page">
   <h1 class="main-title">Estás siendo controlado</h1>
   <div class="intro">
+    <div class="video-container">
+      <video controls>
+        <source src="{{ cloudfront_domain }}/{{ video_intro.video_file }}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
     <p>{{ intro.text_content|safe }}</p>
   </div>
   {% for section in sections %} {% if forloop.counter|divisibleby:"2" %}
