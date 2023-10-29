@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'blog_app',
     'store',
     'quiz',
-    'myconfigurations'
+    'myconfigurations',
+    'analytics',
 ]
 
 MARKDOWNX_URLS_PATH = '/markdownx/markdownify/'

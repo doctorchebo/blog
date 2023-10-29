@@ -28,6 +28,7 @@ urlpatterns = [
     path('store/', include('store.urls')),
     path('quiz/', include('quiz.urls')),
     path('configurations/', include('myconfigurations.urls')),
+    path('analytics/', include('analytics.urls')),
 ]
 
 if settings.DEBUG:
