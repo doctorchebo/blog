@@ -262,7 +262,10 @@ def ajax_add_reply_to_comment(request):
         return JsonResponse({'status': 0, 'message': "Invalid form"})
     
 def about(request):
-    video_intro = VideoMedia.objects.get(name="Intro")
+    try:
+        video_intro = VideoMedia.objects.get(name="Intro")
+    except VideoMedia.DoesNotExist:
+        video_intro = None
     sections = AboutSection.objects.exclude(title="Intro").order_by('created_at')
     intro = AboutSection.objects.get(title="Intro")
     # Convert markdown to HTML for each section
