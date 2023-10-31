@@ -2,7 +2,6 @@ var startTime; // Variable to store the start time of the visit
 
 $(document).ready(function () {
   startTracking();
-  console.log("startTracking");
 });
 
 function startTracking() {
@@ -34,13 +33,9 @@ function stopTracking() {
       "Content-Type": "application/json",
     },
   });
-
-  // You can also log the data to the console for testing
-  console.log("Visited page:", data.url, "Duration:", durationString);
 }
 
 
 window.addEventListener('beforeunload', function (event) {
-  console.log("Stop Tracking");
   stopTracking();
 });
