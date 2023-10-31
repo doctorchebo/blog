@@ -9,32 +9,42 @@ function startTracking() {
 }
 
 function stopTracking() {
-  var endTime = new Date(); // Record the end time when the user navigates away
-
-  var durationInSeconds = (endTime - startTime) / 1000; // Calculate the duration in seconds
-
-  // Format the duration as a string in the 'hh:mm:ss' format
+  var endTime = new Date();
+  var durationInSeconds = (endTime - startTime) / 1000;
   var durationString = new Date(durationInSeconds * 1000).toISOString().substr(11, 8);
 
-  // Send data to the server (you can use AJAX to send this data)
   var data = {
-    url: window.location.pathname, // Current page URL
-    duration: durationString, // Send the duration as a string
+    url: window.location.pathname,
+    duration: durationString,
     visit_date: new Date(),
   };
 
-  // Send the data to the server using an AJAX request (you may use a library like jQuery or Fetch API)
-  // Replace 'your_server_endpoint' with your server-side endpoint to save the data
-  // Example using Fetch API:
-  fetch("/analytics/track_page_visit/", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
+  // Add the CSRF token to the headers
+  var headers = new Headers({
+    "Content-Type": "application/json",
+    "X-CSRFToken": csrfToken, // Use the csrfToken variable
   });
-}
 
+  // Create the request
+  var request = new Request("/analytics/track_page_visit/", {
+    method: "POST",
+    headers: headers,
+    body: JSON.stringify(data),
+  });
+
+  // Send the request
+  fetch(request)
+    .then((response) => {
+      if (response.ok) {
+        console.log("Visited page:", data.url, "Duration:", durationString);
+      } else {
+        console.error("Error saving page visit data");
+      }
+    })
+    .catch((error) => {
+      console.error("Error sending the request:", error);
+    });
+}
 
 window.addEventListener('beforeunload', function (event) {
   stopTracking();

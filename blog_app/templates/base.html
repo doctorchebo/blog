@@ -93,6 +93,9 @@
     <!-- Your JavaScript code -->
     <script src="/static/js/scripts.js"></script>
     <script src="/static/js/analytics.js"></script>
+    <script>
+      const csrfToken = "{{ csrf_token|escapejs }}";
+    </script>
 
     {% block scripts %}{% endblock %}
   </body>
