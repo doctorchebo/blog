@@ -15,14 +15,3 @@ class PageVisit(models.Model):
             return round(self.duration.total_seconds(), 2)
         return 0.00  # You can change the default value as needed
     duration_in_seconds.short_description = 'Duration (seconds)'  # Admin display name
-
-    def save(self, *args, **kwargs):
-        # Overriding the save method to automatically set 'end_date'
-        if not self.end_date:
-            self.end_date = timezone.now()
-        super().save(*args, **kwargs)
-        
-        # Create PageVisit object in the format_duration method
-        if not self.duration:
-            self.duration = self.end_date - self.visit_date
-            self.save()

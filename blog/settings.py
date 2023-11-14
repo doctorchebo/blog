@@ -69,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'analytics.middleware.PageVisitMiddleware',
 ]
 
 ROOT_URLCONF = 'blog.urls'
