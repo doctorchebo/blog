@@ -89,8 +89,7 @@
   max-width: 20rem;
 }
 
-
-@media screen and (max-width: 1280px){
+@media screen and (max-width: 1280px) {
   .search-container {
     display: flex;
     max-width: 80%;
@@ -231,6 +230,7 @@
 
 .comment-form input,
 .comment-form textarea {
+  min-height: 5rem;
   color: #ffffff;
 }
 
