@@ -26,6 +26,7 @@ urlpatterns = [
     path('unsubscribe_fail/', views.unsubscribe_fail, name='unsubscribe_fail'),
     path('like_post/<int:post_id>/', views.like_post, name='like_post'),
     path('is_subscribed/', views.check_subscription_status, name='is_subscribed'),
+    path('videos/', views.VideoListView.as_view(), name='videos'),
 ]
 
 if settings.DEBUG:

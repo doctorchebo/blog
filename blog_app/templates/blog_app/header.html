@@ -16,6 +16,7 @@
         {% if user.is_authenticated and user.is_superuser %}
         <li><a href="{% url 'blog_app:create_newsletter' %}">Newsletter</a></li>
         {% endif %}
+        <li><a href="{% url 'blog_app:videos' %}">Videos</a></li>
         <li class="dropdown">
           <a href="/about" class="dropdown-toggle">Acerca de</a>
           <div class="dropdown-menu">
@@ -62,7 +63,9 @@
     <li class="username-mobile">Hola, {{ user.username }}!</li>
     {% endif %} {% if user.is_authenticated and user.is_superuser %}
     <li><a href="{% url 'blog_app:create_newsletter' %}">Newsletter</a></li>
-    {% endif %} {% if user.is_authenticated and user.is_superuser%}
+    {% endif %} 
+    <li><a href="{% url 'blog_app:videos' %}">Videos</a></li>
+    {% if user.is_authenticated and user.is_superuser%}
     <li><a href="{% url 'store:purchased_products' %}">Mis compras</a></li>
     <li><a href="{% url 'store:product_list' %}">Tienda</a></li>
     {% endif %}

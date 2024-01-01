@@ -1,5 +1,7 @@
 # blog_app/views.py
 import json
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from django.urls import reverse_lazy
@@ -371,3 +373,20 @@ def like_post(request, post_id):
         return JsonResponse({"likes_count": post.likes_count(), "liked": False})
 
     return JsonResponse({"likes_count": post.likes_count(), "liked": True})
+
+
+class VideoListView(ListView):
+    model = VideoMedia
+    template_name = 'blog_app/videos.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        queryset = VideoMedia.objects.exclude(name="Intro")
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
+        context["cloudfront_domain"] = f'https://{AWS_S3_CUSTOM_DOMAIN}'
+        
+        return context
