@@ -388,5 +388,5 @@ class VideoListView(ListView):
         context = super().get_context_data(**kwargs)
         AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
         context["cloudfront_domain"] = f'https://{AWS_S3_CUSTOM_DOMAIN}'
-        
+        context["videos"] = self.get_queryset()  # Reuse the queryset
         return context
