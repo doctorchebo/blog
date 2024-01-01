@@ -1,9 +1,10 @@
 {% extends 'base.html' %} {% load static %}{% block content %}
 <div class="container">
-  <div class="video-container">
+  <div>
     {% for video in videos %}
       <div class="title-md">{{video.name}}</div>
       <div class="video-description">{{video.description}}</div>
+      <br/>
       <video controls>
         <source src="{{ cloudfront_domain }}/{{ video.video_file }}" type="video/mp4" />
         Your browser does not support the video tag.
