@@ -392,3 +392,8 @@
   text-decoration: line-through;
   color: red;
 }
+
+/* Video page */
+.video-description{
+  color: white;
+}
