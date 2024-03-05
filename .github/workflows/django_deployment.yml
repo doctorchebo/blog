@@ -1,10 +1,3 @@
-name: Django Deployment
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -21,13 +14,24 @@ jobs:
           script: |
             sudo systemctl stop gunicorn
             
-            sudo find /home/ubuntu/blog/my-django-blog/blog -path "*/__pycache__/*" -delete
+            # Remove existing project files except for the virtual environment and .env file
+            find /home/ubuntu/blog/my-django-blog/ -mindepth 1 ! -name 'venv' ! -name '.env' -exec sudo rm -rf {} +
             
+            # Sync new code to the server
+            # Note: Adjust the source path to match your GitHub repository structure
+            rsync -av --exclude='venv' --exclude='.env' ./ /home/ubuntu/blog/my-django-blog/
+            
+            # Restore the .env file
             sudo cp /home/ubuntu/blog/.env /home/ubuntu/blog/my-django-blog/.env
             
             cd /home/ubuntu/blog/my-django-blog/
             source venv/bin/activate
-            pip install -r requirements.txt
+            
+            # Ensure pip-tools is installed
+            pip install pip-tools
+            
+            # Synchronize the environment with the requirements file
+            pip-sync
             
             python manage.py migrate
             
