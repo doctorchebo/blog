@@ -18,7 +18,7 @@ jobs:
           host: 2600:1f18:57df:6a00:7756:f1a8:e2e1:9b24
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: 
+          script: |
             sudo systemctl stop gunicorn
 
             # Remove existing project files except for the virtual environment and .env file
