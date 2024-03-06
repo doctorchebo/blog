@@ -28,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(os.getenv('DEBUG', False)))
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
@@ -251,13 +251,12 @@ LOGGING = {
 
 # S3 bucket configuration
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME') 
-AWS_S3_ENDPOINT_URL = f'https://s3.dualstack.{AWS_S3_REGION_NAME}.amazonaws.com'
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_S3_CUSTOM_DOMAIN = os.getenv('AWS_S3_CUSTOM_DOMAIN')
-DEFAULT_FILE_STORAGE = os.getenv('DEFAULT_FILE_STORAGE')
 # Remove the first character (e.g., 'e') from the variable
 if DEBUG:
     AWS_S3_CUSTOM_DOMAIN = AWS_S3_CUSTOM_DOMAIN[1:]
-AWS_QUERYSTRING_AUTH = os.getenv('AWS_QUERYSTRING_AUTH', False)
+AWS_QUERYSTRING_AUTH = os.getenv('AWS_QUERYSTRING_AUTH')
+
+DEFAULT_FILE_STORAGE = os.getenv('DEFAULT_FILE_STORAGE')
