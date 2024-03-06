@@ -238,7 +238,6 @@ def purchased_product_detail(request, product_id):
     }
     return render(request, 'store/purchased_product_detail.html', context)
 
-
 class ResourcesListView(ListView):
     model = Resource
     template_name = 'store/resources.html'
