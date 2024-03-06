@@ -1,3 +1,10 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,7 +25,6 @@ jobs:
             find /home/ubuntu/blog/my-django-blog/ -mindepth 1 ! -name 'venv' ! -name '.env' -exec sudo rm -rf {} +
             
             # Sync new code to the server
-            # Note: Adjust the source path to match your GitHub repository structure
             rsync -av --exclude='venv' --exclude='.env' ./ /home/ubuntu/blog/my-django-blog/
             
             # Restore the .env file
