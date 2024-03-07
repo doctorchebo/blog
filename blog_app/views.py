@@ -296,7 +296,7 @@ def subscribe(request):
             if created:
                 domain = os.getenv('MY_WEBSITE_DOMAIN', 'http://127.0.0.1:8000')
                 unsubscribe_url = f'{domain}{reverse("blog_app:unsubscribe", kwargs={"email": email})}'
-                AWS_STORAGE_BUCKET_NAME = {os.getenv('AWS_STORAGE_BUCKET_NAME')}
+                AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
                 document_url = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/free_document.pdf'
                 # Send the welcome email
                 subject = '¡Bienvenido a nuestro boletín!'
