@@ -244,5 +244,6 @@ class ResourcesListView(ListView):
     context_object_name = 'resources'
     paginate_by = 6
 
-   
-    
+
+
+
