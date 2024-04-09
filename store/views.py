@@ -243,3 +243,6 @@ class ResourcesListView(ListView):
     template_name = 'store/resources.html'
     context_object_name = 'resources'
     paginate_by = 6
+
+   
+    
