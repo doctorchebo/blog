@@ -31,5 +31,10 @@ class PageVisitMiddleware:
     def save_page_visit(self, request, duration):
         url = request.path
         user = request.user if request.user.is_authenticated else None
-        ip_address = request.META.get('REMOTE_ADDR')
+        # Get the client's IP address from the X-Forwarded-For header
+        ip_address = request.META.get('HTTP_X_FORWARDED_FOR')
+
+        # If the header is not present, fall back to REMOTE_ADDR
+        if not ip_address:
+            ip_address = request.META.get('REMOTE_ADDR')
         PageVisit.objects.create(url=url, user=user, duration=duration, ip_address=ip_address)
