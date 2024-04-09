@@ -31,4 +31,5 @@ class PageVisitMiddleware:
     def save_page_visit(self, request, duration):
         url = request.path
         user = request.user if request.user.is_authenticated else None
-        PageVisit.objects.create(url=url, user=user, duration=duration)
+        ip_address = request.META.get('REMOTE_ADDR')
+        PageVisit.objects.create(url=url, user=user, duration=duration, ip_address=ip_address)

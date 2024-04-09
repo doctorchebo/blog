@@ -8,6 +8,7 @@ class PageVisit(models.Model):
     end_date = models.DateTimeField(default=timezone.now)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     duration = models.DurationField(null=True, blank=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
 
     def duration_in_seconds(self):
         # Calculate the duration in seconds, rounded to two decimal places
