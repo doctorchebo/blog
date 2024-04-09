@@ -23,6 +23,7 @@ beautifulsoup4 = "*"
 markdown = "*"
 django-polymorphic = "*"
 django-storages = "*"
+pip-tools = "*"
 
 [dev-packages]
 
