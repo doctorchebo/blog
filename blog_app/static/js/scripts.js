@@ -6,38 +6,24 @@ $(document).ready(function () {
   var popupIntervalMilliseconds = popupIntervalMinutes * 60 * 1000;
 
   // Check if user is subscribed
-  $.ajax({
-    url: "/is_subscribed/",
-    type: "get",
-    dataType: "json",
-    success: function (data) {
-      // If the user is not subscribed, then show the popup logic
-      if (!data.is_subscribed) {
+  // userIsAuthenticated is global variable set in base.html
+  if(userIsAuthenticated){
+    $.ajax({
+      url: "/is_subscribed/",
+      type: "get",
+      dataType: "json",
+      success: function (data) {
+        // If the user is not subscribed, then show the popup logic
+        if (!data.is_subscribed) {
+          setupPopups();
+        }
+      },
+      error: function () {
+        // In case of an error (like user not logged in), setup popups
         setupPopups();
-      }
-    },
-    error: function () {
-      // In case of an error (like user not logged in), setup popups
-      setupPopups();
-    },
-  });
-
-  // Message AJAX call
-  $.ajax({
-    url: "/message_url/",
-    type: "get",
-    dataType: "json",
-    success: function (data) {
-      if (data.message) {
-        Swal.fire({
-          icon: "success",
-          title: data.message,
-          showConfirmButton: false,
-          timer: 3000,
-        });
-      }
-    },
-  });
+      },
+    });
+  }
 
   // Email validation function
   var validateEmail = function (email) {
@@ -81,60 +67,71 @@ $(document).ready(function () {
       }
     }, popupIntervalMilliseconds);
 
-    subscribeButton.onclick = function () {
-      var email = emailInput.value;
-      if (email && validateEmail(email)) {
-        // validate email before sending to server
-        fetch("/subscribe/", {
-          method: "POST",
-          body: JSON.stringify({ email: email }),
-          headers: { "Content-Type": "application/json" },
-          credentials: "same-origin",
-        })
-          .then(function (response) {
-            return response.json();
+    if(subscribeButton != null){
+      subscribeButton.onclick = function () {
+        var originalButtonContent = subscribeButton.innerHTML;
+        var email = emailInput.value;
+        if (email && validateEmail(email)) {
+          subscribeButton.innerHTML =
+            '<span class="spinner-border spinner-border-md" role="status" aria-hidden="true"></span>';
+          subscribeButton.disabled = true;
+          fetch("/subscribe/", {
+            method: "POST",
+            body: JSON.stringify({ email: email }),
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
           })
-          .then(function (data) {
-            errorElement.textContent = data.message;
-            if (data.status === "ok" && isPopup) {
-              document.cookie = "subscribed=true; max-age=31536000";
-              popup.style.display = "none";
-              Swal.fire({
-                title: "Éxito!",
-                text: data.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-                customClass: {
-                  confirmButton: "matrix-green-button",
-                },
-              }).then((result) => {
-                // Redirect to /about page after user clicks Ok on the alert.
-                if (result.isConfirmed) {
-                  window.location.href = "/about/";
-                }
-              });
-            } else if (data.status === "ok" && !isPopup) {
-              // This is the new part for the subscribe page.
-              Swal.fire({
-                title: "Éxito!",
-                text: data.message,
-                icon: "success",
-                confirmButtonText: "Ok",
-                customClass: {
-                  confirmButton: "matrix-green-button",
-                },
-              }).then((result) => {
-                // Redirect to /about page after user clicks Ok on the alert.
-                if (result.isConfirmed) {
-                  window.location.href = "/about/";
-                }
-              });
-            }
-          });
-      } else {
-        errorElement.textContent = "Por favor introduce un email válido.";
-      }
-    };
+            .then(function (response) {
+              return response.json();
+            })
+            .then(function (data) {
+              errorElement.textContent = data.message;
+              if (data.status === "ok" && isPopup) {
+                subscribeButton.innerHTML = "Subscribe";
+                subscribeButton.disabled = false;
+                emailInput.value = "";
+                document.cookie = "subscribed=true; max-age=31536000";
+                popup.style.display = "none";
+                Swal.fire({
+                  title: "Éxito!",
+                  text: data.message,
+                  icon: "success",
+                  confirmButtonText: "Ok",
+                  customClass: {
+                    confirmButton: "matrix-green-button",
+                  },
+                }).then((result) => {
+                  // Redirect to /about page after user clicks Ok on the alert.
+                  if (result.isConfirmed) {
+                    window.location.href = "/about/";
+                  }
+                });
+              } else if (data.status === "ok" && !isPopup) {
+                subscribeButton.innerHTML = "Subscribe";
+                subscribeButton.disabled = false;
+                emailInput.value = "";
+                Swal.fire({
+                  title: "Éxito!",
+                  text: data.message,
+                  icon: "success",
+                  confirmButtonText: "Ok",
+                  customClass: {
+                    confirmButton: "matrix-green-button",
+                  },
+                }).then((result) => {
+                  // Redirect to /about page after user clicks Ok on the alert.
+                  if (result.isConfirmed) {
+                    window.location.href = "/about/";
+                  }
+                });
+              }
+            });
+        } else {
+          errorElement.textContent = "Por favor introduce un email válido.";
+          subscribeButton.innerHTML = originalButtonContent;
+        }
+      };
+    }
   };
 
   function setupPopups() {
