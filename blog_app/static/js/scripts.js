@@ -27,7 +27,7 @@ $(document).ready(function () {
 
   // Email validation function
   var validateEmail = function (email) {
-    var regex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/;
+    var regex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com|yahoo\.com|protonmail\.com)$/;
     return regex.test(email);
   };
 
