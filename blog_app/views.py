@@ -181,6 +181,8 @@ def register(request):
             # Check if the username already exists
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Este nombre de usuario ya existe. Por favor elige otro nombre de usuario')
+            if not validateEmail(email):
+                messages.error(request, "Email inválido. Por favor elige otro email")
             else:
                 user = User.objects.create_user(username=username, password=password, email=email)
                 user.save()
@@ -201,6 +203,21 @@ def register(request):
     else:
         form = SignUpForm()
     return render(request, 'blog_app/signup.html', {'form': form, 'next': next_url})
+
+def validateEmail(email):
+    allowed_domains = ["gmail.com", "hotmail.com", "outlook.com", "yahoo.com"]
+    
+    pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    
+    if re.match(pattern, email) is None:
+        return False
+    
+    _, domain = email.split('@', 1)
+    
+    if domain in allowed_domains:
+        return True
+    else:
+        return False
 
 def login_view(request):
     next_url = request.GET.get('next') # get the next URL from the GET request
@@ -304,7 +321,7 @@ def subscribe(request):
                 from_email = os.getenv('DEFAULT_FROM_EMAIL')  # Replace with your email address
                 recipient_list = [email]  # Email address of the subscriber
                 
-                send_mail(subject, message, from_email, recipient_list, html_message=render_to_string('emails/welcome_email.html', {'user': subscriber.user, 'document_url': document_url, 'unsubscribe_url': unsubscribe_url}))
+                #send_mail(subject, message, from_email, recipient_list, html_message=render_to_string('emails/welcome_email.html', {'user': subscriber.user, 'document_url': document_url, 'unsubscribe_url': unsubscribe_url}))
 
                 return JsonResponse({'status': 'ok', 'message': 'Gracias por suscribirte!'})
             else:
