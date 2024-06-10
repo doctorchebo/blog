@@ -13,19 +13,16 @@ $(document).ready(function () {
       type: "get",
       dataType: "json",
       success: function (data) {
-        // If the user is not subscribed, then show the popup logic
         if (!data.is_subscribed) {
           setupPopups();
         }
       },
       error: function () {
-        // In case of an error (like user not logged in), setup popups
         setupPopups();
       },
     });
   }
 
-  // Email validation function
   var validateEmail = function (email) {
     var regex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com|outlook\.com|yahoo\.com|protonmail\.com)$/;
     return regex.test(email);
