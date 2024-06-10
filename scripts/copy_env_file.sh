@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo cp /home/ubuntu/blog/.env /home/ubuntu/blog/my-django-blog/.env
+sudo cp /home/ubuntu/.env /home/ubuntu/blog/.env
