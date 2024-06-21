@@ -22,7 +22,7 @@ $(document).ready(function () {
     if (userIsAuthenticated) {
       // User is authenticated, perform the like action
       $.ajax({
-        url: `/like_post/${postId}/`,
+        url: `/blog/like_post/${postId}/`,
         type: "POST",
         contentType: "application/json",
         data: JSON.stringify({ post_id: postId }),

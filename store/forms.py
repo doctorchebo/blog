@@ -15,7 +15,7 @@ class ProductMediaInlineForm(forms.ModelForm):
         fields = "__all__"
     
     # Define your choices outside so they are computed once and not on every form instantiation
-    related_models = [ImageMedia, VideoMedia, DocumentMedia]
+"""     related_models = [ImageMedia, VideoMedia, DocumentMedia]
     object_names_and_ids = []
 
     for model in related_models:
@@ -23,5 +23,5 @@ class ProductMediaInlineForm(forms.ModelForm):
 
     OBJECT_ID_CHOICES = object_names_and_ids
 
-    object_id = forms.ChoiceField(choices=OBJECT_ID_CHOICES, required=False)
+    object_id = forms.ChoiceField(choices=OBJECT_ID_CHOICES, required=False) """
 

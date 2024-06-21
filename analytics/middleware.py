@@ -3,7 +3,7 @@ from django.utils import timezone
 from .models import PageVisit
 
 class PageVisitMiddleware:
-    EXCLUDED_URLS = ['/admin/', '/is_subscribed/', '/favicon.ico']  # Add URLs to exclude
+    EXCLUDED_URLS = ['/admin/', '/blog/is_subscribed/', '/favicon.ico']  # Add URLs to exclude
 
     def __init__(self, get_response):
         self.get_response = get_response

@@ -82,7 +82,7 @@ $(document).ready(function () {
 
     $.ajax({
       type: "POST",
-      url: "/ajax/add_reply_to_comment/", // your endpoint to handle reply saving
+      url: "/blog/ajax/add_reply_to_comment/", // your endpoint to handle reply saving
       data: formData,
       success: function (response) {
         // add the new reply to the page

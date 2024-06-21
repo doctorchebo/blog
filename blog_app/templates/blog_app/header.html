@@ -7,10 +7,10 @@
       </a>
       <ul class="nav-left">
         <img class="main-logo" src="{% static 'images/eye.jpg' %}" alt="eye image" />
-        <li><a href="/" class="brand-logo">Escapa de la Matrix</a></li>
+        <li><a href="{% url 'blog_app:post_list' %}" class="brand-logo">Escapa de la Matrix</a></li>
       </ul>
       <ul class="nav-center">
-        <li><a href="/" class="brand-logo">Escapa de la Matrix</a></li>
+        <li><a href="{% url 'blog_app:post_list' %}" class="brand-logo">Escapa de la Matrix</a></li>
       </ul>
       <ul class="nav-right">
         {% if user.is_authenticated and user.is_superuser %}
@@ -18,7 +18,7 @@
         {% endif %}
         <li><a href="{% url 'blog_app:videos' %}">Videos</a></li>
         <li class="dropdown">
-          <a href="/about" class="dropdown-toggle">Acerca de</a>
+          <a href="{% url 'blog_app:about' %}" class="dropdown-toggle">Acerca de</a>
           <div class="dropdown-menu">
             <a href="{% url 'blog_app:subscribe_page' %}">Suscríbete</a>
             <a href="https://patreon.com/EscapalaMatrix" target="_blank">Dona</a>
@@ -32,7 +32,7 @@
           </div>
         </li>
         {% endif %}
-        <li><a href="/">Blog</a></li>
+        <li><a href="{% url 'blog_app:post_list' %}">Blog</a></li>
         {% if user.is_authenticated %}
         <li class="dropdown">
           <a href="{% url 'store:resources' %}" class="dropdown-toggle">Recursos</a>
@@ -63,13 +63,13 @@
     <li class="username-mobile">Hola, {{ user.username }}!</li>
     {% endif %} {% if user.is_authenticated and user.is_superuser %}
     <li><a href="{% url 'blog_app:create_newsletter' %}">Newsletter</a></li>
-    {% endif %} 
+    {% endif %}
     <li><a href="{% url 'blog_app:videos' %}">Videos</a></li>
     {% if user.is_authenticated and user.is_superuser%}
     <li><a href="{% url 'store:purchased_products' %}">Mis compras</a></li>
     <li><a href="{% url 'store:product_list' %}">Tienda</a></li>
     {% endif %}
-    <li><a href="/about">Acerca de</a></li>
+    <li><a href="{% url 'blog_app:about' %}">Acerca de</a></li>
     <li><a href="{% url 'quiz:questionnaire' %}">¿Estás en la Matrix?</a></li>
     <li><a href="https://patreon.com/EscapalaMatrix" target="_blank">Dona</a></li>
     <li><a href="/">Blog</a></li>

@@ -9,7 +9,7 @@ $(document).ready(function () {
   // userIsAuthenticated is global variable set in base.html
   if(userIsAuthenticated){
     $.ajax({
-      url: "/is_subscribed/",
+      url: "/blog/is_subscribed/",
       type: "get",
       dataType: "json",
       success: function (data) {
@@ -72,7 +72,7 @@ $(document).ready(function () {
           subscribeButton.innerHTML =
             '<span class="spinner-border spinner-border-md" role="status" aria-hidden="true"></span>';
           subscribeButton.disabled = true;
-          fetch("/subscribe/", {
+          fetch("/blog/subscribe/", {
             method: "POST",
             body: JSON.stringify({ email: email }),
             headers: { "Content-Type": "application/json" },
@@ -100,7 +100,7 @@ $(document).ready(function () {
                 }).then((result) => {
                   // Redirect to /about page after user clicks Ok on the alert.
                   if (result.isConfirmed) {
-                    window.location.href = "/about/";
+                    window.location.href = "/blog/about/";
                   }
                 });
               } else if (data.status === "ok" && !isPopup) {
@@ -118,7 +118,7 @@ $(document).ready(function () {
                 }).then((result) => {
                   // Redirect to /about page after user clicks Ok on the alert.
                   if (result.isConfirmed) {
-                    window.location.href = "/about/";
+                    window.location.href = "/blog/about/";
                   }
                 });
               }
